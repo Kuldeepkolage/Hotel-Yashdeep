@@ -1,7 +1,7 @@
 function App() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-6xl font-bold text-yellow-400">
+    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <h1 className="text-6xl font-bold text-[var(--primary)]">
         Hotel Yashdeep
       </h1>
     </div>

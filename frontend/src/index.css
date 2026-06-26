@@ -1,13 +1,22 @@
 @import "tailwindcss";
 
 :root {
+
+
   --primary: #7A1F1F;
+  --primary-light: #9B2C2C;
   --secondary: #D4AF37;
+  --secondary-light: #E8C84A;
   --background: #FFF8F0;
+  --background-deep: #FFF1E0;
   --surface: #FFFFFF;
   --text: #3A1C1C;
   --text-light: #6B6B6B;
+  --text-muted: #9E8E8E;
   --border: #E8DCCF;
+  --border-light: #F2EBE0;
+  --gold: #D4AF37;
+  --wine: #7A1F1F;
 }
 
 * {
@@ -16,16 +25,86 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--text);
-  font-family: Inter, sans-serif;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-body{
-    font-family: "Inter", sans-serif;
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.01em;
 }
 
-h1,h2,h3{
-    font-family: "Playfair Display", serif;
+.font-cormorant {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Luxury scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Selection */
+::selection {
+  background: var(--secondary);
+  color: white;
+}
+
+/* Decorative gold line utility */
+.gold-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.gold-line::before,
+.gold-line::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 40px;
+  background: var(--secondary);
+}
+
+/* Float animation for hero image */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-14px); }
+}
+.float-anim {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Decorative ornament */
+.ornament {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--secondary);
+  opacity: 0.15;
+  font-style: italic;
+  user-select: none;
 }
