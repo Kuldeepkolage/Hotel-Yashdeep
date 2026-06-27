@@ -1,149 +1,112 @@
-import { NavLink } from "react-router-dom";
-import {
-MapPin,
-Phone,
-Clock,
-UtensilsCrossed,
-} from "lucide-react";
-
-import {
-FaInstagram,
-FaFacebookF,
-FaTwitter,
-} from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaInstagram, FaFacebookF, FaTwitter } from "react-icons/fa";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { SITE, NAV_LINKS } from "../../constants/site";
 
-const links = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Menu", path: "/menu" },
-  { name: "Gallery", path: "/gallery" },
-  { name: "Contact", path: "/contact" },
-];
-
-const hours = [
-  { day: "Monday – Thursday", time: "11:00 AM – 10:30 PM" },
-  { day: "Friday – Saturday", time: "11:00 AM – 11:00 PM" },
-  { day: "Sunday", time: "10:00 AM – 10:00 PM" },
-];
-
-function Footer() {
+export default function Footer() {
   return (
-    <footer className="bg-[#1C0A0A] text-white/80">
-      {/* Top divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[var(--secondary)]/40 to-transparent" />
-
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20">
-        <div className="grid grid-cols-1 gap-14 md:grid-cols-2 lg:grid-cols-4">
-
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-9 h-9 rounded-full bg-[var(--secondary)]/20 border border-[var(--secondary)]/30 flex items-center justify-center">
-                <UtensilsCrossed size={16} className="text-[var(--secondary)]" />
-              </div>
-              <div>
-                <p className="font-['Playfair_Display'] text-lg font-bold text-white">Hotel Yashdeep</p>
-                <p className="text-[10px] uppercase tracking-[4px] text-[var(--secondary)]/70">Est. Yermala</p>
-              </div>
+    <footer
+      className="relative bg-dark text-background overflow-hidden"
+      data-testid="footer"
+    >
+      {/* CTA above footer */}
+      <div className="container-luxe">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="-translate-y-24 rounded-3xl bg-background text-dark px-8 md:px-16 py-14 md:py-20 shadow-luxe border border-border"
+        >
+          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-center">
+            <div>
+              <span className="eyebrow">Plan your visit</span>
+              <h3 className="heading-lg mt-5">
+                A table waits.<br />
+                <span className="italic text-primary">Yours for the evening.</span>
+              </h3>
             </div>
-            <p className="text-sm leading-7 text-white/50 max-w-xs">
-              A family restaurant offering authentic flavours, warm hospitality, and unforgettable dining on the Maharashtra highway.
-            </p>
-
-            {/* Social */}
-            <div className="flex gap-3 mt-8">
-              {[
-                { icon: FaInstagram, href: "#" },
-                { icon: FaFacebookF, href: "#" },
-                { icon: FaTwitter, href: "#" },
-              ].map(({ icon: Icon, href }, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-[var(--secondary)]/60 hover:bg-[var(--secondary)]/10 transition-all duration-300"
-                >
-                  <Icon size={15} className="text-white/50 hover:text-[var(--secondary)] transition-colors" />
-                </a>
-              ))}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
+              <Link to="/reservations" className="btn-primary justify-center" data-testid="footer-cta-reserve">
+                Reserve a Table
+              </Link>
+              <a href={SITE.phoneHref} className="btn-outline justify-center" data-testid="footer-cta-call">
+                Call {SITE.phone}
+              </a>
             </div>
           </div>
-
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-['Playfair_Display'] text-sm font-semibold text-white mb-6 tracking-wide">
-              Quick Links
-            </h4>
-            <ul className="flex flex-col gap-3">
-              {links.map((link) => (
-                <li key={link.name}>
-                  <NavLink
-                    to={link.path}
-                    className="text-sm text-white/50 hover:text-[var(--secondary)] transition-colors duration-200 flex items-center gap-2 group"
-                  >
-                    <span className="w-4 h-px bg-[var(--secondary)]/30 group-hover:w-6 group-hover:bg-[var(--secondary)] transition-all duration-300" />
-                    {link.name}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-['Playfair_Display'] text-sm font-semibold text-white mb-6 tracking-wide">
-              Visit Us
-            </h4>
-            <ul className="flex flex-col gap-5">
-              <li className="flex items-start gap-3">
-                <MapPin size={15} className="text-[var(--secondary)] mt-0.5 shrink-0" />
-                <span className="text-sm text-white/50 leading-6">
-                  Shop No.1, Yedeshwari Mandir Road,<br />Yermala, Maharashtra
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={15} className="text-[var(--secondary)] shrink-0" />
-                <a href="tel:+91XXXXXXXXXX" className="text-sm text-white/50 hover:text-[var(--secondary)] transition-colors duration-200">
-                  +91 XXXXX XXXXX
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Hours */}
-          <div>
-            <h4 className="font-['Playfair_Display'] text-sm font-semibold text-white mb-6 tracking-wide">
-              Opening Hours
-            </h4>
-            <ul className="flex flex-col gap-4">
-              {hours.map((h, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <Clock size={13} className="text-[var(--secondary)] mt-0.5 shrink-0" />
-                  <div>
-                    <p className="text-xs text-white/30 mb-0.5">{h.day}</p>
-                    <p className="text-sm text-white/60">{h.time}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-        </div>
+        </motion.div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-white/5">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/25">
-            © {new Date().getFullYear()} Hotel Yashdeep. All Rights Reserved.
-          </p>
-          <p className="text-xs text-white/20">
-            Crafted with care · Yermala, Maharashtra
-          </p>
+      <div className="container-luxe pb-16 -mt-10">
+        <div className="grid gap-12 lg:grid-cols-4">
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-secondary/60">
+                <span className="font-display text-secondary text-xl leading-none">Y</span>
+              </span>
+              <span className="font-display text-2xl">Hotel Yashdeep</span>
+            </div>
+            <p className="mt-6 text-sm text-background/70 leading-relaxed max-w-xs">
+              A Maharashtrian family restaurant and beer bar on the Yermala highway — honest food, warm rooms, since 1997.
+            </p>
+            <div className="mt-8 flex items-center gap-3">
+              <a href={SITE.social.instagram} aria-label="Instagram" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-background/20 hover:border-secondary hover:text-secondary transition-colors" data-testid="social-instagram">
+                <FaInstagram />
+              </a>
+              <a href={SITE.social.facebook} aria-label="Facebook" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-background/20 hover:border-secondary hover:text-secondary transition-colors" data-testid="social-facebook">
+                <FaFacebookF />
+              </a>
+              <a href={SITE.social.twitter} aria-label="Twitter" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-background/20 hover:border-secondary hover:text-secondary transition-colors" data-testid="social-twitter">
+                <FaTwitter />
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-[11px] uppercase tracking-widest2 text-secondary">Visit</h4>
+            <ul className="mt-6 space-y-4 text-sm text-background/75">
+              <li className="flex gap-3"><MapPin size={16} className="mt-0.5 shrink-0 text-secondary" /><span>{SITE.address}</span></li>
+              <li className="flex gap-3"><Phone size={16} className="mt-0.5 shrink-0 text-secondary" /><a href={SITE.phoneHref} className="hover:text-secondary">{SITE.phone}</a></li>
+              <li className="flex gap-3"><Mail size={16} className="mt-0.5 shrink-0 text-secondary" /><a href={`mailto:${SITE.email}`} className="hover:text-secondary">{SITE.email}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[11px] uppercase tracking-widest2 text-secondary">Quick Links</h4>
+            <ul className="mt-6 space-y-3 text-sm">
+              {NAV_LINKS.map((l) => (
+                <li key={l.to}>
+                  <Link to={l.to} className="text-background/75 hover:text-secondary transition-colors" data-testid={`footer-link-${l.label.toLowerCase()}`}>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-[11px] uppercase tracking-widest2 text-secondary">Opening Hours</h4>
+            <ul className="mt-6 space-y-3 text-sm">
+              {SITE.hours.map((h) => (
+                <li key={h.day} className="flex items-start gap-3 text-background/75">
+                  <Clock size={16} className="mt-0.5 shrink-0 text-secondary" />
+                  <span>
+                    <span className="block">{h.day}</span>
+                    <span className="text-background/55">{h.time}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-16 pt-8 border-t border-background/10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between text-xs text-background/55">
+          <span>© {new Date().getFullYear()} Hotel Yashdeep. All rights reserved.</span>
+          <span>Crafted with care in Yermala, Maharashtra.</span>
         </div>
       </div>
     </footer>
   );
 }
-
-export default Footer;

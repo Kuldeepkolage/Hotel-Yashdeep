@@ -1,17 +1,17 @@
+import { Outlet } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import { Outlet } from "react-router-dom";
+import useScrollToTop from "../hooks/useScrollToTop";
 
-function MainLayout() {
+export default function MainLayout() {
+  useScrollToTop();
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main>
+      <div className="flex-1">
         <Outlet />
-      </main>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
-
-export default MainLayout;

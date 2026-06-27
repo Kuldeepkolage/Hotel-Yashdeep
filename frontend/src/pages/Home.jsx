@@ -1,21 +1,20 @@
+import PageTransition from "../components/common/PageTransition";
 import Hero from "../components/home/Hero";
-import AboutSection from "../components/home/AboutSection";
+import AboutPreview from "../components/home/AboutPreview";
 import FeaturedDishes from "../components/home/FeaturedDishes";
-import GallerySection from "../components/home/GallerySection";
+import GalleryPreview from "../components/home/GalleryPreview";
 import Testimonials from "../components/home/Testimonials";
-import ContactCTA from "../components/home/ContactCTA";
+import ReservationCTA from "../components/home/ReservationCTA";
 
-function Home() {
+export default function Home() {
   return (
-    <>
+    <PageTransition>
       <Hero />
-      <AboutSection />
+      <AboutPreview />
       <FeaturedDishes />
-      <GallerySection />
+      <GalleryPreview />
       <Testimonials />
-      <ContactCTA />
-    </>
+      <ReservationCTA />
+    </PageTransition>
   );
 }
-
-export default Home;

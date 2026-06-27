@@ -1,110 +1,116 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-
-
-  --primary: #7A1F1F;
-  --primary-light: #9B2C2C;
-  --secondary: #D4AF37;
-  --secondary-light: #E8C84A;
-  --background: #FFF8F0;
-  --background-deep: #FFF1E0;
-  --surface: #FFFFFF;
-  --text: #3A1C1C;
-  --text-light: #6B6B6B;
-  --text-muted: #9E8E8E;
-  --border: #E8DCCF;
-  --border-light: #F2EBE0;
-  --gold: #D4AF37;
-  --wine: #7A1F1F;
+  color-scheme: light;
+  --bg: #f8f4ee;
+  --primary: #7a1f1f;
+  --dark: #2c1810;
+  --secondary: #c89b3c;
+  --text: #3a1c1c;
+  --muted: #6e6e6e;
+  --border: #e8ddd0;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-html {
+html,
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
   scroll-behavior: smooth;
 }
 
-body {
-  background: var(--background);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+::selection {
+  background: rgba(122, 31, 31, 0.85);
+  color: #f8f4ee;
 }
 
-h1, h2, h3, h4 {
-  font-family: 'Playfair Display', serif;
-  letter-spacing: -0.01em;
-}
-
-.font-cormorant {
-  font-family: 'Cormorant Garamond', serif;
-}
-
-/* Luxury scrollbar */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
+  height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #f8f4ee;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 99px;
+  background: #e8ddd0;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: #c89b3c;
 }
 
-/* Selection */
-::selection {
-  background: var(--secondary);
-  color: white;
+@layer components {
+  .container-luxe {
+    @apply mx-auto w-full max-w-container px-6 md:px-10 lg:px-14;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] uppercase tracking-widest2 text-primary font-medium;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply inline-block h-px w-8 bg-primary/60;
+  }
+
+  .heading-xl {
+    @apply font-display text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.02] text-dark;
+  }
+  .heading-lg {
+    @apply font-display text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.08] text-dark;
+  }
+  .heading-md {
+    @apply font-display text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight text-dark;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium tracking-wide transition-all duration-500 ease-luxe;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-background hover:bg-dark shadow-soft hover:shadow-luxe;
+  }
+  .btn-outline {
+    @apply btn border border-dark/20 text-dark hover:border-primary hover:text-primary;
+  }
+  .btn-gold {
+    @apply btn bg-secondary text-dark hover:bg-dark hover:text-secondary;
+  }
+
+  .glass {
+    background: rgba(248, 244, 238, 0.72);
+    backdrop-filter: saturate(150%) blur(18px);
+    -webkit-backdrop-filter: saturate(150%) blur(18px);
+    border-bottom: 1px solid rgba(232, 221, 208, 0.6);
+  }
+
+  .card-luxe {
+    @apply rounded-2xl bg-white border border-border/70 shadow-soft transition-all duration-700 ease-luxe;
+  }
+
+  .input-luxe {
+    @apply w-full bg-transparent border-b border-border/80 py-3 text-dark placeholder:text-muted/70 focus:outline-none focus:border-primary transition-colors;
+  }
+
+  .divider-gold {
+    @apply inline-block h-[2px] w-10 bg-secondary;
+  }
 }
 
-/* Decorative gold line utility */
-.gold-line {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-}
-.gold-line::before,
-.gold-line::after {
-  content: '';
-  display: block;
-  height: 1px;
-  width: 40px;
-  background: var(--secondary);
+.bg-grain {
+  background-image: radial-gradient(rgba(44, 24, 16, 0.045) 1px, transparent 1px);
+  background-size: 4px 4px;
 }
 
-/* Float animation for hero image */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-14px); }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-.float-anim {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* Shimmer effect */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-/* Decorative ornament */
-.ornament {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 72px;
-  line-height: 1;
-  color: var(--secondary);
-  opacity: 0.15;
-  font-style: italic;
-  user-select: none;
+.no-scrollbar {
+  scrollbar-width: none;
 }

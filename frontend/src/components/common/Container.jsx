@@ -1,11 +1,9 @@
-function Container({ children, className = "" }) {
+import { cx } from "../../utils/format";
+
+export default function Container({ as: Tag = "div", className, children, ...props }) {
   return (
-    <div
-      className={`mx-auto w-full max-w-7xl px-6 lg:px-10 ${className}`}
-    >
+    <Tag className={cx("container-luxe", className)} {...props}>
       {children}
-    </div>
+    </Tag>
   );
 }
-
-export default Container;
