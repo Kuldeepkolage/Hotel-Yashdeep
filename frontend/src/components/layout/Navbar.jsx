@@ -56,7 +56,7 @@ export default function Navbar() {
                 transparent ? "text-background/70" : "text-muted"
               )}
             >
-              Yermala · Est. 1997
+              Yermala · Est. 2020
             </span>
           </span>
         </Link>

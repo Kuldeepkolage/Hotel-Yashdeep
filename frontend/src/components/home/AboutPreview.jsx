@@ -37,7 +37,7 @@ export default function AboutPreview() {
           <div className="absolute -top-6 -left-6 hidden md:flex flex-col items-center">
             <span className="h-16 w-px bg-secondary" />
             <span className="text-[10px] uppercase tracking-widest2 text-secondary mt-3 rotate-180 [writing-mode:vertical-rl]">
-              Since 1997
+              Since 2020
             </span>
           </div>
         </div>

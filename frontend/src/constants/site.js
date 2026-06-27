@@ -3,8 +3,8 @@ export const SITE = {
   tagline: "A Maharashtrian Table on the Yermala Highway",
   location: "Yermala, Maharashtra",
   address: "Yedeshwari Mandir Road, Yermala, Maharashtra 413605",
-  phone: "+91 98765 43210",
-  phoneHref: "tel:+919876543210",
+  phone: "+91 9307129206",
+  phoneHref: "tel:+91 9307129206",
   email: "hello@hotelyashdeep.in",
   hours: [
     { day: "Monday — Thursday", time: "11:00 — 23:00" },

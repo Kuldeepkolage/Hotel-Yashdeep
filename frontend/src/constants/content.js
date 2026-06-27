@@ -126,7 +126,7 @@ export const STATS = [
 
 export const TIMELINE = [
   {
-    year: "1997",
+    year: "2020",
     title: "A Roadside Beginning",
     text: "Yashdeep opens as a humble dhaba on the Yermala highway, serving travellers home-style Marathwada meals.",
   },

@@ -10,7 +10,7 @@ export default function About() {
   return (
     <PageTransition>
       <PageHero
-        eyebrow="Our story · Since 1997"
+        eyebrow="Our story · Since 2020"
         title={<>A family. A highway.<br /><span className="italic text-secondary">A kitchen that never stopped.</span></>}
         description="From a single tandoor on the Yermala highway to a full-service family restaurant and beer bar — every plate still passes through the same hands that began this story almost three decades ago."
         image="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=70"
@@ -25,7 +25,7 @@ export default function About() {
           />
           <div className="space-y-6 text-muted leading-relaxed text-base md:text-lg">
             <p>
-              Yashdeep was founded in 1997 by the Patil family, who set up a small dhaba beside the Yedeshwari Mandir road. The plan was modest — feed travellers warm, honest Maharashtrian food on their way to Tuljapur.
+              Yashdeep was founded in 2020 by the Kolage family, who set up a small dhaba beside the Yedeshwari Mandir road. The plan was modest — feed travellers warm, honest Maharashtrian food on their way to Tuljapur.
             </p>
             <p>
               Twenty-eight years later, the dhaba has grown into a full family restaurant with a dedicated beer bar wing, a quiet courtyard for unhurried meals, and a kitchen that still treats every plate as if a traveller was waiting at the door.
@@ -148,7 +148,7 @@ export default function About() {
               "When my father started Yashdeep, he wanted travellers to feel like family. That's still the brief. Everything else is just menu."
             </blockquote>
             <footer className="mt-10 text-sm uppercase tracking-widest2 text-secondary">
-              Mahesh Patil · Owner
+              Kishan Kolage & Yogita Kolage · Owner
             </footer>
             <Link to="/reservations" className="btn-gold mt-10" data-testid="about-cta-reserve">
               Reserve your table <ArrowRight size={16} />

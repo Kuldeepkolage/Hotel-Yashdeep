@@ -31,7 +31,7 @@ export default function Hero() {
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } }}
               className="eyebrow text-secondary"
             >
-              Est. 1997 · Yermala, Maharashtra
+              Est. 2020 · Yermala, Maharashtra
             </motion.span>
 
             <motion.h1

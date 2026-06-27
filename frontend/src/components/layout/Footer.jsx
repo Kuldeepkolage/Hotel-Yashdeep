@@ -49,7 +49,7 @@ export default function Footer() {
               <span className="font-display text-2xl">Hotel Yashdeep</span>
             </div>
             <p className="mt-6 text-sm text-background/70 leading-relaxed max-w-xs">
-              A Maharashtrian family restaurant and beer bar on the Yermala highway — honest food, warm rooms, since 1997.
+              A Maharashtrian family restaurant and beer bar on the Yermala highway — honest food, warm rooms, since 2020.
             </p>
             <div className="mt-8 flex items-center gap-3">
               <a href={SITE.social.instagram} aria-label="Instagram" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-background/20 hover:border-secondary hover:text-secondary transition-colors" data-testid="social-instagram">

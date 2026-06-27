@@ -96,7 +96,7 @@ export default function ReservationForm() {
       <div className="mt-10 grid md:grid-cols-2 gap-x-8 gap-y-7">
         <Input label="Full Name" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Aarti Deshmukh" />
         <Input label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} placeholder="you@email.com" />
-        <Input label="Phone" name="phone" value={form.phone} onChange={onChange} error={errors.phone} placeholder="+91 98765 43210" />
+        <Input label="Phone" name="phone" value={form.phone} onChange={onChange} error={errors.phone} placeholder="+91 9307129206x`" />
         <Select label="Guests" name="guests" value={form.guests} onChange={onChange}>
           {[1,2,3,4,5,6,7,8,9,10,12,15,20].map((n) => (
             <option key={n} value={n}>{n} {n === 1 ? "guest" : "guests"}</option>
