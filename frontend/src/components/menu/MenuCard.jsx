@@ -10,7 +10,7 @@ export default function MenuCard({ item, index = 0 }) {
       transition={{ duration: 0.8, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -6 }}
       className="group card-luxe overflow-hidden flex flex-col"
-      data-testid={`menu-card-${item.id}`}
+      data-testid={`menu-card-${item._id}`}
     >
       <div className="aspect-[16/11] overflow-hidden">
         <img
