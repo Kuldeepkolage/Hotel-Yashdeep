@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import AdminRoutes from "../admin/routes/AdminRoutes";
 
 const Home = lazy(() => import("../pages/Home"));
 const About = lazy(() => import("../pages/About"));
@@ -9,6 +10,7 @@ const Gallery = lazy(() => import("../pages/Gallery"));
 const Reservations = lazy(() => import("../pages/Reservations"));
 const Contact = lazy(() => import("../pages/Contact"));
 const NotFound = lazy(() => import("../pages/NotFound"));
+
 
 function PageLoader() {
   return (
@@ -22,16 +24,22 @@ export default function AppRoutes() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="menu" element={<Menu />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="reservations" element={<Reservations />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+  {/* Public Website */}
+  <Route element={<MainLayout />}>
+    <Route index element={<Home />} />
+    <Route path="about" element={<About />} />
+    <Route path="menu" element={<Menu />} />
+    <Route path="gallery" element={<Gallery />} />
+    <Route path="reservations" element={<Reservations />} />
+    <Route path="contact" element={<Contact />} />
+  </Route>
+
+  {/* Admin */}
+  <Route path="/admin/*" element={<AdminRoutes />} />
+
+  {/* 404 */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
     </Suspense>
   );
 }
