@@ -1,5 +1,6 @@
 import WebsiteContent from "../models/WebsiteContent.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import ApiResponse from "../utils/ApiResponse.js";
 
 export const getContent = asyncHandler(async (req, res) => {
   let content = await WebsiteContent.findOne();
@@ -8,25 +9,21 @@ export const getContent = asyncHandler(async (req, res) => {
     content = await WebsiteContent.create({});
   }
 
-  res.status(200).json({
-    success: true,
-    data: content,
-  });
+  return res.status(200).json(new ApiResponse(200, content, "Website content fetched"));
 });
 
 export const updateContent = asyncHandler(async (req, res) => {
   let content = await WebsiteContent.findOne();
 
+  // Never allow these to be overwritten via the generic content update endpoint
+  const { _id, createdAt, updatedAt, ...updates } = req.body;
+
   if (!content) {
-    content = await WebsiteContent.create(req.body);
+    content = await WebsiteContent.create(updates);
   } else {
-    Object.assign(content, req.body);
+    Object.assign(content, updates);
     await content.save();
   }
 
-  res.status(200).json({
-    success: true,
-    message: "Website updated successfully",
-    data: content,
-  });
+  return res.status(200).json(new ApiResponse(200, content, "Website content updated successfully"));
 });

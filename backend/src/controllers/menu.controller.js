@@ -1,50 +1,60 @@
 import Menu from "../models/Menu.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiResponse from "../utils/ApiResponse.js";
+import ApiError from "../utils/ApiError.js";
 
 // Create Menu Item
 export const createMenu = asyncHandler(async (req, res) => {
   const menu = await Menu.create(req.body);
 
-  return res
-    .status(201)
-    .json(new ApiResponse(201, menu, "Menu item created successfully"));
+  return res.status(201).json(new ApiResponse(201, menu, "Menu item created successfully"));
 });
 
 // Get All Menu
 export const getMenus = asyncHandler(async (req, res) => {
-  const menus = await Menu.find().sort({ createdAt: -1 });
+  const { category, available } = req.query;
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, menus, "Menu fetched successfully"));
+  const filter = {};
+  if (category) filter.category = category;
+  if (available !== undefined) filter.available = available === "true";
+
+  const menus = await Menu.find(filter).sort({ category: 1, createdAt: -1 });
+
+  return res.status(200).json(new ApiResponse(200, menus, "Menu fetched successfully"));
 });
 
 // Get Single Menu
 export const getMenu = asyncHandler(async (req, res) => {
   const menu = await Menu.findById(req.params.id);
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, menu, "Menu fetched"));
+  if (!menu) {
+    throw new ApiError(404, "Menu item not found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, menu, "Menu fetched"));
 });
 
 // Update Menu
 export const updateMenu = asyncHandler(async (req, res) => {
   const menu = await Menu.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+    runValidators: true,
   });
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, menu, "Menu updated"));
+  if (!menu) {
+    throw new ApiError(404, "Menu item not found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, menu, "Menu updated"));
 });
 
 // Delete Menu
 export const deleteMenu = asyncHandler(async (req, res) => {
-  await Menu.findByIdAndDelete(req.params.id);
+  const menu = await Menu.findByIdAndDelete(req.params.id);
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, null, "Menu deleted"));
+  if (!menu) {
+    throw new ApiError(404, "Menu item not found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, null, "Menu deleted"));
 });

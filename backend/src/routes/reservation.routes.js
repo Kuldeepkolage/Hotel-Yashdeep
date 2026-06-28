@@ -1,37 +1,52 @@
 import express from "express";
-
 import {
-
-createReservation,
-getReservations,
-getReservation,
-rescheduleReservation,
-cancelReservation,
-updateStatus,
-deleteReservation
-
+  createReservation,
+  checkReservation,
+  rescheduleReservation,
+  cancelReservation,
+  getReservations,
+  getReservationById,
+  confirmReservation,
+  assignTable,
+  createWalkIn,
+  markCompleted,
+  updateStatus,
+  deleteReservation,
 } from "../controllers/reservation.controller.js";
-
 import { protect } from "../middleware/auth.middleware.js";
+import { reservationLimiter } from "../middleware/rateLimiter.middleware.js";
+import validate from "../middleware/validate.middleware.js";
+import {
+  createReservationValidator,
+  lookupReservationValidator,
+  rescheduleReservationValidator,
+  assignTableValidator,
+  walkInValidator,
+} from "../validators/reservation.validator.js";
 
 const router = express.Router();
 
-/* Customer */
+/* -------------------------- PUBLIC ROUTES -------------------------- */
 
-router.post("/", createReservation);
+router.post("/", reservationLimiter, createReservationValidator, validate, createReservation);
+router.post("/:bookingId/check", reservationLimiter, lookupReservationValidator, validate, checkReservation);
+router.put("/:bookingId/reschedule", reservationLimiter, rescheduleReservationValidator, validate, rescheduleReservation);
+router.put("/:bookingId/cancel", reservationLimiter, lookupReservationValidator, validate, cancelReservation);
 
-router.get("/:bookingId", getReservation);
+/* --------------------------- ADMIN ROUTES --------------------------- */
 
-router.put("/reschedule/:bookingId", rescheduleReservation);
+const adminRouter = express.Router();
+adminRouter.use(protect);
 
-router.put("/cancel/:bookingId", cancelReservation);
+adminRouter.get("/", getReservations);
+adminRouter.get("/:id", getReservationById);
+adminRouter.post("/walk-in", walkInValidator, validate, createWalkIn);
+adminRouter.put("/:id/confirm", assignTableValidator, validate, confirmReservation);
+adminRouter.put("/:id/assign-table", assignTableValidator, validate, assignTable);
+adminRouter.put("/:id/complete", markCompleted);
+adminRouter.put("/:id/status", updateStatus);
+adminRouter.delete("/:id", deleteReservation);
 
-/* Admin */
-
-router.get("/", protect, getReservations);
-
-router.put("/status/:id", protect, updateStatus);
-
-router.delete("/:id", protect, deleteReservation);
+router.use("/admin", adminRouter);
 
 export default router;

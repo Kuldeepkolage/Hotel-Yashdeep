@@ -1,12 +1,13 @@
 {
-  "name": "backend",
+  "name": "hotel-yashdeep-backend",
   "version": "1.0.0",
   "type": "module",
+  "description": "Backend API for Hotel Yashdeep - Restaurant & Beer Bar",
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "create-admin": "node src/scripts/createAdmin.js",
-    "create-tables":"node src/scripts/createTables.js"
+    "create-tables": "node src/scripts/createTables.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -16,6 +17,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "express-validator": "^7.3.2",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",

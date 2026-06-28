@@ -11,6 +11,11 @@ const websiteContentSchema = new mongoose.Schema(
 
     heroSubtitle: String,
 
+    heroImage: {
+      type: String,
+      default: "",
+    },
+
     about: String,
 
     address: String,

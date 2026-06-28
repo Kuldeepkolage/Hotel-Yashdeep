@@ -28,7 +28,7 @@ const tableSchema = new mongoose.Schema(
       type: String,
       enum: ["Available", "Reserved", "Occupied"],
       default: "Available",
-    }
+    },
   },
   {
     timestamps: true,
