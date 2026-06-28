@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg: #f8f4ee;
+  --primary: #7a1f1f;
+  --dark: #2c1810;
+  --secondary: #c89b3c;
+  --text: #3a1c1c;
+  --muted: #6e6e6e;
+  --border: #e8ddd0;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: rgba(122, 31, 31, 0.85);
+  color: #f8f4ee;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f8f4ee;
+}
+::-webkit-scrollbar-thumb {
+  background: #e8ddd0;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c89b3c;
+}
+
+@layer components {
+  .container-luxe {
+    @apply mx-auto w-full max-w-container px-6 md:px-10 lg:px-14;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] uppercase tracking-widest2 text-primary font-medium;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply inline-block h-px w-8 bg-primary/60;
+  }
+
+  .heading-xl {
+    @apply font-display text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.02] text-dark;
+  }
+  .heading-lg {
+    @apply font-display text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.08] text-dark;
+  }
+  .heading-md {
+    @apply font-display text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight text-dark;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium tracking-wide transition-all duration-500 ease-luxe;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-background hover:bg-dark shadow-soft hover:shadow-luxe;
+  }
+  .btn-outline {
+    @apply btn border border-dark/20 text-dark hover:border-primary hover:text-primary;
+  }
+  .btn-gold {
+    @apply btn bg-secondary text-dark hover:bg-dark hover:text-secondary;
+  }
+
+  .glass {
+    background: rgba(248, 244, 238, 0.72);
+    backdrop-filter: saturate(150%) blur(18px);
+    -webkit-backdrop-filter: saturate(150%) blur(18px);
+    border-bottom: 1px solid rgba(232, 221, 208, 0.6);
+  }
+
+  .card-luxe {
+    @apply rounded-2xl bg-white border border-border/70 shadow-soft transition-all duration-700 ease-luxe;
+  }
+
+  .input-luxe {
+    @apply w-full bg-transparent border-b border-border/80 py-3 text-dark placeholder:text-muted/70 focus:outline-none focus:border-primary transition-colors;
+  }
+
+  .divider-gold {
+    @apply inline-block h-[2px] w-10 bg-secondary;
+  }
+}
+
+.bg-grain {
+  background-image: radial-gradient(rgba(44, 24, 16, 0.045) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
