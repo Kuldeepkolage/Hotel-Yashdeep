@@ -10,6 +10,9 @@ import {
 import { protect } from "../middleware/auth.middleware.js";
 import { createTableValidator, updateTableValidator } from "../validators/table.validator.js";
 import validate from "../middleware/validate.middleware.js";
+import {
+  getTableStats,
+} from "../controllers/table.controller.js";
 
 const router = express.Router();
 
@@ -17,6 +20,7 @@ router.use(protect);
 
 router.get("/", getTables);
 router.get("/available", getAvailableTables);
+router.get("/stats", getTableStats);
 router.get("/:id", getTable);
 router.post("/", createTableValidator, validate, createTable);
 router.put("/:id", updateTableValidator, validate, updateTable);

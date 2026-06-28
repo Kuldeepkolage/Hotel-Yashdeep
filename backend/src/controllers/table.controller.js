@@ -17,15 +17,59 @@ export const createTable = asyncHandler(async (req, res) => {
 });
 
 export const getTables = asyncHandler(async (req, res) => {
-  const { location, status } = req.query;
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 12;
+  const skip = (page - 1) * limit;
 
   const filter = {};
-  if (location) filter.location = location;
-  if (status) filter.status = status;
 
-  const tables = await Table.find(filter).sort({ tableNumber: 1 });
+  if (req.query.location) {
+    filter.location = req.query.location;
+  }
 
-  return res.status(200).json(new ApiResponse(200, tables, "Tables fetched successfully"));
+  if (req.query.status) {
+    filter.status = req.query.status;
+  }
+
+  const total = await Table.countDocuments(filter);
+
+  const tables = await Table.find(filter)
+    .sort({ tableNumber: 1 })
+    .skip(skip)
+    .limit(limit);
+
+  res.json({
+    tables,
+    total,
+    totalPages: Math.ceil(total / limit),
+  });
+});
+
+export const getTableStats = asyncHandler(async (req, res) => {
+
+  const total = await Table.countDocuments();
+
+  const available = await Table.countDocuments({
+    status: "Available",
+  });
+
+  const reserved = await Table.countDocuments({
+    status: "Reserved",
+  });
+
+  const occupied = await Table.countDocuments({
+    status: "Occupied",
+  });
+
+  res.json({
+    stats: {
+      total,
+      available,
+      reserved,
+      occupied,
+    },
+  });
+
 });
 
 export const getTable = asyncHandler(async (req, res) => {
