@@ -104,7 +104,7 @@ export default function Footer() {
 
         <div className="mt-16 pt-8 border-t border-background/10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between text-xs text-background/55">
           <span>© {new Date().getFullYear()} Hotel Yashdeep. All rights reserved.</span>
-          <span>Crafted with care in Yermala, Maharashtra.</span>
+          <span>Developed by <b>Kuldeep Kolage</b></span>
         </div>
       </div>
     </footer>
