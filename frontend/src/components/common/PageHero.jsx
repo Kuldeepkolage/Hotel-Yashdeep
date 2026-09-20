@@ -20,6 +20,7 @@ export default function PageHero({
       <div className="absolute inset-0">
         <img src={image} alt="" className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/55 to-dark/85" />
+        <div className="absolute inset-0 bg-grain opacity-40 pointer-events-none" />
       </div>
       <div className={cx("relative container-luxe min-h-inherit flex flex-col justify-end pt-40 pb-20", align === "center" && "items-center text-center")}>
         <motion.span

@@ -49,14 +49,21 @@ export const isTableTaken = async ({ tableId, reservationDate, reservationTime, 
  *  - the table is not already held by another active reservation at that slot
  * Throws ApiError on any violation. Returns the updated reservation table status.
  */
-export const assertTableAssignable = async ({ tableId, reservationDate, reservationTime, guests, excludeReservationId = null }) => {
+export const assertTableAssignable = async ({
+  tableId,
+  reservationDate,
+  reservationTime,
+  guests,
+  excludeReservationId = null,
+  allowOvercapacity = false,
+}) => {
   const table = await Table.findById(tableId);
 
   if (!table) {
     throw new ApiError(404, "Table not found");
   }
 
-  if (guests && table.capacity < guests) {
+  if (guests && table.capacity < guests && !allowOvercapacity) {
     throw new ApiError(400, `Table ${table.tableNumber} can only seat ${table.capacity} guests`);
   }
 

@@ -1,21 +1,40 @@
 import Counter from "../models/Counter.js";
+import Reservation from "../models/Reservation.js";
 
 /**
  * Atomically generates the next sequential booking ID, e.g. HY1001, HY1002...
- * Uses MongoDB's atomic $inc on a dedicated counter document so concurrent
- * reservation requests can never collide on the same bookingId.
+ * Uses MongoDB's atomic $inc on a dedicated counter document, and ensures
+ * the generated ID is strictly greater than any existing reservation bookingId.
  */
 const generateBookingId = async () => {
-  const counter = await Counter.findOneAndUpdate(
+  let counter = await Counter.findOneAndUpdate(
     { key: "bookingId" },
     { $inc: { seq: 1 } },
-    { new: true, upsert: true }
+    { returnDocument: "after", upsert: true }
   );
 
-  // Offset by 1000 so the first generated ID is HY1001 (Mongo's $inc on a
-  // missing field during upsert starts the value at the increment amount
-  // itself, i.e. 1 on first call - not the schema's `default`).
-  return `HY${1000 + counter.seq}`;
+  let nextId = `HY${1000 + counter.seq}`;
+
+  // Check if this bookingId already exists in reservations
+  const existing = await Reservation.findOne({ bookingId: nextId });
+  if (existing) {
+    const allRes = await Reservation.find({ bookingId: /^HY\d+$/ }).select("bookingId");
+    let maxNum = 1000;
+    for (const r of allRes) {
+      const num = parseInt(r.bookingId.replace("HY", ""), 10);
+      if (!isNaN(num) && num > maxNum) maxNum = num;
+    }
+
+    const newSeq = maxNum - 1000 + 1;
+    counter = await Counter.findOneAndUpdate(
+      { key: "bookingId" },
+      { $set: { seq: newSeq } },
+      { returnDocument: "after", upsert: true }
+    );
+    nextId = `HY${1000 + counter.seq}`;
+  }
+
+  return nextId;
 };
 
 export default generateBookingId;

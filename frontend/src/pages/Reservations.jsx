@@ -1,10 +1,14 @@
+import { Link } from "react-router-dom";
 import PageTransition from "../components/common/PageTransition";
 import PageHero from "../components/common/PageHero";
 import ReservationForm from "../components/reservation/ReservationForm";
 import { SITE } from "../constants/site";
-import { Clock, MapPin, Phone, Users } from "lucide-react";
+import { Clock, MapPin, Phone, Users, Lock, LogIn, UserPlus } from "lucide-react";
+import { useCustomerAuth } from "../context/CustomerAuthContext";
 
 export default function Reservations() {
+  const { isAuthenticated, loading } = useCustomerAuth();
+
   return (
     <PageTransition>
       <PageHero
@@ -36,7 +40,79 @@ export default function Reservations() {
               </p>
             </div>
           </div>
-          <ReservationForm />
+
+          {loading ? (
+            <div className="card-luxe p-12 text-center flex flex-col items-center justify-center min-h-[360px]">
+              <div className="h-10 w-10 rounded-full border-2 border-secondary/30 border-t-primary animate-spin" />
+              <p className="mt-5 text-xs text-muted uppercase tracking-widest2 font-medium">Checking reservation credentials…</p>
+            </div>
+          ) : isAuthenticated ? (
+            <ReservationForm />
+          ) : (
+            <div
+              className="rounded-3xl bg-gradient-to-b from-white via-white to-[#faf6ef] border border-secondary/30 p-8 md:p-12 text-center shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] relative overflow-hidden"
+              data-testid="auth-required-card"
+            >
+              {/* Subtle background glow */}
+              <div className="absolute -top-20 -right-20 w-48 h-48 bg-secondary/15 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative z-10">
+                {/* Gold Crest */}
+                <div className="mx-auto h-16 w-16 rounded-full border-2 border-secondary/60 bg-secondary/10 flex items-center justify-center mb-6 shadow-sm">
+                  <Lock size={26} className="text-secondary" />
+                </div>
+
+                <span className="eyebrow justify-center">Verified Dining</span>
+                <h3 className="heading-md mt-3 font-display">Sign In to Reserve Your Table</h3>
+                
+                <p className="mt-4 max-w-lg mx-auto text-sm text-muted leading-relaxed">
+                  To ensure personalized hospitality and keep your table ready upon arrival, reservations are linked to a verified guest account.
+                </p>
+
+                {/* Exclusive Guest Benefits */}
+                <div className="my-8 max-w-md mx-auto p-5 rounded-2xl border border-secondary/20 bg-background/60 text-left space-y-3">
+                  <div className="flex items-center gap-3 text-xs text-dark/85">
+                    <span className="h-5 w-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center shrink-0 text-[10px] font-bold">✓</span>
+                    <span>Guaranteed seating prepared before your arrival</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-dark/85">
+                    <span className="h-5 w-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center shrink-0 text-[10px] font-bold">✓</span>
+                    <span>Direct coordination with the chef for dietary or occasion preferences</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-dark/85">
+                    <span className="h-5 w-5 rounded-full bg-secondary/20 text-secondary flex items-center justify-center shrink-0 text-[10px] font-bold">✓</span>
+                    <span>Real-time email and SMS updates on your booking status</span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    to="/login?redirect=/reservations"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold tracking-wider uppercase transition-all duration-300 shadow-md hover:shadow-xl bg-gradient-to-r from-primary via-[#8a2424] to-primary hover:from-dark hover:to-dark text-white transform active:scale-[0.99]"
+                    data-testid="reservation-login-btn"
+                  >
+                    <LogIn size={16} /> Sign In to Book
+                  </Link>
+                  <Link
+                    to="/signup?redirect=/reservations"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl px-7 py-3.5 text-sm font-semibold tracking-wider uppercase transition-all duration-300 border-2 border-secondary/60 text-dark hover:bg-secondary/15 hover:border-secondary transform active:scale-[0.99]"
+                    data-testid="reservation-signup-btn"
+                  >
+                    <UserPlus size={16} /> Create Account
+                  </Link>
+                </div>
+
+                <p className="mt-8 text-xs text-muted">
+                  Need an urgent same-day table? Call us directly at{" "}
+                  <a href={SITE.phoneHref} className="text-primary underline font-semibold">
+                    {SITE.phone}
+                  </a>
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </PageTransition>

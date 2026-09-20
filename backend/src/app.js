@@ -9,6 +9,7 @@ import notFound from "./middleware/notFound.middleware.js";
 import { apiLimiter } from "./middleware/rateLimiter.middleware.js";
 
 import authRoutes from "./routes/auth.routes.js";
+import customerAuthRoutes from "./routes/customerAuth.routes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import menuRoutes from "./routes/menu.routes.js";
 import uploadRoutes from "./routes/upload.routes.js";
@@ -29,8 +30,9 @@ app.use(morgan("dev"));
 // Response compression
 app.use(compression());
 
-// Allow Frontend
-const allowedOrigins = String(process.env.CLIENT_URL || "http://localhost:5173")
+// Allow Frontend (supports comma-separated list of origins)
+const defaultOrigins = "http://localhost:5173,http://localhost:5174,http://localhost:5175,http://localhost:5176";
+const allowedOrigins = String(process.env.CLIENT_URL || defaultOrigins)
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -38,10 +40,24 @@ const allowedOrigins = String(process.env.CLIENT_URL || "http://localhost:5173")
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(new Error("CORS origin not allowed"));
+      // Allow non-browser requests or same-origin
+      if (!origin) return callback(null, true);
+
+      // Explicitly allowed origins
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+
+      // In development, automatically permit any localhost / 127.0.0.1 port (e.g. 5173, 5174, 5175)
+      if (process.env.NODE_ENV !== "production") {
+        if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+          return callback(null, true);
+        }
+      }
+
+      return callback(new Error(`CORS origin not allowed: ${origin}`));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -63,6 +79,7 @@ app.get("/api/health", (req, res) => {
 });
 
 // Routes
+app.use("/api/auth/customer", customerAuthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/menu", menuRoutes);

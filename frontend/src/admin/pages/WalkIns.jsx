@@ -237,7 +237,8 @@ function WalkIns() {
       setEditTarget(null);
       loadStats();
     } catch (err) {
-      addToast("error", formMode === "edit" ? "Update failed" : "Create failed", err.message);
+      const msg = err?.response?.data?.message || err.message || "Failed to save walk-in record.";
+      addToast("error", formMode === "edit" ? "Update failed" : "Create failed", msg);
     } finally {
       setFormLoading(false);
     }

@@ -48,6 +48,15 @@ const reservationSchema = new mongoose.Schema(
       default: null,
     },
 
+    customer: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: function () {
+        return !this.isWalkIn;
+      },
+      default: null,
+    },
+
     status: {
       type: String,
       enum: [
@@ -85,6 +94,7 @@ const reservationSchema = new mongoose.Schema(
 );
 
 // Helpful for dashboard / availability queries
+reservationSchema.index({ customer: 1 });
 reservationSchema.index({ reservationDate: 1, reservationTime: 1 });
 reservationSchema.index({ table: 1, reservationDate: 1, reservationTime: 1 });
 

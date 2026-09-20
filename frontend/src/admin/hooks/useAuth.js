@@ -11,3 +11,5 @@ export default function useAuth() {
 
   return context;
 }
+
+export { useAuth };

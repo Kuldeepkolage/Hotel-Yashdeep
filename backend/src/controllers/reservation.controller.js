@@ -4,7 +4,7 @@ import generateBookingId from "../utils/generateBookingId.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
-import { assertTableAssignable } from "../services/availability.service.js";
+import { assertTableAssignable, findAvailableTables } from "../services/availability.service.js";
 
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
@@ -17,29 +17,59 @@ const setTableStatus = async (tableId, status) => {
 
 /* ------------------------------------------------------------------ */
 /* PUBLIC: CREATE RESERVATION                                         */
-/* No table is assigned here. Reservation stays Pending until an      */
-/* admin reviews and confirms it.                                     */
+/* Automatically assigns an available table matching party size.      */
 /* ------------------------------------------------------------------ */
 
 export const createReservation = asyncHandler(async (req, res) => {
-  const { customerName, phone, email, reservationDate, reservationTime, guests, specialRequest } = req.body;
+  const customer = req.customer;
+  if (!customer || !customer._id) {
+    throw new ApiError(401, "Customer authentication required. Please log in.");
+  }
+
+  const { reservationDate, reservationTime, guests, specialRequest } = req.body;
 
   const bookingId = await generateBookingId();
 
+  // Find an available table for this date, time and guest count
+  let assignedTable = null;
+  try {
+    const availableTables = await findAvailableTables({
+      reservationDate,
+      reservationTime,
+      guests: Number(guests),
+    });
+
+    if (availableTables && availableTables.length > 0) {
+      assignedTable = availableTables[0];
+    }
+  } catch (err) {
+    console.warn("Table auto-assignment notice:", err.message);
+  }
+
   const reservation = await Reservation.create({
     bookingId,
-    customerName,
-    phone,
-    email,
+    customer: customer._id,
+    customerName: customer.name,
+    phone: customer.phone,
+    email: customer.email,
     reservationDate,
     reservationTime,
     guests,
-    specialRequest,
-    table: null,
-    status: "Pending",
+    specialRequest: specialRequest || "",
+    table: assignedTable ? assignedTable._id : null,
+    status: assignedTable ? "Confirmed" : "Pending",
   });
 
-  return res.status(201).json(new ApiResponse(201, reservation, "Reservation created successfully. Awaiting confirmation."));
+  if (assignedTable) {
+    await setTableStatus(assignedTable._id, "Reserved");
+    await reservation.populate("table", "tableNumber tableName capacity location");
+  }
+
+  const message = assignedTable
+    ? `Reservation confirmed! Table ${assignedTable.tableNumber} (${assignedTable.location || "Indoor"}) has been reserved.`
+    : "Reservation created successfully. Awaiting confirmation.";
+
+  return res.status(201).json(new ApiResponse(201, reservation, message));
 });
 
 /* ------------------------------------------------------------------ */
@@ -157,6 +187,7 @@ export const getReservations = asyncHandler(async (req, res) => {
 
   const reservations = await Reservation.find(filter)
     .populate("table", "tableNumber tableName capacity location")
+    .populate("customer", "name email phone isEmailVerified")
     .sort({ reservationDate: 1, reservationTime: 1 });
 
   return res.status(200).json(new ApiResponse(200, reservations, "Reservations fetched"));
@@ -167,7 +198,9 @@ export const getReservations = asyncHandler(async (req, res) => {
 /* ------------------------------------------------------------------ */
 
 export const getReservationById = asyncHandler(async (req, res) => {
-  const reservation = await Reservation.findById(req.params.id).populate("table", "tableNumber tableName capacity location");
+  const reservation = await Reservation.findById(req.params.id)
+    .populate("table", "tableNumber tableName capacity location")
+    .populate("customer", "name email phone isEmailVerified");
 
   if (!reservation) {
     throw new ApiError(404, "Reservation not found");
@@ -263,6 +296,7 @@ export const createWalkIn = asyncHandler(async (req, res) => {
     reservationDate: now,
     reservationTime,
     guests,
+    allowOvercapacity: true,
   });
 
   const bookingId = await generateBookingId();
@@ -360,3 +394,19 @@ export const deleteReservation = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200, null, "Reservation deleted"));
 });
+
+/* ------------------------------------------------------------------ */
+/* CUSTOMER: GET MY RESERVATIONS                                      */
+/* ------------------------------------------------------------------ */
+
+export const getCustomerReservations = asyncHandler(async (req, res) => {
+  const customerId = req.customer._id;
+  const reservations = await Reservation.find({ customer: customerId })
+    .populate("table", "tableNumber capacity floor")
+    .sort({ reservationDate: -1, reservationTime: -1 });
+
+  return res.status(200).json(
+    new ApiResponse(200, reservations, "Customer reservations retrieved successfully.")
+  );
+});
+

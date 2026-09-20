@@ -12,8 +12,10 @@ import {
   markCompleted,
   updateStatus,
   deleteReservation,
+  getCustomerReservations,
 } from "../controllers/reservation.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
+import { protectCustomer } from "../middleware/customerAuth.middleware.js";
 import { reservationLimiter } from "../middleware/rateLimiter.middleware.js";
 import validate from "../middleware/validate.middleware.js";
 import {
@@ -26,9 +28,10 @@ import {
 
 const router = express.Router();
 
-/* -------------------------- PUBLIC ROUTES -------------------------- */
+/* -------------------------- PUBLIC / CUSTOMER ROUTES -------------------------- */
 
-router.post("/", reservationLimiter, createReservationValidator, validate, createReservation);
+router.post("/", reservationLimiter, protectCustomer, createReservationValidator, validate, createReservation);
+router.get("/customer/my-reservations", protectCustomer, getCustomerReservations);
 router.post("/:bookingId/check", reservationLimiter, lookupReservationValidator, validate, checkReservation);
 router.put("/:bookingId/reschedule", reservationLimiter, rescheduleReservationValidator, validate, rescheduleReservation);
 router.put("/:bookingId/cancel", reservationLimiter, lookupReservationValidator, validate, cancelReservation);

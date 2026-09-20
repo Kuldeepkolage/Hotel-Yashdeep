@@ -1,13 +1,8 @@
 import { body, param } from "express-validator";
 
 export const createReservationValidator = [
-  body("customerName").trim().notEmpty().withMessage("Customer name is required"),
-  body("phone")
-    .trim()
-    .notEmpty()
-    .withMessage("Phone number is required")
-    .matches(/^[0-9+\-\s]{7,15}$/)
-    .withMessage("Enter a valid phone number"),
+  body("customerName").optional().trim(),
+  body("phone").optional().trim(),
   body("email").optional({ checkFalsy: true }).isEmail().withMessage("Invalid email address"),
   body("reservationDate").notEmpty().withMessage("Reservation date is required").isISO8601().withMessage("Invalid date format"),
   body("reservationTime")

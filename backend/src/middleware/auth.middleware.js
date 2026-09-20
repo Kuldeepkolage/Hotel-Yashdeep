@@ -24,6 +24,10 @@ export const protect = asyncHandler(async (req, res, next) => {
     throw new ApiError(401, "Invalid or expired token.");
   }
 
+  if (!decoded || !["admin", "superadmin"].includes(decoded.role)) {
+    throw new ApiError(401, "Invalid token type for admin access.");
+  }
+
   const admin = await Admin.findById(decoded.id).select("-password");
 
   if (!admin) {

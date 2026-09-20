@@ -35,3 +35,27 @@ export const reservationLimiter = rateLimit({
     message: "Too many reservation requests. Please try again later.",
   },
 });
+
+// Limiter for customer auth endpoints (signup, login, verify-otp)
+export const customerAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many customer authentication attempts. Please try again later.",
+  },
+});
+
+// Strict limiter for OTP resend to enforce cooldown
+export const otpResendLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 3,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many OTP requests. Please wait a minute before requesting another code.",
+  },
+});

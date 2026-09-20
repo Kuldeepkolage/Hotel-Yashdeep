@@ -9,6 +9,9 @@ const Menu = lazy(() => import("../pages/Menu"));
 const Gallery = lazy(() => import("../pages/Gallery"));
 const Reservations = lazy(() => import("../pages/Reservations"));
 const Contact = lazy(() => import("../pages/Contact"));
+const Login = lazy(() => import("../pages/Login"));
+const Signup = lazy(() => import("../pages/Signup"));
+const VerifyEmail = lazy(() => import("../pages/VerifyEmail"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 
@@ -32,6 +35,9 @@ export default function AppRoutes() {
     <Route path="gallery" element={<Gallery />} />
     <Route path="reservations" element={<Reservations />} />
     <Route path="contact" element={<Contact />} />
+    <Route path="login" element={<Login />} />
+    <Route path="signup" element={<Signup />} />
+    <Route path="verify-email" element={<VerifyEmail />} />
   </Route>
 
   {/* Admin */}
