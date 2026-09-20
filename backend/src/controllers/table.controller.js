@@ -23,12 +23,24 @@ export const getTables = asyncHandler(async (req, res) => {
 
   const filter = {};
 
-  if (req.query.location) {
-    filter.location = req.query.location;
-  }
-
+  if (req.query.location) filter.location = req.query.location;
   if (req.query.status) {
-    filter.status = req.query.status;
+    const statusMap = { available: "Available", reserved: "Reserved", occupied: "Occupied", maintenance: "Maintenance" };
+    filter.status = statusMap[String(req.query.status).toLowerCase()] || req.query.status;
+  }
+  if (req.query.floor) filter.floor = req.query.floor;
+  if (req.query.section) filter.section = req.query.section;
+  if (req.query.search) {
+    const q = String(req.query.search).trim();
+    if (q) {
+      filter.$or = [
+        { tableName: { $regex: q, $options: "i" } },
+        { location: { $regex: q, $options: "i" } },
+        { floor: { $regex: q, $options: "i" } },
+        { section: { $regex: q, $options: "i" } },
+        ...(Number.isFinite(Number(q)) ? [{ tableNumber: Number(q) }] : []),
+      ];
+    }
   }
 
   const total = await Table.countDocuments(filter);
@@ -57,9 +69,8 @@ export const getTableStats = asyncHandler(async (req, res) => {
     status: "Reserved",
   });
 
-  const occupied = await Table.countDocuments({
-    status: "Occupied",
-  });
+  const occupied = await Table.countDocuments({ status: "Occupied" });
+  const maintenance = await Table.countDocuments({ status: "Maintenance" });
 
   res.json({
     stats: {
@@ -67,6 +78,7 @@ export const getTableStats = asyncHandler(async (req, res) => {
       available,
       reserved,
       occupied,
+      maintenance,
     },
   });
 

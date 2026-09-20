@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, AlertCircle } from "lucide-react";
+import { createReservation } from "../../services/reservation.service.js";
 import { Input, Select, Textarea } from "../common/Input";
 
 const initial = {
@@ -17,7 +18,9 @@ const initial = {
 export default function ReservationForm() {
   const [form, setForm] = useState(initial);
   const [errors, setErrors] = useState({});
-  const [state, setState] = useState("idle"); // idle | loading | success
+  const [state, setState] = useState("idle"); // idle | loading | success | error
+  const [booking, setBooking] = useState(null);
+  const [serverError, setServerError] = useState("");
 
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,12 +31,12 @@ export default function ReservationForm() {
     const errs = {};
     if (!form.name.trim()) errs.name = "Please share your name.";
     if (!/^\S+@\S+\.\S+$/.test(form.email)) errs.email = "A valid email helps us confirm.";
-    if (!/^[+\d\s-]{7,}$/.test(form.phone)) errs.phone = "Please enter a valid phone number.";
+    if (!/^[0-9+\s\-()]{7,15}$/.test(form.phone.trim())) errs.phone = "Please enter a valid phone number.";
     if (!form.date) errs.date = "Pick a date for your visit.";
     return errs;
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length) {
@@ -41,7 +44,23 @@ export default function ReservationForm() {
       return;
     }
     setState("loading");
-    setTimeout(() => setState("success"), 1400);
+    setServerError("");
+    try {
+      const result = await createReservation({
+        customerName: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        guests: Number(form.guests),
+        reservationDate: form.date,
+        reservationTime: form.time,
+        specialRequest: [form.occasion, form.notes].filter(Boolean).join(" — "),
+      });
+      setBooking(result);
+      setState("success");
+    } catch (err) {
+      setServerError(err?.response?.data?.message || err.message || "We couldn't create your reservation. Please try again.");
+      setState("error");
+    }
   };
 
   const today = new Date().toISOString().split("T")[0];
@@ -65,17 +84,21 @@ export default function ReservationForm() {
         </motion.div>
         <h3 className="heading-md mt-8">Your table is reserved.</h3>
         <p className="mt-4 max-w-md mx-auto text-muted leading-relaxed">
-          Thank you, <span className="text-primary">{form.name}</span>. We've held a table for{" "}
+          Thank you, <span className="text-primary">{form.name}</span>. Your reservation request has been received for{" "}
           <span className="text-primary">{form.guests}</span> on{" "}
           <span className="text-primary">{form.date}</span> at{" "}
-          <span className="text-primary">{form.time}</span>. A confirmation will reach you shortly at{" "}
-          <span className="text-primary">{form.email}</span>.
+          <span className="text-primary">{form.time}</span>.
+          {booking?.bookingId && (
+            <> Your booking ID is <span className="font-semibold text-primary">{booking.bookingId}</span>. Please keep it for checking your reservation.</>
+          )}
         </p>
         <button
           type="button"
           className="mt-10 btn-outline"
           onClick={() => {
             setForm(initial);
+            setBooking(null);
+            setServerError("");
             setState("idle");
           }}
           data-testid="reservation-reset"
@@ -92,6 +115,12 @@ export default function ReservationForm() {
       <p className="mt-2 text-sm text-muted">
         Reservations are confirmed manually within an hour during opening time.
       </p>
+      {state === "error" && (
+        <div role="alert" className="mt-5 flex gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          <AlertCircle size={18} className="shrink-0" />
+          <span>{serverError}</span>
+        </div>
+      )}
 
       <div className="mt-10 grid md:grid-cols-2 gap-x-8 gap-y-7">
         <Input label="Full Name" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Aarti Deshmukh" />

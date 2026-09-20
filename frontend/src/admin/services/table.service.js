@@ -1,156 +1,72 @@
-/**
- * table.service.js
- * All API calls talk directly to your Express/MongoDB backend.
- * No hardcoded / mock data anywhere.
- *
- * Expected backend routes:
- *   GET    /api/tables              → { tables, total, totalPages }
- *   GET    /api/tables/stats        → { stats: { total, available, reserved, occupied, maintenance } }
- *   GET    /api/tables/:id          → { table }
- *   POST   /api/tables              → { table }
- *   PUT    /api/tables/:id          → { table }
- *   DELETE /api/tables/:id          → { message }
- *   PATCH  /api/tables/:id/status   → { table }
- */
+import api from "./api.js";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const statusToApi = (status) => {
+  const map = { available: "Available", reserved: "Reserved", occupied: "Occupied", maintenance: "Maintenance" };
+  return map[status] || status;
+};
 
-// ── Auth helper ───────────────────────────────────────────────────
-const getAuthHeaders = () => {
-  const token =
-    localStorage.getItem("adminToken") ||
-    localStorage.getItem("token") ||
-    sessionStorage.getItem("adminToken");
-
+const normalizeTable = (table) => {
+  if (!table) return table;
   return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...table,
+    floor: table.floor || "Ground",
+    section: table.section || table.location || "Indoor",
+    status: String(table.status || "Available").toLowerCase(),
   };
 };
 
-// ── Response handler ──────────────────────────────────────────────
-const handleResponse = async (res) => {
-  if (!res.ok) {
-    let errMsg = `Request failed (${res.status})`;
-    try {
-      const body = await res.json();
-      errMsg = body.message || body.error || errMsg;
-    } catch (_) {
-      // response body wasn't JSON
-    }
-    throw new Error(errMsg);
-  }
-  return res.json();
-};
+const normalizePayload = (data = {}) => ({
+  ...data,
+  tableNumber: Number(data.tableNumber),
+  capacity: Number(data.capacity),
+  status: statusToApi(data.status),
+  floor: data.floor,
+  section: data.section,
+  location: data.location || data.section || "Indoor",
+});
 
-// ── Build query string, stripping undefined/null/"all" values ────
-const buildQuery = (params = {}) => {
-  const q = new URLSearchParams();
-  Object.entries(params).forEach(([key, val]) => {
-    if (val !== undefined && val !== null && val !== "" && val !== "all") {
-      q.set(key, val);
-    }
-  });
-  const str = q.toString();
-  return str ? `?${str}` : "";
-};
+const unwrap = (response) => response?.data?.data ?? response?.data ?? {};
 
-// ── Service object ────────────────────────────────────────────────
 export const tableService = {
-  /**
-   * GET /api/tables
-   * Params: search, status, floor, section, page, limit
-   * Returns: { tables: [...], total: N, totalPages: N }
-   */
   async getTables(params = {}) {
-    const url = `${API_BASE}/tables${buildQuery(params)}`;
-    const res = await api.get(url, {
-      method: "GET",
-      // headers: getAuthHeaders(),
-    });
-    return handleResponse(res);
+    const response = await api.get("/tables", { params });
+    const payload = unwrap(response);
+    return {
+      ...payload,
+      tables: (payload.tables || []).map(normalizeTable),
+    };
   },
 
-  /**
-   * GET /api/tables/stats
-   * Returns: { stats: { total, available, reserved, occupied, maintenance } }
-   *
-   * Your backend should run an aggregation like:
-   *   Table.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }])
-   * and return counts per status plus a grand total.
-   */
   async getStats() {
-    const url = `${API_BASE}/tables/stats`;
-    const res = await api.get(url, {
-      method: "GET",
-      // headers: getAuthHeaders(),
-    });
-    return handleResponse(res);
+    const response = await api.get("/tables/stats");
+    return unwrap(response);
   },
 
-  /**
-   * GET /api/tables/:id
-   * Returns: { table: { ... } }
-   */
   async getTable(id) {
-    const res = await api.get(`${API_BASE}/tables/${id}`, {
-      method: "GET",
-      // headers: getAuthHeaders(),
-    });
-    return handleResponse(res);
+    const response = await api.get(`/tables/${id}`);
+    const payload = unwrap(response);
+    return { ...payload, ...(payload?._id ? normalizeTable(payload) : {}) };
   },
 
-  /**
-   * POST /api/tables
-   * Body: { tableNumber, capacity, floor, section, status }
-   * Returns: { table: { ... } }
-   */
   async createTable(data) {
-    const res = await api.post(`${API_BASE}/tables`, {
-      method: "POST",
-      // headers: getAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    return handleResponse(res);
+    const response = await api.post("/tables", normalizePayload(data));
+    return normalizeTable(unwrap(response));
   },
 
-  /**
-   * PUT /api/tables/:id
-   * Body: { tableNumber, capacity, floor, section, status }
-   * Returns: { table: { ... } }
-   */
   async updateTable(id, data) {
-    const res = await api.put(`${API_BASE}/tables/${id}`, {
-      method: "PUT",
-      // headers: getAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    return handleResponse(res);
+    const response = await api.put(`/tables/${id}`, normalizePayload(data));
+    return normalizeTable(unwrap(response));
   },
 
-  /**
-   * DELETE /api/tables/:id
-   * Returns: { message: "Table deleted" }
-   */
   async deleteTable(id) {
-    const res = await api.delete(`${API_BASE}/tables/${id}`, {
-      method: "DELETE",
-      // headers: getAuthHeaders(),
-    });
-    return handleResponse(res);
+    const response = await api.delete(`/tables/${id}`);
+    return unwrap(response);
   },
 
-  /**
-   * PATCH /api/tables/:id/status
-   * Body: { status }
-   * Returns: { table: { ... } }
-   */
   async updateTableStatus(id, status) {
-    const res = await api.patch(`${API_BASE}/tables/${id}/status`, {
-      method: "PATCH",
-      // headers: getAuthHeaders(),
-      body: JSON.stringify({ status }),
-    });
-    return handleResponse(res);
+    const response = await api.put(`/tables/${id}`, { status: statusToApi(status) });
+    return normalizeTable(unwrap(response));
   },
 };
+
+export default tableService;

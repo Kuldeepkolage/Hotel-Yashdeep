@@ -76,7 +76,7 @@ export const assertTableAssignable = async ({ tableId, reservationDate, reservat
  */
 export const findAvailableTables = async ({ reservationDate, reservationTime, guests }) => {
   const allTables = await Table.find({
-    status: { $ne: "Occupied" },
+    status: { $nin: ["Occupied", "Maintenance"] },
     ...(guests ? { capacity: { $gte: guests } } : {}),
   }).sort({ capacity: 1, tableNumber: 1 });
 

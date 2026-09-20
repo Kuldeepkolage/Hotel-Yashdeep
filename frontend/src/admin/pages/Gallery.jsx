@@ -8,16 +8,6 @@ import ImageUploadModal from "../components/gallery/ImageUploadModal";
 
 const ITEMS_PER_PAGE = 20;
 
-// --- Demo / mock data for when backend is not connected ---
-let mockIdCounter = 1;
-const DEMO_IMAGES = Array.from({ length: 14 }, (_, i) => ({
-  id: `demo-${i}`,
-  url: `https://picsum.photos/seed/hotel${i}/640/480`,
-  filename: `hotel-photo-${String(i + 1).padStart(2, "0")}.jpg`,
-  category: ["restaurant", "ambiance", "food", "events", "exterior", "general"][i % 6],
-  createdAt: new Date(Date.now() - i * 86400000).toISOString(),
-}));
-
 export default function Gallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +18,7 @@ export default function Gallery() {
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const [deletingIds, setDeletingIds] = useState(new Set());
-  const [usingDemo, setUsingDemo] = useState(false);
+
 
   const fetchImages = useCallback(async (opts = {}) => {
     try {
@@ -40,28 +30,18 @@ export default function Gallery() {
       });
       setImages(data.images || data.data || []);
       setTotalCount(data.total || data.count || 0);
-      setUsingDemo(false);
-    } catch {
-      // Fall back to demo data
-      setUsingDemo(true);
-      const filtered = DEMO_IMAGES.filter((img) => {
-        const cat = opts.category ?? category;
-        const q = (opts.search ?? search).toLowerCase();
-        return (
-          (cat === "all" || img.category === cat) &&
-          (!q || img.filename.toLowerCase().includes(q))
-        );
-      });
-      setTotalCount(filtered.length);
-      const p = opts.page ?? page;
-      setImages(filtered.slice((p - 1) * ITEMS_PER_PAGE, p * ITEMS_PER_PAGE));
+
+    } catch (err) {
+      setImages([]);
+      setTotalCount(0);
+      throw err;
     }
   }, [page, category, search]);
 
   useEffect(() => {
     let active = true;
     setLoading(true);
-    fetchImages().finally(() => { if (active) setLoading(false); });
+    fetchImages().catch(() => {}).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [page, category]);
 
@@ -70,7 +50,7 @@ export default function Gallery() {
     const t = setTimeout(() => {
       setPage(1);
       setLoading(true);
-      fetchImages({ page: 1, search }).finally(() => setLoading(false));
+      fetchImages({ page: 1, search }).catch(() => {}).finally(() => setLoading(false));
     }, 320);
     return () => clearTimeout(t);
   }, [search]);
@@ -87,21 +67,6 @@ export default function Gallery() {
   };
 
   const handleUpload = async (files, cat, onProgress) => {
-    if (usingDemo) {
-      // Optimistic update in demo mode
-      await new Promise((r) => setTimeout(r, 800));
-      const newImgs = files.map((f) => ({
-        id: `demo-new-${mockIdCounter++}`,
-        url: URL.createObjectURL(f),
-        filename: f.name,
-        category: cat,
-        createdAt: new Date().toISOString(),
-      }));
-      setImages((prev) => [...newImgs, ...prev]);
-      setTotalCount((c) => c + newImgs.length);
-      onProgress(100);
-      return;
-    }
     const uploaded = await galleryService.uploadImages(files, cat, onProgress);
     // Optimistic prepend
     setImages((prev) => [...uploaded, ...prev]);
@@ -115,7 +80,7 @@ export default function Gallery() {
     setImages((prev) => prev.filter((img) => (img.id || img._id) !== id));
     setTotalCount((c) => Math.max(0, c - 1));
     try {
-      if (!usingDemo) await galleryService.deleteImage(id);
+      await galleryService.deleteImage(id);
     } catch {
       // Rollback
       setImages((prev) => [image, ...prev]);
@@ -136,9 +101,7 @@ export default function Gallery() {
           <p className="page-sub">Manage photos shown on your hotel website.</p>
         </div>
         <div className="header-actions">
-          {usingDemo && (
-            <span className="demo-badge">Demo Mode</span>
-          )}
+
           <button
             className="btn-icon"
             onClick={handleRefresh}

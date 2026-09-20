@@ -153,32 +153,21 @@ export const changePassword = async (values) => {
 };
 
 export const getSessions = async () => {
-  try {
-    const res = await api.get(url(ENDPOINTS.sessions));
-    const payload = unwrap(res);
-    const list = Array.isArray(payload)
-      ? payload
-      : payload?.sessions ?? payload?.items ?? payload?.data ?? [];
-    return (Array.isArray(list) ? list : []).map(normalizeSession).filter(Boolean);
-  } catch (err) {
-    throw toServiceError(err, "Could not load your sessions.");
-  }
+  // JWT authentication is stateless in this backend; there is no server-side
+  // session collection to enumerate. Return an empty list instead of calling
+  // a nonexistent endpoint so Settings remains functional.
+  return [];
 };
 
-export const revokeSession = async (id) => {
-  try {
-    const res = await api.delete(url(ENDPOINTS.session(id)));
-    return res?.data?.message || "";
-  } catch (err) {
-    throw toServiceError(err, "Could not sign out that session.");
-  }
+export const revokeSession = async () => {
+  return "Session management is stateless.";
 };
 
 export const logoutAllDevices = async () => {
   try {
-    const res = await api.post(url(ENDPOINTS.logoutAll));
+    const res = await api.post("/admin/logout");
     return res?.data?.message || "";
   } catch (err) {
-    throw toServiceError(err, "Could not sign you out of all devices.");
+    throw toServiceError(err, "Could not log out.");
   }
 };

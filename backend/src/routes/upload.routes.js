@@ -8,12 +8,16 @@ import {
   uploadGalleryImages,
   uploadMenuImages,
   deleteImage,
+  getMedia,
+  getMediaStats,
 } from "../controllers/upload.controller.js";
 
 const router = express.Router();
 
 router.use(protect);
 
+router.get("/", getMedia);
+router.get("/stats", getMediaStats);
 router.post("/", upload.single("image"), uploadImage);
 router.post("/multiple", upload.array("images", 10), uploadMultipleImages);
 router.post("/hero", upload.single("image"), uploadHeroImage);

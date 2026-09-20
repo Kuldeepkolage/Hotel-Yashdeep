@@ -339,19 +339,16 @@ export async function deleteUpload(
  * Therefore uploads are kept in the
  * current frontend session after upload.
  */
-export async function getUploads() {
-  return {
-    items: [],
-    meta: null,
-  };
+export async function getUploads(params = {}) {
+  const response = await api.get("/upload", { params });
+  const payload = response.data?.data || response.data || {};
+  const items = (payload.items || []).map(normalizeUpload).filter(Boolean);
+  return { items, meta: payload.meta || null };
 }
 
-/**
- * There is currently no
- * GET /api/upload/stats endpoint.
- */
 export async function getUploadStats() {
-  return null;
+  const response = await api.get("/upload/stats");
+  return response.data?.data || response.data || null;
 }
 
 const uploadsService = {

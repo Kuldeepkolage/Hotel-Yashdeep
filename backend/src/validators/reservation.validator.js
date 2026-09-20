@@ -10,7 +10,10 @@ export const createReservationValidator = [
     .withMessage("Enter a valid phone number"),
   body("email").optional({ checkFalsy: true }).isEmail().withMessage("Invalid email address"),
   body("reservationDate").notEmpty().withMessage("Reservation date is required").isISO8601().withMessage("Invalid date format"),
-  body("reservationTime").trim().notEmpty().withMessage("Reservation time is required"),
+  body("reservationTime")
+    .trim()
+    .notEmpty().withMessage("Reservation time is required")
+    .matches(/^([01]\d|2[0-3]):[0-5]\d$/).withMessage("Reservation time must be HH:mm"),
   body("guests").notEmpty().withMessage("Number of guests is required").isInt({ min: 1 }).withMessage("Guests must be at least 1"),
   body("specialRequest").optional({ checkFalsy: true }).isString(),
 ];

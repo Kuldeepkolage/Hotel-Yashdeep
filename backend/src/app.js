@@ -16,6 +16,7 @@ import contentRoutes from "./routes/content.routes.js";
 import reservationRoutes from "./routes/reservation.routes.js";
 import tableRoutes from "./routes/table.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
+import galleryRoutes from "./routes/gallery.routes.js";
 
 const app = express();
 
@@ -29,9 +30,17 @@ app.use(morgan("dev"));
 app.use(compression());
 
 // Allow Frontend
+const allowedOrigins = String(process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("CORS origin not allowed"));
+    },
     credentials: true,
   })
 );
@@ -62,6 +71,7 @@ app.use("/api/content", contentRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/gallery", galleryRoutes);
 
 // 404 handler - must come after all routes
 app.use(notFound);

@@ -22,6 +22,8 @@ const createTables = async () => {
       tableName: `Table ${i}`,
       capacity: i <= 10 ? 4 : 6,
       location: i <= 12 ? "Indoor" : "Family",
+      floor: i <= 10 ? "Ground" : "1st",
+      section: i <= 12 ? "Indoor" : "Family",
     });
   }
 

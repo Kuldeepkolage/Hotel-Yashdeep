@@ -20,13 +20,25 @@ const tableSchema = new mongoose.Schema(
 
     location: {
       type: String,
-      enum: ["Indoor", "Outdoor", "Family", "VIP"],
+      enum: ["Indoor", "Outdoor", "Family", "VIP", "Bar", "Terrace", "Private"],
       default: "Indoor",
+    },
+
+    floor: {
+      type: String,
+      default: "Ground",
+      trim: true,
+    },
+
+    section: {
+      type: String,
+      default: "Indoor",
+      trim: true,
     },
 
     status: {
       type: String,
-      enum: ["Available", "Reserved", "Occupied"],
+      enum: ["Available", "Reserved", "Occupied", "Maintenance"],
       default: "Available",
     },
   },

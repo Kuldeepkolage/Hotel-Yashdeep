@@ -24,7 +24,6 @@ export default function AdminRoutes() {
           <Route element={<AdminLayout />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="dashboard" element={<Dashboard />} />
             <Route path="reservations" element={<Reservations />} />
             <Route path="walk-ins" element={<WalkIns />} />
             <Route path="tables" element={<Tables />} />

@@ -22,7 +22,7 @@ const TOAST_MS = 4500;
 export default function Settings() {
   /* ---- existing authentication (unchanged) ---- */
   const auth = useAuth() || {};
-  const authUser = auth.user ?? auth.admin ?? null;
+  const authUser = auth.currentUser ?? null;
   const logout = auth.logout;
 
   /* ---- toasts ---- */

@@ -23,7 +23,7 @@ const VALIDATION = {
   customerName: (v) => (!v.trim() ? "Customer name is required" : v.trim().length < 2 ? "Name must be at least 2 characters" : ""),
   phone: (v) => (!v.trim() ? "Phone number is required" : !/^[0-9+\s\-()]{7,15}$/.test(v.trim()) ? "Enter a valid phone number" : ""),
   guests: (v) => (!v ? "Number of guests is required" : Number(v) < 1 ? "Minimum 1 guest" : Number(v) > 50 ? "Maximum 50 guests" : ""),
-  tableId: () => "",
+  tableId: (v) => (!v ? "Please assign a table" : ""),
   specialRequest: () => "",
   status: () => "",
 };

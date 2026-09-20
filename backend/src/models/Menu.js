@@ -49,6 +49,16 @@ const menuSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+
+    isRecommended: {
+      type: Boolean,
+      default: false,
+    },
+
+    isSpecial: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

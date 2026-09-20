@@ -1,83 +1,108 @@
-const BASE_URL = "/api/admin";
+import api from "./api.js";
 
-// function getAuthHeaders() {
-//   const token = localStorage.getItem("admin_token");
-//   return {
-//     "Content-Type": "application/json",
-//     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-//   };
-// }
+const unwrap = (res) => res?.data?.data ?? res?.data ?? {};
 
-async function handleResponse(res) {
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const message = data?.message || data?.error || `Request failed (${res.status})`;
-    throw new Error(message);
-  }
-  return data;
-}
+const toUiStatus = (status) => ({
+  "Walk-In": "seated",
+  Confirmed: "seated",
+  Completed: "completed",
+  Cancelled: "cancelled",
+  Pending: "waiting",
+  Rescheduled: "waiting",
+}[status] || "waiting");
 
-// ─── Walk-ins ────────────────────────────────────────────────────────────────
+const toApiStatus = (status) => ({
+  waiting: "Pending",
+  seated: "Walk-In",
+  completed: "Completed",
+  cancelled: "Cancelled",
+}[status] || "Walk-In");
+
+const normalize = (r) => ({
+  ...r,
+  id: r._id,
+  tableId: r.table?._id || r.table || "",
+  arrivalTime: r.createdAt || r.reservationDate,
+  status: toUiStatus(r.status),
+});
 
 export async function fetchWalkIns({ page = 1, limit = 10, search = "", status = "", date = "" } = {}) {
-  const params = new URLSearchParams();
-  params.set("page", page);
-  params.set("limit", limit);
-  if (search) params.set("search", search);
-  if (status && status !== "all") params.set("status", status);
-  if (date) params.set("date", date);
-
-  const res = await fetch(`${BASE_URL}/walkins?${params.toString()}`, {
-    // headers: getAuthHeaders(),
+  const res = await api.get("/reservations/admin", {
+    params: { isWalkIn: true, ...(date ? { date } : {}) },
   });
-  return handleResponse(res);
+  let rows = (unwrap(res) || []).map(normalize);
+
+  if (search) {
+    const q = search.toLowerCase();
+    rows = rows.filter((r) => `${r.customerName} ${r.phone} ${r.bookingId}`.toLowerCase().includes(q));
+  }
+  if (status && status !== "all") rows = rows.filter((r) => r.status === status);
+
+  const total = rows.length;
+  return {
+    walkIns: rows.slice((page - 1) * limit, page * limit),
+    total,
+    totalPages: Math.max(1, Math.ceil(total / limit)),
+  };
 }
 
 export async function fetchWalkInById(id) {
-  const res = await fetch(`${BASE_URL}/walkins/${id}`, {
-    // headers: getAuthHeaders(),
-  });
-  return handleResponse(res);
+  const res = await api.get(`/reservations/admin/${id}`);
+  return normalize(unwrap(res));
 }
 
 export async function createWalkIn(payload) {
-  const res = await fetch(`${BASE_URL}/walkins`, {
-    method: "POST",
-    // headers: getAuthHeaders(),
-    body: JSON.stringify(payload),
+  const res = await api.post("/reservations/admin/walk-in", {
+    customerName: payload.customerName,
+    phone: payload.phone,
+    email: payload.email || "",
+    guests: Number(payload.guests),
+    specialRequest: payload.specialRequest || "",
+    tableId: payload.tableId,
   });
-  return handleResponse(res);
+  return normalize(unwrap(res));
 }
 
 export async function updateWalkIn(id, payload) {
-  const res = await fetch(`${BASE_URL}/walkins/${id}`, {
-    method: "PUT",
-    // headers: getAuthHeaders(),
-    body: JSON.stringify(payload),
-  });
-  return handleResponse(res);
+  let current = await fetchWalkInById(id);
+  let result = current;
+
+  if (payload.tableId && payload.tableId !== current.tableId) {
+    const res = await api.put(`/reservations/admin/${id}/assign-table`, { tableId: payload.tableId });
+    result = normalize(unwrap(res));
+  }
+
+  const fields = {
+    ...(payload.status ? { status: toApiStatus(payload.status) } : {}),
+  };
+
+  if (Object.keys(fields).length) {
+    const res = await api.put(`/reservations/admin/${id}/status`, fields);
+    result = normalize(unwrap(res));
+  }
+
+  return result;
 }
 
 export async function deleteWalkIn(id) {
-  const res = await fetch(`${BASE_URL}/walkins/${id}`, {
-    method: "DELETE",
-    // headers: getAuthHeaders(),
-  });
-  return handleResponse(res);
+  const res = await api.delete(`/reservations/admin/${id}`);
+  return unwrap(res);
 }
 
 export async function fetchWalkInStats() {
-  const res = await fetch(`${BASE_URL}/walkins/stats`, {
-    // headers: getAuthHeaders(),
-  });
-  return handleResponse(res);
+  const res = await api.get("/reservations/admin", { params: { isWalkIn: true } });
+  const rows = (unwrap(res) || []).map(normalize);
+  return {
+    todayTotal: rows.filter((r) => new Date(r.reservationDate).toDateString() === new Date().toDateString()).length,
+    total: rows.length,
+    waiting: rows.filter((r) => r.status === "waiting").length,
+    seated: rows.filter((r) => r.status === "seated").length,
+    completed: rows.filter((r) => r.status === "completed").length,
+    cancelled: rows.filter((r) => r.status === "cancelled").length,
+  };
 }
 
-// ─── Tables ──────────────────────────────────────────────────────────────────
-
 export async function fetchAvailableTables() {
-  const res = await fetch(`${BASE_URL}/tables?status=available`, {
-    // headers: getAuthHeaders(),
-  });
-  return handleResponse(res);
+  const res = await api.get("/tables/available");
+  return unwrap(res);
 }
