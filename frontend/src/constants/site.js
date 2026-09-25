@@ -5,7 +5,7 @@ export const SITE = {
   address: "Yedeshwari Mandir Road, Yermala, Maharashtra 413605",
   phone: "+91 9307129206",
   phoneHref: "tel:+91 9307129206",
-  email: "hello@hotelyashdeep.in",
+  email: "yashdeephotel1@gmail.com",
   hours: [
     { day: "Monday — Thursday", time: "11:00 — 23:00" },
     { day: "Friday — Saturday", time: "11:00 — 24:00" },
