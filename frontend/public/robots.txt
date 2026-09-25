@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /login
+Disallow: /signup
+Disallow: /verify-email
+
+Sitemap: https://hotel-yashdeep.vercel.app/sitemap.xml
