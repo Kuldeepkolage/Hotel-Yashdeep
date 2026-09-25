@@ -6,6 +6,7 @@ import CategoryFilter from "../components/menu/CategoryFilter";
 import GalleryCard from "../components/gallery/GalleryCard";
 import Lightbox from "../components/gallery/Lightbox";
 import { GALLERY_CATEGORIES, GALLERY_IMAGES } from "../constants/content";
+import SEO from "../components/SEO";
 
 export default function Gallery() {
   const [active, setActive] = useState("all");
@@ -26,6 +27,11 @@ export default function Gallery() {
 
   return (
     <PageTransition>
+      <SEO
+  title="About Hotel Yashdeep — Yermala, Maharashtra"
+  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+  path="/about"
+/>
       <PageHero
         eyebrow="Gallery"
         title={<>Inside Yashdeep —<br /><span className="italic text-secondary">light, plates, people.</span></>}

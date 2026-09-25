@@ -5,10 +5,16 @@ import SectionHeading from "../components/common/SectionHeading";
 import { STATS, TIMELINE, VALUES } from "../constants/content";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import SEO from "../components/SEO";
 
 export default function About() {
   return (
     <PageTransition>
+      <SEO
+  title="About Hotel Yashdeep — Yermala, Maharashtra"
+  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+  path="/about"
+/>
       <PageHero
         eyebrow="Our story · Since 2020"
         title={<>A family. A highway.<br /><span className="italic text-secondary">A kitchen that never stopped.</span></>}

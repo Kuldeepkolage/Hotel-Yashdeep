@@ -5,12 +5,18 @@ import ReservationForm from "../components/reservation/ReservationForm";
 import { SITE } from "../constants/site";
 import { Clock, MapPin, Phone, Users, Lock, LogIn, UserPlus } from "lucide-react";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
+import SEO from "../components/SEO";
 
 export default function Reservations() {
   const { isAuthenticated, loading } = useCustomerAuth();
 
   return (
     <PageTransition>
+      <SEO
+  title="About Hotel Yashdeep — Yermala, Maharashtra"
+  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+  path="/about"
+/>
       <PageHero
         eyebrow="Reservations"
         title={<>Hold a table.<br /><span className="italic text-secondary">Stay a while.</span></>}

@@ -5,6 +5,7 @@ import PageHero from "../components/common/PageHero";
 import { Input, Textarea } from "../components/common/Input";
 import { SITE } from "../constants/site";
 import { MapPin, Phone, Mail, Send, Check } from "lucide-react";
+import SEO from "../components/SEO";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -28,6 +29,11 @@ export default function Contact() {
 
   return (
     <PageTransition>
+      <SEO
+  title="About Hotel Yashdeep — Yermala, Maharashtra"
+  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+  path="/about"
+/>
       <PageHero
         eyebrow="Contact"
         title={<>Stop in, ring up,<br /><span className="italic text-secondary">or drop a note.</span></>}

@@ -5,6 +5,7 @@ import PageHero from "../components/common/PageHero";
 import CategoryFilter from "../components/menu/CategoryFilter";
 import MenuCard from "../components/menu/MenuCard";
 import { MENU_CATEGORIES, MENU_ITEMS } from "../constants/menu";
+import SEO from "../components/SEO";
 
 export default function Menu() {
   const [active, setActive] = useState("all");
@@ -16,6 +17,11 @@ export default function Menu() {
 
   return (
     <PageTransition>
+      <SEO
+  title="About Hotel Yashdeep — Yermala, Maharashtra"
+  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+  path="/about"
+/>
       <PageHero
         eyebrow="The Menu"
         title={<>Marathwada classics,<br /><span className="italic text-secondary">paired and poured.</span></>}
