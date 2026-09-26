@@ -11,7 +11,7 @@ export default function ReservationCTA() {
     >
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1592861956120-e524fc739696?auto=format&fit=crop&w=2400&q=70"
+          src="/images/hotel-yashdeep/yedai.jpg"
           alt=""
           className="h-full w-full object-cover"
         />

@@ -16,8 +16,8 @@ export default function AboutPreview() {
             className="aspect-[4/5] overflow-hidden rounded-2xl"
           >
             <img
-              src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=70"
-              alt="Hotel Yashdeep dining"
+              src="/images/hotel-yashdeep/yedai.jpg"
+              alt="Hotel Yashdeep"
               className="h-full w-full object-cover"
             />
           </motion.div>
@@ -29,7 +29,7 @@ export default function AboutPreview() {
             className="absolute -bottom-8 -right-4 md:-right-12 w-44 md:w-56 aspect-[4/5] overflow-hidden rounded-2xl border-8 border-background shadow-luxe hidden sm:block"
           >
             <img
-              src="https://images.unsplash.com/photo-1604908554007-91d5b5e3f4c8?auto=format&fit=crop&w=900&q=70"
+              src="/images/hotel-yashdeep/dining-2.jpeg"
               alt="Thali detail"
               className="h-full w-full object-cover"
             />

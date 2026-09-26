@@ -11,7 +11,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=2400&q=80"
+          src="/images/hotel-yashdeep/hotel main.png"          
           alt="Hotel Yashdeep ambience"
           className="h-full w-full object-cover"
           loading="eager"

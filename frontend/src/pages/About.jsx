@@ -19,7 +19,7 @@ export default function About() {
         eyebrow="Our story · Since 2020"
         title={<>A family. A highway.<br /><span className="italic text-secondary">A kitchen that never stopped.</span></>}
         description="From a single tandoor on the Yermala highway to a full-service family restaurant and beer bar — every plate still passes through the same hands that began this story almost three decades ago."
-        image="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=70"
+        image="/images/hotel-yashdeep/bar-counter.jpeg"
       />
 
       {/* Story */}
@@ -143,7 +143,7 @@ export default function About() {
         <div className="container-luxe grid lg:grid-cols-[1fr_1.4fr] gap-14 items-center">
           <div className="aspect-[4/5] overflow-hidden rounded-2xl max-w-sm">
             <img
-              src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=900&q=70"
+              src="/images/hotel-yashdeep/couple-portrait.jpeg"
               alt="Owner"
               className="h-full w-full object-cover"
             />
