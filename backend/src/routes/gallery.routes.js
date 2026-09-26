@@ -10,12 +10,11 @@ import {
 } from "../controllers/gallery.controller.js";
 
 const router = express.Router();
-router.use(protect);
 
 router.get("/", getGalleryImages);
 router.get("/categories", getGalleryCategories);
-router.post("/upload", upload.array("image", 20), uploadGallery);
-router.delete("/:id", deleteGalleryImage);
-router.patch("/:id", updateGalleryImage);
+router.post("/upload", protect, upload.array("image", 20), uploadGallery);
+router.delete("/:id", protect, deleteGalleryImage);
+router.patch("/:id", protect, updateGalleryImage);
 
 export default router;
