@@ -22,6 +22,10 @@ export const SITE = {
     "https://www.google.com/maps/dir/?api=1&destination=Hotel+Yashdeep+Yermala+Maharashtra+413605",
   mapLink:
     "https://maps.google.com/?q=Hotel+Yashdeep,+Yedeshwari+Mandir+Road,+Yermala,+Maharashtra+413605",
+  googleReviewUrl:
+    "https://share.google/Au3T7npSRutxtBqgt",
+  reviewLink:
+    "https://share.google/Au3T7npSRutxtBqgt",
 };
 
 export const NAV_LINKS = [

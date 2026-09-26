@@ -34,7 +34,7 @@ export default function Testimonials() {
   const [meta, setMeta] = useState({
     rating: 5.0,
     totalReviews: 158,
-    writeReviewUrl: SITE.mapDirections || "https://maps.google.com/?q=Hotel+Yashdeep+Yermala",
+    writeReviewUrl: SITE.googleReviewUrl || "https://share.google/Au3T7npSRutxtBqgt",
   });
   const [i, setI] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -52,7 +52,7 @@ export default function Testimonials() {
             setMeta({
               rating: payload.data.rating,
               totalReviews: payload.data.totalReviews || 158,
-              writeReviewUrl: payload.data.writeReviewUrl || SITE.mapDirections,
+              writeReviewUrl: payload.data.writeReviewUrl || SITE.googleReviewUrl || "https://share.google/Au3T7npSRutxtBqgt",
             });
           }
         }

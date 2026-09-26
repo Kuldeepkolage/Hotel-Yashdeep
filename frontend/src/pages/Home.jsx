@@ -4,7 +4,6 @@ import Hero from "../components/home/Hero";
 import AboutPreview from "../components/home/AboutPreview";
 import FeaturedDishes from "../components/home/FeaturedDishes";
 import Testimonials from "../components/home/Testimonials";
-import ReservationCTA from "../components/home/ReservationCTA";
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
       <AboutPreview />
       <FeaturedDishes />
       <Testimonials />
-      <ReservationCTA />
     </PageTransition>
   );
 }

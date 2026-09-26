@@ -148,7 +148,7 @@ export const getGoogleReviews = asyncHandler(async (req, res) => {
         placeName: "Hotel Yashdeep",
         placeAddress: "Yedeshwari Mandir Road, Yermala, Maharashtra 413605",
         googleMapsUrl: "https://maps.google.com/?q=Hotel+Yashdeep,+Yedeshwari+Mandir+Road,+Yermala,+Maharashtra+413605",
-        writeReviewUrl: "https://www.google.com/maps/dir/?api=1&destination=Hotel+Yashdeep+Yermala+Maharashtra+413605",
+        writeReviewUrl: "https://share.google/Au3T7npSRutxtBqgt",
         reviews: VERIFIED_GOOGLE_REVIEWS,
       },
       "Google reviews fetched successfully"
