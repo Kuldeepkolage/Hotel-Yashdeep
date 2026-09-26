@@ -87,7 +87,7 @@ export default function Login() {
 
   return (
     <PageTransition>
-      <div className="min-h-[90vh] flex items-center justify-center py-16 px-4 relative overflow-hidden">
+      <div className="min-h-[90vh] flex items-center justify-center pt-24 sm:pt-28 pb-12 px-4 relative overflow-hidden">
         {/* Ambient atmospheric glows */}
         <div className="absolute top-1/4 -right-36 w-96 h-96 bg-secondary/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 -left-36 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none" />

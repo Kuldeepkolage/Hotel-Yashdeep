@@ -18,6 +18,7 @@ import reservationRoutes from "./routes/reservation.routes.js";
 import tableRoutes from "./routes/table.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
 import galleryRoutes from "./routes/gallery.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
 
 const app = express();
 
@@ -89,6 +90,7 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/gallery", galleryRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 // 404 handler - must come after all routes
 app.use(notFound);

@@ -30,7 +30,7 @@ export default function Footer() {
                 <span className="italic text-primary">Yours for the evening.</span>
               </h3>
               <p className="mt-3 text-sm text-dark/70 max-w-lg leading-relaxed">
-                Whether a highway stop or an unhurried family feast — book ahead and experience authentic Maharashtrian culinary heritage since 2020.
+                Whether a highway stop or an unhurried family feast — book ahead and experience authentic Maharashtrian hospitality since 2023.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3.5">
@@ -56,7 +56,7 @@ export default function Footer() {
               <span className="font-display text-2xl tracking-wide">Hotel Yashdeep</span>
             </div>
             <p className="mt-6 text-sm text-background/70 leading-relaxed max-w-xs">
-              A Maharashtrian family restaurant and beer bar on the Yermala highway — honest food, warm rooms, since 2020.
+              A Maharashtrian family restaurant and beer bar on the Yermala highway — honest food, warm rooms, since 2023.
             </p>
             <div className="mt-8 flex items-center gap-3">
               <a href={SITE.social.instagram} aria-label="Instagram" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-background/20 hover:border-secondary hover:text-secondary transition-colors" data-testid="social-instagram">

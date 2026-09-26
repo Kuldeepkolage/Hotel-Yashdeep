@@ -27,38 +27,41 @@ export default function Menu() {
       <PageHero
         eyebrow="The Menu"
         title={<>Marathwada classics,<br /><span className="italic text-secondary">paired and poured.</span></>}
-        description="A focused menu of authentic Maharashtrian plates — vegetarian, non-vegetarian and a bar built to pair with the food, not overshadow it."
+        description="Handcrafted Maharashtrian specialties, fresh dam fish, and a chilled beer bar on the Yermala highway."
         image="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=2200&q=70"
         height="short"
       />
 
-      <section className="py-14 sm:py-20 md:py-28" data-testid="menu-section">
+      <section className="py-6 sm:py-12 md:py-20" data-testid="menu-section">
         <div className="container-luxe">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 sm:gap-8 mb-10 sm:mb-14">
+          {/* Header & Sticky Filter Bar */}
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 sm:gap-8 mb-6 sm:mb-10">
             <div className="max-w-xl">
-              <span className="eyebrow">Browse the kitchen</span>
-              <h2 className="heading-md mt-5">
-                Choose by mood —<br />
-                <span className="italic text-primary">vegetarian, meat or a chilled glass.</span>
+              <span className="eyebrow">Browse by mood</span>
+              <h2 className="heading-md mt-2 sm:mt-4 font-display">
+                Handcrafted plates &amp; <span className="italic text-primary">chilled brews.</span>
               </h2>
             </div>
-            <LayoutGroup>
-              <CategoryFilter
-                categories={MENU_CATEGORIES}
-                active={active}
-                onChange={setActive}
-              />
-            </LayoutGroup>
+            <div className="sticky top-20 z-30 bg-background/95 backdrop-blur-md py-2.5 -mx-4 px-4 sm:mx-0 sm:px-0 sm:static border-b border-border/60 sm:border-0 shadow-xs sm:shadow-none">
+              <LayoutGroup>
+                <CategoryFilter
+                  categories={MENU_CATEGORIES}
+                  active={active}
+                  onChange={setActive}
+                />
+              </LayoutGroup>
+            </div>
           </div>
 
+          {/* Menu Items Grid - Compact on mobile */}
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8"
               data-testid="menu-grid"
             >
               {items.map((m, i) => (
@@ -68,72 +71,72 @@ export default function Menu() {
           </AnimatePresence>
 
           {items.length === 0 && (
-            <p className="text-center text-muted mt-12">No items in this category yet.</p>
+            <p className="text-center text-muted mt-10">No items in this category yet.</p>
           )}
 
-          {/* In-Person Full Menu Reassurance Banner */}
+          {/* In-Person Full Menu Reassurance Banner - Concise for mobile */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-16 sm:mt-20 md:mt-24 relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1c1815] via-[#15110e] to-[#0c0908] border border-secondary/30 p-7 sm:p-10 md:p-14 text-background shadow-2xl"
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 sm:mt-16 md:mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1c1815] via-[#15110e] to-[#0c0908] border border-secondary/30 p-5 sm:p-8 md:p-12 text-background shadow-xl"
           >
-            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 max-w-3xl">
-              <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest2 text-secondary bg-secondary/10 px-3.5 py-1.5 rounded-full border border-secondary/20">
-                <Sparkles size={14} className="text-secondary" /> Visit Us In Person
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-secondary bg-secondary/10 px-3 py-1 rounded-full border border-secondary/20">
+                <Sparkles size={13} className="text-secondary" /> Visit Us In Person
               </span>
-              <h3 className="mt-4 font-display text-2xl sm:text-3xl md:text-4xl text-background leading-tight">
-                This is only a curated preview online — <br />
+              <h3 className="mt-3 font-display text-xl sm:text-2xl md:text-3xl text-background leading-snug">
+                This is only a curated sample — <br className="hidden sm:inline" />
                 <span className="italic text-secondary">our full restaurant &amp; bar has everything!</span>
               </h3>
-              <p className="mt-4 text-sm sm:text-base text-background/80 leading-relaxed font-light">
-                What you see here on our website is just a small handpicked selection of highway favorites. When you dine in at Hotel Yashdeep in Yermala, explore our comprehensive dining menu with over <strong className="text-secondary font-medium">60+ authentic Maharashtrian specialties</strong>, fresh daily dam fish catches, sizzling tandoor platters, hearty veg curries &amp; thalis, Chinese starters, and a fully stocked bar counter featuring all premium whiskeys, chilled beers, and spirits.
+              <p className="mt-2.5 text-xs sm:text-sm text-background/80 leading-relaxed font-light">
+                Our physical restaurant in Yermala offers over <strong className="text-secondary font-medium">60+ authentic Maharashtrian dishes</strong>, fresh Chilapi dam catch, tandoor starters, Chinese specials, thalis, and a complete bar counter with all major whiskeys, spirits, and chilled beers.
               </p>
 
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 border-y border-white/10">
+              <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3 py-4 border-y border-white/10 text-center sm:text-left">
                 <div>
-                  <span className="block font-display text-2xl sm:text-3xl text-secondary">60+</span>
-                  <span className="text-xs text-background/70 uppercase tracking-wider">Dishes &amp; Thalis</span>
+                  <span className="block font-display text-xl sm:text-2xl text-secondary">60+</span>
+                  <span className="text-[10px] sm:text-xs text-background/70 uppercase tracking-wider">Dishes &amp; Thalis</span>
                 </div>
                 <div>
-                  <span className="block font-display text-2xl sm:text-3xl text-secondary">Daily</span>
-                  <span className="text-xs text-background/70 uppercase tracking-wider">Fresh Fish Catch</span>
+                  <span className="block font-display text-xl sm:text-2xl text-secondary">Daily</span>
+                  <span className="text-[10px] sm:text-xs text-background/70 uppercase tracking-wider">Fresh Fish Catch</span>
                 </div>
                 <div>
-                  <span className="block font-display text-2xl sm:text-3xl text-secondary">Full</span>
-                  <span className="text-xs text-background/70 uppercase tracking-wider">Bar &amp; Chilled Beer</span>
+                  <span className="block font-display text-xl sm:text-2xl text-secondary">Full</span>
+                  <span className="text-[10px] sm:text-xs text-background/70 uppercase tracking-wider">Bar &amp; Chilled Beer</span>
                 </div>
                 <div>
-                  <span className="block font-display text-2xl sm:text-3xl text-secondary">Family</span>
-                  <span className="text-xs text-background/70 uppercase tracking-wider">AC &amp; Garden Dining</span>
+                  <span className="block font-display text-xl sm:text-2xl text-secondary">Family</span>
+                  <span className="text-[10px] sm:text-xs text-background/70 uppercase tracking-wider">AC &amp; Dining Hall</span>
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="mt-5 flex flex-wrap items-center gap-3">
                 <Link
                   to="/reservations"
-                  className="btn-gold inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-wider uppercase px-6 py-3"
+                  className="btn-gold inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase px-5 py-2.5"
                 >
-                  Reserve Your Table <ArrowRight size={16} />
+                  Reserve a Table <ArrowRight size={14} />
                 </Link>
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-background/90 hover:text-secondary border border-white/20 hover:border-secondary px-5 py-3 rounded-full transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-medium text-background/90 hover:text-secondary border border-white/20 hover:border-secondary px-4 py-2.5 rounded-full transition-colors"
                 >
-                  <MapPin size={16} /> Highway Location &amp; Directions
+                  <MapPin size={14} /> Location &amp; Directions
                 </Link>
               </div>
             </div>
           </motion.div>
 
-          <div className="mt-20 max-w-2xl mx-auto text-center">
+          <div className="mt-12 sm:mt-16 max-w-xl mx-auto text-center">
             <span className="divider-gold" />
-            <p className="mt-6 font-display italic text-2xl text-dark">
+            <p className="mt-4 font-display italic text-lg sm:text-xl text-dark">
               "Menus are written by the season — ask your server about today's specials."
             </p>
-            <p className="mt-4 text-xs uppercase tracking-widest2 text-muted">— The Yashdeep Kitchen</p>
+            <p className="mt-2 text-[10px] uppercase tracking-widest2 text-muted">— The Yashdeep Kitchen</p>
           </div>
         </div>
       </section>

@@ -25,18 +25,18 @@ export default function Reservations() {
         height="short"
       />
 
-      <section className="py-14 sm:py-20 md:py-28" data-testid="reservation-section">
-        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-20 items-start">
+      <section className="py-10 sm:py-16 md:py-24" data-testid="reservation-section">
+        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-8 sm:gap-14 lg:gap-20 items-start">
           <div className="lg:sticky lg:top-32">
             <span className="eyebrow">Good to know</span>
             <h2 className="heading-md mt-4 sm:mt-5">
               A few notes before<br />
               <span className="italic text-primary">you arrive.</span>
             </h2>
-            <div className="mt-8 sm:mt-10 space-y-6 sm:space-y-7">
+            <div className="mt-6 sm:mt-8 space-y-5 sm:space-y-6">
               <Info icon={MapPin} title="Find us" text={SITE.address} />
               <Info icon={Phone} title="Call ahead" text={SITE.phone} />
-              <Info icon={Clock} title="Open daily" text="11:00 — 23:00 (24:00 Fri/Sat)" />
+              <Info icon={Clock} title="Open daily" text="Everyday: 11:00 AM — 11:00 PM" />
               <Info icon={Users} title="Larger groups" text="For parties of 10+, please call us to plan the menu and seating." />
             </div>
             <div className="mt-8 sm:mt-12 rounded-2xl border border-border p-5 sm:p-6 bg-white">

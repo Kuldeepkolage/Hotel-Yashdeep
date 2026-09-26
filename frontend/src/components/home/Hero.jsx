@@ -31,12 +31,12 @@ export default function Hero() {
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } }}
               className="eyebrow text-secondary"
             >
-              Est. 2020 · Yermala, Maharashtra
+              Est. 2023 · Yermala, Maharashtra
             </motion.span>
 
             <motion.h1
               variants={{ hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] } } }}
-              className="heading-xl mt-5 sm:mt-7 text-background"
+              className="heading-xl mt-4 sm:mt-7 text-background"
             >
               The slow taste<br />
               of the <span className="italic text-secondary">Marathwada</span><br />
@@ -45,10 +45,9 @@ export default function Hero() {
 
             <motion.p
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] } } }}
-              className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base md:text-lg text-background/70 leading-relaxed"
+              className="mt-4 sm:mt-6 max-w-xl text-sm sm:text-base md:text-lg text-background/80 leading-relaxed"
             >
-              A family restaurant, a beer bar, a quiet stop between cities — serving authentic
-              Maharashtrian plates to travellers, families and friends for nearly three decades.
+              Authentic Maharashtrian family dining, fresh daily dam catch, and a chilled beer bar on the Yermala highway.
             </motion.p>
 
             <motion.div

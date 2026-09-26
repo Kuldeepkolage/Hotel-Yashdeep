@@ -16,28 +16,26 @@ export default function About() {
   path="/about"
 />
       <PageHero
-        eyebrow="Our story · Since 2020"
-        title={<>A family. A highway.<br /><span className="italic text-secondary">A kitchen that never stopped.</span></>}
-        description="From a single tandoor on the Yermala highway to a full-service family restaurant and beer bar — every plate still passes through the same hands that began this story almost three decades ago."
+        eyebrow="Our story · Est. 2023"
+        title={<>A family. A highway.<br /><span className="italic text-secondary">A table made for everyone.</span></>}
+        description="Founded in 2023 by the Kolage family on the Yermala highway — dedicated to authentic Maharashtrian dishes, fresh daily catch, and genuine hospitality."
         image="/images/hotel-yashdeep/bar-counter.jpeg"
+        height="short"
       />
 
       {/* Story */}
-      <section className="py-14 sm:py-20 md:py-32" data-testid="about-story">
-        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-8 sm:gap-14 lg:gap-20">
+      <section className="py-10 sm:py-16 md:py-24" data-testid="about-story">
+        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-6 sm:gap-12 lg:gap-16">
           <SectionHeading
             eyebrow="The Story"
-            title={<>Built on hand-ground masalas and unhurried evenings.</>}
+            title={<>Built on hand-ground masalas and warm hospitality.</>}
           />
-          <div className="space-y-5 sm:space-y-6 text-muted leading-relaxed text-sm sm:text-base md:text-lg">
+          <div className="space-y-4 text-muted leading-relaxed text-sm sm:text-base">
             <p>
-              Yashdeep was founded in 2020 by the Kolage family, who set up a small dhaba beside the Yedeshwari Mandir road. The plan was modest — feed travellers warm, honest Maharashtrian food on their way to Tuljapur.
+              Hotel Yashdeep was founded in 2023 by the Kolage family beside the Yedeshwari Mandir road in Yermala. We built this destination to give highway travellers, pilgrims, and local families an authentic taste of traditional Maharashtrian cooking in a welcoming setting.
             </p>
             <p>
-              Twenty-eight years later, the dhaba has grown into a full family restaurant with a dedicated beer bar wing, a quiet courtyard for unhurried meals, and a kitchen that still treats every plate as if a traveller was waiting at the door.
-            </p>
-            <p>
-              We've kept things the same where it matters: the masalas are still hand-ground, the bhakris still wood-charred, the recipes still passed down rather than printed.
+              From our signature Special Chilapi Fish and slow-cooked Kolhapuri Mutton to wood-charred bhakris and our chilled beer bar, every plate is crafted with care, fresh local ingredients, and family pride.
             </p>
           </div>
         </div>
@@ -103,24 +101,24 @@ export default function About() {
       </section>
 
       {/* Owner message */}
-      <section className="py-14 sm:py-20 md:py-32 bg-dark text-background" data-testid="about-owner">
-        <div className="container-luxe grid lg:grid-cols-[1fr_1.4fr] gap-8 sm:gap-14 items-center">
+      <section className="py-10 sm:py-16 md:py-24 bg-dark text-background" data-testid="about-owner">
+        <div className="container-luxe grid lg:grid-cols-[1fr_1.4fr] gap-6 sm:gap-12 items-center">
           <div className="aspect-[4/5] overflow-hidden rounded-2xl max-w-sm">
             <img
-              src="/images/hotel-yashdeep/couple-portrait.jpeg"
-              alt="Owner"
+              src="/images/gallery/kishan-yogita-kolage-portrait.jpg"
+              alt="Kishan Kolage & Yogita Kolage"
               className="h-full w-full object-cover"
             />
           </div>
           <div>
             <span className="eyebrow text-secondary">A note from the family</span>
-            <blockquote className="mt-7 font-display text-2xl md:text-4xl leading-snug text-background">
-              "When my father started Yashdeep, he wanted travellers to feel like family. That's still the brief. Everything else is just menu."
+            <blockquote className="mt-5 font-display text-xl sm:text-2xl md:text-3xl leading-snug text-background">
+              "When we started Yashdeep in 2023, our vision was simple: every traveller should feel like family, and every plate should taste like home."
             </blockquote>
-            <footer className="mt-10 text-sm uppercase tracking-widest2 text-secondary">
-              Kishan Kolage & Yogita Kolage · Owner
+            <footer className="mt-6 text-sm uppercase tracking-widest2 text-secondary">
+              Kishan Kolage &amp; Yogita Kolage · Founders &amp; Hosts
             </footer>
-            <Link to="/reservations" className="btn-gold mt-10" data-testid="about-cta-reserve">
+            <Link to="/reservations" className="btn-gold mt-8" data-testid="about-cta-reserve">
               Reserve your table <ArrowRight size={16} />
             </Link>
           </div>

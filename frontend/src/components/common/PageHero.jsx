@@ -13,7 +13,7 @@ export default function PageHero({
     <section
       className={cx(
         "relative w-full text-background overflow-hidden",
-        height === "tall" ? "min-h-[62svh] md:min-h-[78svh]" : "min-h-[44svh] md:min-h-[58svh]"
+        height === "tall" ? "min-h-[48svh] sm:min-h-[60svh] md:min-h-[75svh]" : "min-h-[28svh] sm:min-h-[36svh] md:min-h-[48svh]"
       )}
       data-testid="page-hero"
     >
@@ -22,7 +22,7 @@ export default function PageHero({
         <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/55 to-dark/85" />
         <div className="absolute inset-0 bg-grain opacity-40 pointer-events-none" />
       </div>
-      <div className={cx("relative container-luxe min-h-inherit flex flex-col justify-end pt-28 sm:pt-36 md:pt-40 pb-10 sm:pb-16 md:pb-20", align === "center" && "items-center text-center")}>
+      <div className={cx("relative container-luxe min-h-inherit flex flex-col justify-end pt-20 sm:pt-28 md:pt-36 pb-6 sm:pb-10 md:pb-16", align === "center" && "items-center text-center")}>
         <motion.span
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

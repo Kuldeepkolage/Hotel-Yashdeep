@@ -37,7 +37,7 @@ export default function AboutPreview() {
           <div className="absolute -top-6 -left-6 hidden md:flex flex-col items-center">
             <span className="h-16 w-px bg-secondary" />
             <span className="text-[10px] uppercase tracking-widest2 text-secondary mt-3 rotate-180 [writing-mode:vertical-rl]">
-              Since 2020
+              Since 2023
             </span>
           </div>
         </div>
@@ -47,19 +47,19 @@ export default function AboutPreview() {
             eyebrow="Our Story"
             title={
               <>
-                Twenty-eight years on a quiet highway —
-                <span className="italic text-primary"> still cooking the way it was taught.</span>
+                Authentic flavours on the highway —
+                <span className="italic text-primary"> cooking the way it was meant to be.</span>
               </>
             }
-            description="What began as a small dhaba on the road to Yedeshwari has grown into a full family restaurant and beer bar. The masalas are still hand-ground, the bhakris still wood-charred, the welcome still the same."
+            description="Founded in 2023 by the Kolage family in Yermala, Hotel Yashdeep brings hand-ground masalas, wood-charred bhakris, fresh dam catch, and genuine hospitality to travellers."
           />
-          <div className="mt-10 grid grid-cols-2 gap-6 max-w-md">
+          <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-6 max-w-md">
             <div>
-              <div className="font-display text-4xl text-primary">28<span className="text-secondary">+</span></div>
-              <div className="text-xs uppercase tracking-widest2 text-muted mt-2">Years of Service</div>
+              <div className="font-display text-3xl sm:text-4xl text-primary">2023</div>
+              <div className="text-xs uppercase tracking-widest2 text-muted mt-2">Founded in Yermala</div>
             </div>
             <div>
-              <div className="font-display text-4xl text-primary">60<span className="text-secondary">+</span></div>
+              <div className="font-display text-3xl sm:text-4xl text-primary">60<span className="text-secondary">+</span></div>
               <div className="text-xs uppercase tracking-widest2 text-muted mt-2">Recipes on the Menu</div>
             </div>
           </div>

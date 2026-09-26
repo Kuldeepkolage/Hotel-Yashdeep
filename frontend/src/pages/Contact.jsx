@@ -43,11 +43,11 @@ export default function Contact() {
       />
 
       {/* Contact cards */}
-      <section className="py-14 sm:py-20 md:py-28" data-testid="contact-cards">
+      <section className="py-10 sm:py-16 md:py-24" data-testid="contact-cards">
         <div className="container-luxe grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {[
-            { icon: MapPin, title: "Visit us", lines: [SITE.address], cta: { label: "Get directions", href: SITE.mapEmbed } },
-            { icon: Phone, title: "Call us", lines: [SITE.phone, "Daily, 10:00 — 23:00"], cta: { label: "Tap to call", href: SITE.phoneHref } },
+            { icon: MapPin, title: "Visit us", lines: [SITE.address], cta: { label: "Get directions on Google Maps", href: SITE.mapDirections } },
+            { icon: Phone, title: "Call us", lines: [SITE.phone, "Everyday: 11:00 AM — 11:00 PM"], cta: { label: "Tap to call", href: SITE.phoneHref } },
             { icon: Mail, title: "Email us", lines: [SITE.email, "Replies within 24 hours"], cta: { label: "Send a message", href: `mailto:${SITE.email}` } },
           ].map((c, i) => (
             <motion.div
@@ -62,17 +62,17 @@ export default function Contact() {
               <span className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-primary/10 text-primary inline-flex items-center justify-center">
                 <c.icon size={18} />
               </span>
-              <h3 className="mt-5 sm:mt-7 font-display text-xl sm:text-2xl text-dark">{c.title}</h3>
+              <h3 className="mt-4 sm:mt-6 font-display text-xl sm:text-2xl text-dark">{c.title}</h3>
               {c.lines.map((l) => (
                 <p key={l} className="mt-2 text-muted text-xs sm:text-sm leading-relaxed">{l}</p>
               ))}
               <a
                 href={c.cta.href}
                 target={c.cta.href.startsWith("http") ? "_blank" : undefined}
-                rel="noreferrer"
-                className="mt-5 sm:mt-7 inline-flex items-center gap-2 text-xs sm:text-sm border-b border-dark/30 pb-1 text-dark hover:text-primary hover:border-primary transition-colors"
+                rel="noopener noreferrer"
+                className="mt-4 sm:mt-6 inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary border-b border-primary/30 pb-0.5 hover:border-primary transition-colors"
               >
-                {c.cta.label}
+                {c.cta.label} &rarr;
               </a>
             </motion.div>
           ))}
@@ -80,7 +80,7 @@ export default function Contact() {
       </section>
 
       {/* Form + Map */}
-      <section className="pb-16 sm:pb-24 md:pb-40" data-testid="contact-form-map">
+      <section className="pb-12 sm:pb-20 md:pb-32" data-testid="contact-form-map">
         <div className="container-luxe grid lg:grid-cols-2 gap-8 sm:gap-10">
           <div className="card-luxe p-6 sm:p-8 md:p-10">
             <span className="eyebrow">Drop a note</span>
@@ -114,15 +114,26 @@ export default function Contact() {
             )}
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border min-h-[320px] sm:min-h-[480px] bg-white">
-            <iframe
-              title="Hotel Yashdeep location"
-              src={SITE.mapEmbed}
-              className="w-full h-full min-h-[320px] sm:min-h-[480px]"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              data-testid="contact-map"
-            />
+          <div className="flex flex-col gap-3">
+            <div className="overflow-hidden rounded-2xl border border-border min-h-[300px] sm:min-h-[420px] bg-white flex-1">
+              <iframe
+                title="Hotel Yashdeep location"
+                src={SITE.mapEmbed}
+                className="w-full h-full min-h-[300px] sm:min-h-[420px]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                data-testid="contact-map"
+              />
+            </div>
+            <a
+              href={SITE.mapDirections}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold justify-center text-xs sm:text-sm py-3 font-semibold uppercase tracking-wider shadow-sm"
+              data-testid="contact-open-maps-btn"
+            >
+              <MapPin size={16} /> Open in Google Maps for Navigation
+            </a>
           </div>
         </div>
       </section>
