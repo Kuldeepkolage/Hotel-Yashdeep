@@ -8,6 +8,8 @@ const RestaurantSchema = () => {
     url: "https://hotel-yashdeep.vercel.app/",
     telephone: SITE.phone,
     email: SITE.email,
+    servesCuisine: "Maharashtrian cuisine",
+    menu: "https://hotel-yashdeep.vercel.app/menu",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Yedeshwari Mandir Road",
