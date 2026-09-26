@@ -1,5 +1,6 @@
 export const MENU_CATEGORIES = [
   { id: "all", label: "All" },
+  { id: "recommended", label: "Chef's Picks" },
   { id: "veg", label: "Vegetarian" },
   { id: "nonveg", label: "Non-Vegetarian" },
   { id: "beer", label: "Beer & Bar" },

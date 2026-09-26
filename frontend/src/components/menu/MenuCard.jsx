@@ -8,20 +8,33 @@ export default function MenuCard({ item, index = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-30px" }}
       transition={{ duration: 0.5, delay: Math.min(index * 0.03, 0.25), ease: [0.22, 1, 0.36, 1] }}
-      className="group card-luxe overflow-hidden flex flex-row sm:flex-col items-center sm:items-stretch p-3 sm:p-0 hover:border-primary/40 hover:shadow-md transition-all"
+      className={`group card-luxe overflow-hidden flex flex-row sm:flex-col items-center sm:items-stretch p-3 sm:p-0 hover:border-primary/40 hover:shadow-md transition-all ${
+        !item.available ? "opacity-80" : ""
+      }`}
       data-testid={`menu-card-${item.id}`}
     >
       {/* Dish Image */}
-      <div className="w-24 h-24 sm:w-full sm:aspect-[16/11] rounded-xl sm:rounded-none overflow-hidden relative shrink-0">
+      <div className="w-24 h-24 sm:w-full sm:aspect-[16/11] rounded-xl sm:rounded-none overflow-hidden relative shrink-0 bg-stone-100">
         <img
-          src={item.image}
+          src={item.image || "/images/hotel-yashdeep/hotel main.png"}
           alt={item.name}
           loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-[1.2s] ease-luxe group-hover:scale-105"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = "/images/hotel-yashdeep/hotel main.png";
+          }}
+          className={`h-full w-full object-cover transition-transform duration-[1.2s] ease-luxe group-hover:scale-105 ${
+            !item.available ? "grayscale-[40%]" : ""
+          }`}
         />
         {item.tag && (
           <div className="absolute top-1.5 left-1.5 sm:top-3 sm:left-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-dark/90 backdrop-blur-md text-[9px] sm:text-[10px] uppercase tracking-wider text-secondary font-semibold border border-secondary/30 shadow-sm">
             {item.tag}
+          </div>
+        )}
+        {!item.available && (
+          <div className="absolute top-1.5 right-1.5 sm:top-3 sm:right-3 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-rose-800/95 backdrop-blur-md text-[9px] sm:text-[10px] uppercase tracking-wider text-white font-bold border border-rose-500/40 shadow-sm">
+            Sold Out
           </div>
         )}
       </div>

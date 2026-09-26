@@ -12,6 +12,7 @@ import UploadPagination from "../components/uploads/UploadPagination";
 import UploadPreviewModal from "../components/uploads/UploadPreviewModal";
 import DeleteUploadDialog from "../components/uploads/DeleteUploadDialog";
 import UploadToast from "../components/uploads/UploadToast";
+import AdminPageHeader from "../components/common/AdminPageHeader.jsx";
 
 const SORTERS = {
   newest: (a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0),
@@ -24,16 +25,16 @@ const SORTERS = {
 
 function StatCard({ Icon, label, value, loading }) {
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-[#eee6da] bg-white p-4 shadow-sm">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f8ece8] text-[#7a1f2b]">
+    <div className="rounded-2xl border border-border bg-white p-4 sm:p-5 shadow-soft flex items-center gap-4">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Icon className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gray-500">{label}</p>
+        <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</p>
         {loading ? (
-          <div className="mt-1.5 h-5 w-14 animate-pulse rounded bg-[#f1eadf]" aria-label="Loading" />
+          <div className="mt-1 h-6 w-16 animate-pulse rounded-md bg-black/5" aria-label="Loading" />
         ) : (
-          <p className="text-xl font-semibold text-[#2b1810]" style={HEADING_FONT}>{value}</p>
+          <p className="mt-0.5 font-display text-2xl sm:text-3xl font-bold text-dark">{value}</p>
         )}
       </div>
     </div>
@@ -181,33 +182,36 @@ export default function Uploads() {
   const isEmpty = !loading && !error && visible.length === 0;
 
   return (
-    <div className="px-6 py-8 sm:px-8">
-      <div className="mx-auto max-w-[1400px] space-y-6">
-        {/* Header */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="text-3xl text-[#2b1810]" style={HEADING_FONT}>Uploads</h1>
-            <p className="mt-1 text-sm text-gray-600">Manage images and media used across Hotel Yashdeep.</p>
-          </div>
-          <div className="flex items-center gap-3">
+    <div className="space-y-6 sm:space-y-8" data-testid="admin-uploads">
+      {/* Header */}
+      <AdminPageHeader
+        title="Uploads"
+        subtitle="Manage images and media assets used across Hotel Yashdeep website."
+        icon={UploadCloud}
+        badge={`${stats?.totalFiles ?? items.length} Files`}
+        actions={
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
             <button
               type="button"
               onClick={() => load()}
               disabled={loading}
-              className="inline-flex h-11 items-center gap-2 rounded-lg border border-[#e6dccd] bg-white px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-3.5 py-2 text-xs sm:text-sm font-medium text-dark/70 hover:text-dark hover:border-primary/50 transition-all disabled:opacity-50"
             >
-              <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} /> Refresh
+              <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
+              Refresh
             </button>
             <button
               type="button"
               onClick={() => setShowDropzone((s) => !s)}
               aria-expanded={showDropzone}
-              className="inline-flex h-11 items-center gap-2 rounded-lg bg-[#2b1810] px-5 text-sm font-semibold text-white shadow-sm hover:bg-[#3d2418]"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-xs sm:text-sm font-semibold text-white shadow-soft hover:bg-primary-hover active:scale-[0.98] transition-all"
             >
-              <UploadCloud className="h-4 w-4" /> Upload Media
+              <UploadCloud size={15} />
+              Upload Media
             </button>
           </div>
-        </div>
+        }
+      />
 
         {/* Error */}
         {error && (
@@ -298,7 +302,6 @@ export default function Uploads() {
             </div>
           )
         )}
-      </div>
 
       <UploadPreviewModal
         item={previewItem}

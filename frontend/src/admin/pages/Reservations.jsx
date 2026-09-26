@@ -35,6 +35,7 @@ import ReservationPagination from "../components/reservations/ReservationPaginat
 import ReservationDetailsModal   from "../components/reservations/ReservationDetailsModal";
 import ConfirmReservationModal   from "../components/reservations/ConfirmReservationModal";
 import DeleteReservationDialog   from "../components/reservations/DeleteReservationDialog";
+import AdminPageHeader from "../components/common/AdminPageHeader.jsx";
 
 const PAGE_SIZE = 12;
 
@@ -249,31 +250,23 @@ export default function Reservations() {
       <div className="space-y-7 pb-10">
 
         {/* ── Page header ─────────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="font-display text-3xl text-dark">Reservations</h1>
-            <p className="mt-1 text-sm text-muted">
-              Manage all guest bookings from a single view.
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
+        <AdminPageHeader
+          title="Reservations"
+          subtitle="Manage all guest bookings, table allocations, and dining schedules."
+          icon={CalendarDays}
+          badge={`${counts.total ?? 0} Total`}
+          actions={
             <button
               type="button"
               onClick={load}
               disabled={loading}
-              className="
-                h-10 px-4 rounded-xl border border-border bg-white
-                flex items-center gap-2 text-sm text-muted
-                hover:text-primary hover:border-primary
-                transition-all duration-200
-                disabled:opacity-50 disabled:cursor-not-allowed
-              "
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-3.5 py-2 text-xs sm:text-sm font-medium text-dark/70 hover:text-dark hover:border-primary/50 transition-all disabled:opacity-50"
             >
               <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
               Refresh
             </button>
-          </div>
-        </div>
+          }
+        />
 
         {/* ── Summary stat cards ──────────────────────────────────────────── */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">

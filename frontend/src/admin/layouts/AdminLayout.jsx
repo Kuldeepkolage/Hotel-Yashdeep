@@ -12,7 +12,7 @@ export default function AdminLayout() {
       <Sidebar open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <div className="flex-1 flex flex-col min-w-0">
         <Header onMenuClick={() => setDrawerOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-5 md:p-8">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-6 md:p-8">
           <Outlet />
         </main>
       </div>

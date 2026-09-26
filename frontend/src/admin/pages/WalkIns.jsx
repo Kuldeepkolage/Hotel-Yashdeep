@@ -17,6 +17,7 @@ import WalkInFilters from "../components/walkins/WalkInFilters";
 import WalkInPagination from "../components/walkins/WalkInPagination";
 import WalkInForm from "../components/walkins/WalkInForm";
 import DeleteWalkInDialog from "../components/walkins/DeleteWalkInDialog";
+import AdminPageHeader from "../components/common/AdminPageHeader.jsx";
 import {
   fetchWalkIns,
   fetchWalkInStats,
@@ -30,7 +31,7 @@ import {
 function Toast({ toasts, onRemove }) {
   if (!toasts.length) return null;
   return (
-    <div className="fixed bottom-6 right-6 z-[300] flex flex-col gap-2 w-[340px]">
+    <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-[300] flex flex-col gap-2 w-[340px] max-w-[calc(100vw-2rem)]">
       {toasts.map((t) => (
         <div
           key={t.id}
@@ -264,105 +265,84 @@ function WalkIns() {
   const hasFilters = debouncedSearch || statusFilter !== "all" || dateFilter;
 
   const STAT_CARDS = [
-    { icon: CalendarDays, iconColor: "#7A1F1F", label: "Total Today",  value: stats?.todayTotal ?? stats?.total },
-    { icon: Clock,        iconColor: "#D97706", label: "Waiting",       value: stats?.waiting    },
-    { icon: CheckCircle2, iconColor: "#2563EB", label: "Seated",        value: stats?.seated     },
-    { icon: TrendingUp,   iconColor: "#16A34A", label: "Completed",     value: stats?.completed  },
-    { icon: CircleX,      iconColor: "#DC2626", label: "Cancelled",     value: stats?.cancelled  },
+    { icon: CalendarDays, color: "text-primary bg-primary/10", label: "Total Today", value: stats?.todayTotal ?? stats?.total },
+    { icon: Clock, color: "text-amber-600 bg-amber-50", label: "Waiting", value: stats?.waiting },
+    { icon: CheckCircle2, color: "text-blue-600 bg-blue-50", label: "Seated", value: stats?.seated },
+    { icon: TrendingUp, color: "text-emerald-600 bg-emerald-50", label: "Completed", value: stats?.completed },
+    { icon: CircleX, color: "text-rose-600 bg-rose-50", label: "Cancelled", value: stats?.cancelled },
   ];
 
   // ─── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <>
-      {/* Page — same background as rest of admin (var(--background) = cream) */}
-      <div className="p-6 lg:p-8">
+      <div className="space-y-6 sm:space-y-8">
+        <AdminPageHeader
+          title="Walk-ins"
+          subtitle="Manage direct arrivals, quick table allotments, and walk-in guest records."
+          icon={Users}
+          badge={`${stats?.total ?? 0} Today`}
+          actions={
+            <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() => loadWalkIns({ silent: true })}
+                disabled={refreshing}
+                className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-3.5 py-2 text-xs sm:text-sm font-medium text-dark/70 hover:text-dark hover:border-primary/50 transition-all disabled:opacity-50"
+              >
+                <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} />
+                Refresh
+              </button>
 
-        {/* Header row */}
-        <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
-          <div>
-            <h1 className="font-['Playfair_Display'] text-[2rem] font-bold text-[var(--text)]">
-              Walk-ins
-            </h1>
-            <p className="text-sm text-[var(--text-muted)] mt-1">
-              Manage today's walk-in guests from a single view.
-            </p>
-          </div>
+              <button
+                type="button"
+                onClick={() => { setFormMode("create"); setEditTarget(null); setShowForm(true); }}
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-xs sm:text-sm font-semibold text-white shadow-soft hover:bg-primary-hover active:scale-[0.98] transition-all"
+              >
+                <Plus size={15} />
+                New Walk-in
+              </button>
+            </div>
+          }
+        />
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => loadWalkIns({ silent: true })}
-              disabled={refreshing}
-              className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-white px-4 py-2.5 text-sm font-medium text-[var(--text-muted)] hover:border-[var(--primary)]/40 hover:text-[var(--primary)] transition-all duration-200 disabled:opacity-50"
-            >
-              <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} />
-              Refresh
-            </button>
+        {/* Stat Cards - Separate boxes matching other admin pages */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4">
+          {STAT_CARDS.map((s) => (
+            <div key={s.label} className="rounded-2xl border border-border bg-white p-4 sm:p-5 shadow-soft flex flex-col justify-between">
+              <div className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${s.color}`}>
+                <s.icon size={17} />
+              </div>
+              <div className="mt-3.5">
+                <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-muted font-medium">{s.label}</p>
+                <p className="mt-1 font-display text-2xl sm:text-3xl font-bold text-dark">
+                  {statsLoading ? "…" : s.value ?? 0}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
 
-            <button
-              onClick={() => { setFormMode("create"); setEditTarget(null); setShowForm(true); }}
-              className="flex items-center gap-2 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:shadow-[0_6px_18px_rgba(122,31,31,0.28)] hover:-translate-y-0.5 transition-all duration-200"
-            >
-              <Plus size={15} />
-              New Walk-in
-            </button>
+        {/* Toolbar Card - Separate box matching Tables and Reservations */}
+        <div className="rounded-2xl border border-border bg-white p-4 sm:p-5 shadow-soft">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
+            <div className="w-full sm:w-auto sm:min-w-[260px]">
+              <WalkInSearch value={search} onChange={handleSearchChange} />
+            </div>
+            <div className="flex-1">
+              <WalkInFilters
+                status={statusFilter}
+                date={dateFilter}
+                onStatusChange={(v) => { setStatusFilter(v); setPage(1); }}
+                onDateChange={(v) => { setDateFilter(v); setPage(1); }}
+                resultCount={totalItems}
+              />
+            </div>
           </div>
         </div>
 
-        {/* ── ONE white card wrapping stats + search + filters + table ── */}
-        {/* This is exactly what Reservations does */}
-        <div className="rounded-2xl border border-[var(--border)] bg-white overflow-hidden">
-
-          {/* Stat cards row — sits inside the white card, separated by bottom border */}
-          <div className="grid grid-cols-2 gap-px sm:grid-cols-3 lg:grid-cols-5 border-b border-[var(--border)]">
-            {STAT_CARDS.map((s, i) => (
-              <div
-                key={s.label}
-                className={`p-5 flex flex-col gap-3 ${
-                  i < STAT_CARDS.length - 1
-                    ? "border-r border-[var(--border)]"
-                    : ""
-                }`}
-              >
-                <div
-                  className="flex h-9 w-9 items-center justify-center rounded-xl"
-                  style={{ background: `${s.iconColor}18`, border: `1px solid ${s.iconColor}22` }}
-                >
-                  <s.icon size={17} style={{ color: s.iconColor }} />
-                </div>
-                {statsLoading ? (
-                  <div className="h-7 w-10 rounded-md bg-[var(--border)] animate-pulse" />
-                ) : (
-                  <p className="font-['Playfair_Display'] text-3xl font-bold text-[var(--text)] leading-none">
-                    {s.value ?? 0}
-                  </p>
-                )}
-                <p className="text-[10px] uppercase tracking-[2px] text-[var(--text-muted)] font-medium">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Search row */}
-          <div className="px-5 pt-5 pb-3">
-            <div className="max-w-sm">
-              <WalkInSearch value={search} onChange={handleSearchChange} />
-            </div>
-          </div>
-
-          {/* Filter row */}
-          <div className="px-5 pb-4 border-b border-[var(--border)]">
-            <WalkInFilters
-              status={statusFilter}
-              date={dateFilter}
-              onStatusChange={(v) => { setStatusFilter(v); setPage(1); }}
-              onDateChange={(v) => { setDateFilter(v); setPage(1); }}
-              resultCount={totalItems}
-            />
-          </div>
-
-          {/* Table — no extra wrapper, sits flush inside the white card */}
+        {/* Table Card - Separate box matching other pages */}
+        <div className="overflow-x-auto rounded-2xl border border-border bg-white shadow-soft">
           <WalkInTable
             walkIns={sortedWalkIns}
             loading={loading}
@@ -373,20 +353,20 @@ function WalkIns() {
             onDelete={setDeleteTarget}
             hasFilters={!!hasFilters}
           />
-
-          {/* Pagination */}
-          {!loading && totalPages > 1 && (
-            <div className="px-5 py-4 border-t border-[var(--border)]">
-              <WalkInPagination
-                page={page}
-                totalPages={totalPages}
-                totalItems={totalItems}
-                limit={LIMIT}
-                onPageChange={setPage}
-              />
-            </div>
-          )}
         </div>
+
+        {/* Pagination */}
+        {!loading && totalPages > 1 && (
+          <div className="flex justify-center pt-2">
+            <WalkInPagination
+              page={page}
+              totalPages={totalPages}
+              totalItems={totalItems}
+              limit={LIMIT}
+              onPageChange={setPage}
+            />
+          </div>
+        )}
       </div>
 
       {showForm && (

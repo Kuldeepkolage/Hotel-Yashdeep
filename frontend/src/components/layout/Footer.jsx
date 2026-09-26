@@ -1,8 +1,21 @@
 import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { SITE, NAV_LINKS } from "../../constants/site";
+import { useCMS } from "../../context/CMSContext";
 
 export default function Footer() {
+  const { cms } = useCMS();
+
+  const addr = cms?.contact?.address;
+  const addressText = addr?.line1
+    ? [addr.line1, addr.line2, addr.city, addr.state, addr.pincode].filter(Boolean).join(", ")
+    : SITE.address;
+  const phone = cms?.contact?.phone || SITE.phone;
+  const phoneHref = cms?.contact?.phone ? `tel:${cms.contact.phone.replace(/\s+/g, "")}` : SITE.phoneHref;
+  const email = cms?.contact?.email || SITE.email;
+  const tagline = cms?.footer?.tagline || "Authentic Maharashtrian family restaurant, fresh dam fish, and chilled beer bar on the Yermala highway — honest cooking and warm hospitality.";
+  const copyrightName = cms?.footer?.copyrightName || "Hotel Yashdeep";
+
   return (
     <footer
       className="relative bg-[#20120C] text-background pt-12 md:pt-16 pb-12 overflow-hidden border-t border-secondary/15"
@@ -17,12 +30,12 @@ export default function Footer() {
                 <span className="font-display text-secondary text-xl leading-none font-bold">Y</span>
               </span>
               <div>
-                <span className="block font-display text-2xl tracking-wide text-background">Hotel Yashdeep</span>
+                <span className="block font-display text-2xl tracking-wide text-background">{copyrightName}</span>
                 <span className="block text-[10px] uppercase tracking-widest text-secondary font-medium">Yermala · Est. 2023</span>
               </div>
             </div>
             <p className="mt-5 text-sm text-background/70 leading-relaxed max-w-sm">
-              Authentic Maharashtrian family restaurant, fresh dam fish, and chilled beer bar on the Yermala highway — honest cooking and warm hospitality.
+              {tagline}
             </p>
           </div>
 
@@ -32,18 +45,18 @@ export default function Footer() {
             <ul className="mt-5 space-y-3.5 text-sm text-background/75">
               <li className="flex gap-3">
                 <MapPin size={16} className="mt-0.5 shrink-0 text-secondary" />
-                <span>{SITE.address}</span>
+                <span>{addressText}</span>
               </li>
               <li className="flex gap-3">
                 <Phone size={16} className="mt-0.5 shrink-0 text-secondary" />
-                <a href={SITE.phoneHref} className="hover:text-secondary transition-colors font-medium">
-                  {SITE.phone}
+                <a href={phoneHref} className="hover:text-secondary transition-colors font-medium">
+                  {phone}
                 </a>
               </li>
               <li className="flex gap-3">
                 <Mail size={16} className="mt-0.5 shrink-0 text-secondary" />
-                <a href={`mailto:${SITE.email}`} className="hover:text-secondary transition-colors">
-                  {SITE.email}
+                <a href={`mailto:${email}`} className="hover:text-secondary transition-colors">
+                  {email}
                 </a>
               </li>
             </ul>

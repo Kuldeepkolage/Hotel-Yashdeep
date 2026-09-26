@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -6,7 +7,38 @@ import { MENU_ITEMS } from "../../constants/menu";
 import { formatINR } from "../../utils/format";
 
 export default function FeaturedDishes() {
-  const featured = MENU_ITEMS.filter((m) => m.tag).slice(0, 4);
+  const [featured, setFeatured] = useState(() => MENU_ITEMS.filter((m) => m.tag).slice(0, 4));
+
+  useEffect(() => {
+    let active = true;
+    async function fetchFeatured() {
+      try {
+        const res = await fetch("/api/menu");
+        if (!res.ok) return;
+        const json = await res.json();
+        const list = json?.data;
+        if (Array.isArray(list) && list.length > 0 && active) {
+          const mapped = list
+            .filter((m) => m.available !== false && (m.isSpecial || m.isRecommended))
+            .map((m) => ({
+              id: m._id || m.id,
+              name: m.name,
+              price: m.price,
+              description: m.description,
+              tag: m.isSpecial ? "Signature" : m.isRecommended ? "Chef's Pick" : "Featured",
+              image: m.image || m.image_url || "/images/hotel-yashdeep/hotel main.png",
+            }));
+          if (mapped.length > 0) {
+            setFeatured(mapped.slice(0, 4));
+          }
+        }
+      } catch (err) {
+        // Silently fallback
+      }
+    }
+    fetchFeatured();
+    return () => { active = false; };
+  }, []);
 
   return (
     <section className="py-16 md:py-32 lg:py-40 bg-dark text-background relative overflow-hidden" data-testid="featured-dishes">

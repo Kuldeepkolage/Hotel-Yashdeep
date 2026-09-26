@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import PageTransition from "../components/common/PageTransition";
 import PageHero from "../components/common/PageHero";
@@ -11,11 +11,61 @@ import SEO from "../components/SEO";
 
 export default function Menu() {
   const [active, setActive] = useState("all");
+  const [menuList, setMenuList] = useState(MENU_ITEMS);
+
+  useEffect(() => {
+    let activeEffect = true;
+    async function fetchLiveMenu() {
+      try {
+        const res = await fetch("/api/menu");
+        if (!res.ok) return;
+        const json = await res.json();
+        const apiData = json?.data;
+        if (Array.isArray(apiData) && apiData.length > 0 && activeEffect) {
+          const mapped = apiData.map((m) => {
+            let cat = "nonveg";
+            if (m.isVeg) cat = "veg";
+            else if (["Beer", "Beverage", "Mocktail"].includes(m.category)) cat = "beer";
+
+            let tag = "";
+            if (m.isSpecial) tag = "Signature";
+            else if (m.isRecommended) tag = "Chef's Pick";
+            else if (m.tag) tag = m.tag;
+
+            return {
+              id: m._id || m.id,
+              name: m.name,
+              category: cat,
+              rawCategory: m.category,
+              price: m.price,
+              description: m.description,
+              tag,
+              isRecommended: Boolean(m.isRecommended),
+              isSpecial: Boolean(m.isSpecial),
+              image: m.image || m.image_url || "/images/hotel-yashdeep/hotel main.png",
+              available: m.available !== false,
+            };
+          });
+          setMenuList(mapped);
+        }
+      } catch (err) {
+        // Silently fallback to MENU_ITEMS
+      }
+    }
+    fetchLiveMenu();
+    return () => { activeEffect = false; };
+  }, []);
 
   const items = useMemo(() => {
-    if (active === "all") return MENU_ITEMS;
-    return MENU_ITEMS.filter((m) => m.category?.toLowerCase() === active.toLowerCase());
-  }, [active]);
+    let list = menuList;
+    if (active === "recommended") {
+      return list.filter((m) => m.isRecommended || m.isSpecial || m.tag === "Chef's Pick" || m.tag === "Signature");
+    }
+    if (active !== "all") {
+      list = list.filter((m) => m.category?.toLowerCase() === active.toLowerCase());
+    }
+    return list;
+  }, [active, menuList]);
 
   return (
     <PageTransition>

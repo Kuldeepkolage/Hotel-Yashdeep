@@ -6,7 +6,7 @@ export default function CategoryTabs({ active, onChange, counts = {} }) {
   return (
     <div className="category-tabs-wrapper">
       <div className="category-tabs">
-        {MENU_CATEGORIES.map((cat) => (
+        {["All", ...MENU_CATEGORIES].map((cat) => (
           <button
             key={cat}
             className={`category-tab${active === cat ? " active" : ""}`}

@@ -6,20 +6,27 @@ import { STATS, VALUES } from "../constants/content";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import SEO from "../components/SEO";
+import { useCMS } from "../context/CMSContext";
 
 export default function About() {
+  const { cms } = useCMS();
+
+  const storyTitle = cms?.about?.title || "Built on hand-ground masalas and warm hospitality.";
+  const storyBody = cms?.about?.body;
+  const heroImage = cms?.about?.image || "/images/hotel-yashdeep/bar-counter.jpeg";
+
   return (
     <PageTransition>
       <SEO
-  title="About Hotel Yashdeep — Yermala, Maharashtra"
-  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
-  path="/about"
-/>
+        title="About Hotel Yashdeep — Yermala, Maharashtra"
+        description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
+        path="/about"
+      />
       <PageHero
         eyebrow="Our story · Est. 2023"
         title={<>A family. A highway.<br /><span className="italic text-secondary">A table made for everyone.</span></>}
         description="Founded in 2023 by the Kolage family on the Yermala highway — dedicated to authentic Maharashtrian dishes, fresh daily catch, and genuine hospitality."
-        image="/images/hotel-yashdeep/bar-counter.jpeg"
+        image={heroImage}
         height="short"
       />
 
@@ -28,15 +35,21 @@ export default function About() {
         <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-6 sm:gap-12 lg:gap-16">
           <SectionHeading
             eyebrow="The Story"
-            title={<>Built on hand-ground masalas and warm hospitality.</>}
+            title={<>{storyTitle}</>}
           />
           <div className="space-y-4 text-muted leading-relaxed text-sm sm:text-base">
-            <p>
-              Hotel Yashdeep was founded in 2023 by the Kolage family beside the Yedeshwari Mandir road in Yermala. We built this destination to give highway travellers, pilgrims, and local families an authentic taste of traditional Maharashtrian cooking in a welcoming setting.
-            </p>
-            <p>
-              From our signature Special Chilapi Fish and slow-cooked Kolhapuri Mutton to wood-charred bhakris and our chilled beer bar, every plate is crafted with care, fresh local ingredients, and family pride.
-            </p>
+            {storyBody ? (
+              <p className="whitespace-pre-line">{storyBody}</p>
+            ) : (
+              <>
+                <p>
+                  Hotel Yashdeep was founded in 2023 by the Kolage family beside the Yedeshwari Mandir road in Yermala. We built this destination to give highway travellers, pilgrims, and local families an authentic taste of traditional Maharashtrian cooking in a welcoming setting.
+                </p>
+                <p>
+                  From our signature Special Chilapi Fish and slow-cooked Kolhapuri Mutton to wood-charred bhakris and our chilled beer bar, every plate is crafted with care, fresh local ingredients, and family pride.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>

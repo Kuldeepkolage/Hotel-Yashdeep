@@ -44,14 +44,15 @@ export default function Navbar() {
   return (
     <>
       <header
-      className={cx(
-        "fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-luxe",
-        transparent
-          ? "bg-transparent text-background"
-          : "bg-[#140e0a]/92 backdrop-blur-md border-b border-secondary/20 shadow-lg text-background"
-      )}
-      data-testid="navbar"
-    >
+        className={cx(
+          "fixed top-0 inset-x-0 z-50 transition-all duration-300 ease-luxe",
+          transparent
+            ? "bg-transparent text-[#f8f4ee]"
+            : "navbar-scrolled text-[#f8f4ee]"
+        )}
+        style={!transparent ? { backgroundColor: "#140e0a", color: "#f8f4ee" } : undefined}
+        data-testid="navbar"
+      >
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 flex items-center justify-between h-20 md:h-24">
         {/* LEFT SECTION: Logo + Nav Links (Home to Contact) */}
         <div className="flex items-center gap-6 lg:gap-8 xl:gap-12 min-w-0">
@@ -64,7 +65,7 @@ export default function Navbar() {
               <span className="font-display text-secondary text-lg leading-none font-bold">Y</span>
             </span>
             <span className="leading-tight">
-              <span className="block font-display text-lg tracking-wide text-background">
+              <span className="block font-display text-lg tracking-wide text-white">
                 Hotel Yashdeep
               </span>
               <span className="block text-[10px] uppercase tracking-widest2 text-secondary/90 font-medium">
@@ -85,8 +86,8 @@ export default function Navbar() {
                   cx(
                     "relative text-sm font-medium tracking-wide transition-colors duration-300 py-1 whitespace-nowrap",
                     isActive
-                      ? "text-secondary font-semibold"
-                      : "text-background/80 hover:text-secondary"
+                      ? "text-secondary font-bold"
+                      : "text-white/90 hover:text-secondary"
                   )
                 }
               >
@@ -112,7 +113,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2 lg:gap-2.5">
               {/* Customer Profile Pill */}
               <div
-                className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider px-3.5 py-2 rounded-full border border-secondary/40 text-background bg-dark/40 shadow-sm backdrop-blur-md"
+                className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider px-3.5 py-2 rounded-full border border-secondary/40 text-white bg-dark/60 shadow-sm backdrop-blur-md"
                 data-testid="navbar-customer-name"
               >
                 <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -125,7 +126,7 @@ export default function Navbar() {
                 type="button"
                 onClick={logout}
                 title="Sign out"
-                className="inline-flex items-center gap-1.5 rounded-full border border-background/30 text-background hover:border-red-400 hover:text-red-300 hover:bg-red-950/20 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/20 text-white hover:border-red-400 hover:text-red-300 hover:bg-red-950/20 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300"
                 data-testid="navbar-logout-btn"
               >
                 <LogOut size={13} />
@@ -138,7 +139,7 @@ export default function Navbar() {
               <Link
                 to="/login"
                 data-testid="navbar-login-btn"
-                className="inline-flex items-center gap-1.5 rounded-full border border-background/30 text-background hover:border-secondary hover:text-secondary hover:bg-secondary/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/25 text-white hover:border-secondary hover:text-secondary hover:bg-secondary/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm"
               >
                 <User size={13} className="text-secondary" />
                 Sign In
@@ -160,7 +161,7 @@ export default function Navbar() {
           <a
             href={SITE.phoneHref}
             data-testid="navbar-call-btn"
-            className="inline-flex items-center gap-1.5 rounded-full border border-background/30 text-background hover:border-secondary hover:text-secondary hover:bg-secondary/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm"
+            className="inline-flex items-center gap-1.5 rounded-full border border-white/25 text-white hover:border-secondary hover:text-secondary hover:bg-secondary/10 px-3.5 py-2 text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 shadow-sm"
           >
             <Phone size={13} className="text-secondary" />
             Call

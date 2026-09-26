@@ -1,10 +1,13 @@
 import { CustomerAuthProvider } from "./context/CustomerAuthContext";
+import { CMSProvider } from "./context/CMSContext";
 import AppRoutes from "./routes/AppRoutes";
 
 export default function App() {
   return (
-    <CustomerAuthProvider>
-      <AppRoutes />
-    </CustomerAuthProvider>
+    <CMSProvider>
+      <CustomerAuthProvider>
+        <AppRoutes />
+      </CustomerAuthProvider>
+    </CMSProvider>
   );
 }

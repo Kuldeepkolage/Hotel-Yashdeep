@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Upload, RefreshCw, Images } from "lucide-react";
+import { Upload, RefreshCw, Images, Sparkles } from "lucide-react";
 import { galleryService } from "../services/gallery.service";
 import GalleryGrid from "../components/gallery/GalleryGrid";
 import GalleryFilters from "../components/gallery/GalleryFilters";
 import GalleryPagination from "../components/gallery/GalleryPagination";
 import ImageUploadModal from "../components/gallery/ImageUploadModal";
+import AdminPageHeader from "../components/common/AdminPageHeader.jsx";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -19,7 +20,6 @@ export default function Gallery() {
   const [totalCount, setTotalCount] = useState(0);
   const [deletingIds, setDeletingIds] = useState(new Set());
 
-
   const fetchImages = useCallback(async (opts = {}) => {
     try {
       const data = await galleryService.getImages({
@@ -30,7 +30,6 @@ export default function Gallery() {
       });
       setImages(data.images || data.data || []);
       setTotalCount(data.total || data.count || 0);
-
     } catch (err) {
       setImages([]);
       setTotalCount(0);
@@ -43,7 +42,7 @@ export default function Gallery() {
     setLoading(true);
     fetchImages().catch(() => {}).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [page, category]);
+  }, [page, category, fetchImages]);
 
   // Debounced search
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function Gallery() {
       fetchImages({ page: 1, search }).catch(() => {}).finally(() => setLoading(false));
     }, 320);
     return () => clearTimeout(t);
-  }, [search]);
+  }, [search, fetchImages]);
 
   const handleCategoryChange = (cat) => {
     setCategory(cat);
@@ -68,7 +67,6 @@ export default function Gallery() {
 
   const handleUpload = async (files, cat, onProgress) => {
     const uploaded = await galleryService.uploadImages(files, cat, onProgress);
-    // Optimistic prepend
     setImages((prev) => [...uploaded, ...prev]);
     setTotalCount((c) => c + uploaded.length);
   };
@@ -76,13 +74,11 @@ export default function Gallery() {
   const handleDelete = async (image) => {
     const id = image.id || image._id;
     setDeletingIds((s) => new Set([...s, id]));
-    // Optimistic removal
     setImages((prev) => prev.filter((img) => (img.id || img._id) !== id));
     setTotalCount((c) => Math.max(0, c - 1));
     try {
       await galleryService.deleteImage(id);
     } catch {
-      // Rollback
       setImages((prev) => [image, ...prev]);
       setTotalCount((c) => c + 1);
     } finally {
@@ -93,61 +89,65 @@ export default function Gallery() {
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
   return (
-    <div className="gallery-page">
-      {/* Header */}
-      <div className="page-header">
-        <div className="header-left">
-          <h1 className="page-title">Gallery</h1>
-          <p className="page-sub">Manage photos shown on your hotel website.</p>
-        </div>
-        <div className="header-actions">
-
-          <button
-            className="btn-icon"
-            onClick={handleRefresh}
-            disabled={refreshing}
-            title="Refresh"
-          >
-            <RefreshCw size={16} className={refreshing ? "spinning" : ""} />
-          </button>
-          <button className="btn-upload" onClick={() => setShowUpload(true)}>
-            <Upload size={16} />
-            Upload Photos
-          </button>
-        </div>
-      </div>
-
-      {/* Stats bar */}
-      <div className="stats-bar">
-        <div className="stat-item">
-          <Images size={16} />
-          <span>{totalCount} {totalCount === 1 ? "photo" : "photos"} in gallery</span>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <GalleryFilters
-        search={search}
-        setSearch={setSearch}
-        category={category}
-        setCategory={handleCategoryChange}
-        totalCount={totalCount}
+    <div className="space-y-6 sm:space-y-8" data-testid="admin-gallery">
+      {/* Page Header */}
+      <AdminPageHeader
+        title="Gallery"
+        subtitle="Manage photo gallery albums, dining hall moments, and food showcase pictures."
+        icon={Images}
+        badge={`${totalCount} Photos`}
+        actions={
+          <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
+            <button
+              type="button"
+              onClick={handleRefresh}
+              disabled={refreshing || loading}
+              className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-3.5 py-2 text-xs sm:text-sm font-medium text-dark/70 hover:text-dark hover:border-primary/50 transition-all disabled:opacity-50"
+            >
+              <RefreshCw size={14} className={refreshing ? "animate-spin" : ""} />
+              Refresh
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowUpload(true)}
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-xs sm:text-sm font-semibold text-white shadow-soft hover:bg-primary-hover active:scale-[0.98] transition-all"
+            >
+              <Upload size={15} />
+              Upload Photos
+            </button>
+          </div>
+        }
       />
 
-      {/* Grid */}
-      <GalleryGrid
-        images={images}
-        loading={loading}
-        onDelete={handleDelete}
-        deletingIds={deletingIds}
-      />
+      {/* Filters Card */}
+      <div className="rounded-2xl border border-border bg-white p-4 sm:p-5 shadow-soft">
+        <GalleryFilters
+          search={search}
+          setSearch={setSearch}
+          category={category}
+          setCategory={handleCategoryChange}
+          totalCount={totalCount}
+        />
+      </div>
+
+      {/* Gallery Grid */}
+      <div className="rounded-2xl border border-border bg-white p-4 sm:p-6 shadow-soft min-h-[300px]">
+        <GalleryGrid
+          images={images}
+          loading={loading}
+          onDelete={handleDelete}
+          deletingIds={deletingIds}
+        />
+      </div>
 
       {/* Pagination */}
-      <GalleryPagination
-        page={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
+      {totalPages > 1 && (
+        <GalleryPagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      )}
 
       {/* Upload Modal */}
       {showUpload && (
@@ -156,106 +156,6 @@ export default function Gallery() {
           onUpload={handleUpload}
         />
       )}
-
-      <style>{`
-        .gallery-page {
-          padding: 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-          max-width: 1400px;
-        }
-        .page-header {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 16px;
-          flex-wrap: wrap;
-        }
-        .page-title {
-          margin: 0 0 4px;
-          font-size: 28px;
-          font-weight: 700;
-          color: #2c1810;
-          font-family: 'Georgia', serif;
-        }
-        .page-sub {
-          margin: 0;
-          font-size: 14px;
-          color: #8a7468;
-        }
-        .header-actions {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          flex-shrink: 0;
-        }
-        .demo-badge {
-          font-size: 11px;
-          font-weight: 600;
-          color: #c9a96e;
-          background: rgba(201,169,110,0.12);
-          border: 1px solid rgba(201,169,110,0.3);
-          padding: 4px 10px;
-          border-radius: 20px;
-          letter-spacing: 0.4px;
-          text-transform: uppercase;
-        }
-        .btn-icon {
-          width: 38px;
-          height: 38px;
-          border-radius: 9px;
-          border: 1.5px solid #e8e0d8;
-          background: #fff;
-          color: #5a4a42;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.18s;
-        }
-        .btn-icon:hover:not(:disabled) { border-color: #c9a96e; color: #c9a96e; }
-        .btn-icon:disabled { opacity: 0.5; cursor: not-allowed; }
-        .spinning {
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .btn-upload {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 20px;
-          border-radius: 9px;
-          background: #2c1810;
-          color: #f5ede0;
-          border: none;
-          font-size: 14px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.18s;
-        }
-        .btn-upload:hover { background: #3d2218; }
-        .stats-bar {
-          display: flex;
-          gap: 20px;
-          padding: 12px 18px;
-          background: #fff;
-          border: 1.5px solid #f0e8e0;
-          border-radius: 10px;
-        }
-        .stat-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 14px;
-          color: #5a4a42;
-        }
-        .stat-item svg { color: #c9a96e; }
-        @media (max-width: 640px) {
-          .gallery-page { padding: 20px 16px; }
-          .page-title { font-size: 22px; }
-        }
-      `}</style>
     </div>
   );
 }

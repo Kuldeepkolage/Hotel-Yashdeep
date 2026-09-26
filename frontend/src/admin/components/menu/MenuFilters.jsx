@@ -1,95 +1,62 @@
 // src/admin/components/menu/MenuFilters.jsx
-// Backend supports: ?category=<exact> and ?available=true|false
-// Price filter + sort are done client-side (no backend pagination)
 import React from "react";
-import { SlidersHorizontal } from "lucide-react";
-import { MENU_CATEGORIES } from "../../services/menu.service.js";
+import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
 
 export default function MenuFilters({
-  // backend-side filters (trigger re-fetch)
-  categoryFilter,
-  onCategoryChange,
-  availabilityFilter,
-  onAvailabilityChange,
-  // client-side filters (no re-fetch)
-  vegFilter,
-  onVegFilterChange,
-  priceMax,
-  onPriceMaxChange,
-  sortBy,
+  filter = "all",
+  onFilter,
+  sortBy = "created_at",
+  onSort,
+  // backwards compatibility
+  onFilterChange,
   onSortChange,
 }) {
+  const handleFilterChange = (val) => {
+    if (onFilter) onFilter(val);
+    else if (onFilterChange) onFilterChange(val);
+  };
+
+  const handleSortChange = (val) => {
+    if (onSort) onSort(val);
+    else if (onSortChange) onSortChange(val);
+  };
+
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {/* Category */}
+    <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
+      {/* Status & Dietary Filter */}
       <div className="relative">
         <select
-          value={categoryFilter}
-          onChange={(e) => onCategoryChange(e.target.value)}
-          className="pl-3 pr-7 py-2 rounded-lg border border-stone-200 bg-white text-sm text-stone-700
-            focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none cursor-pointer"
+          value={filter}
+          onChange={(e) => handleFilterChange(e.target.value)}
+          className="pl-8 pr-7 py-2 rounded-xl border border-border bg-white text-xs sm:text-sm font-medium text-dark
+            focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer shadow-2xs"
         >
-          <option value="">All Categories</option>
-          {MENU_CATEGORIES.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
+          <option value="all">All Dishes</option>
+          <option value="veg">Vegetarian</option>
+          <option value="non-veg">Non-Vegetarian</option>
+          <option value="available">Available Now</option>
+          <option value="unavailable">Sold Out / Unavailable</option>
+          <option value="recommended">Chef's Picks</option>
+          <option value="special">Signature Specials</option>
         </select>
-        <SlidersHorizontal size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+        <SlidersHorizontal size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
       </div>
 
-      {/* Availability */}
-      <select
-        value={availabilityFilter}
-        onChange={(e) => onAvailabilityChange(e.target.value)}
-        className="pl-3 pr-7 py-2 rounded-lg border border-stone-200 bg-white text-sm text-stone-700
-          focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none cursor-pointer"
-      >
-        <option value="">All Status</option>
-        <option value="true">Available</option>
-        <option value="false">Out of Stock</option>
-      </select>
-
-      {/* Veg / Non-Veg (client-side) */}
-      <select
-        value={vegFilter}
-        onChange={(e) => onVegFilterChange(e.target.value)}
-        className="pl-3 pr-7 py-2 rounded-lg border border-stone-200 bg-white text-sm text-stone-700
-          focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none cursor-pointer"
-      >
-        <option value="">Veg & Non-Veg</option>
-        <option value="veg">Veg Only</option>
-        <option value="nonveg">Non-Veg Only</option>
-      </select>
-
-      {/* Max Price (client-side) */}
+      {/* Sort */}
       <div className="relative">
-        <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-400 text-xs font-semibold select-none">₹</span>
-        <input
-          type="number"
-          min="0"
-          placeholder="Max price"
-          value={priceMax}
-          onChange={(e) => onPriceMaxChange(e.target.value)}
-          className="pl-6 pr-3 py-2 w-28 rounded-lg border border-stone-200 bg-white text-sm text-stone-700
-            focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
-        />
+        <select
+          value={sortBy}
+          onChange={(e) => handleSortChange(e.target.value)}
+          className="pl-8 pr-7 py-2 rounded-xl border border-border bg-white text-xs sm:text-sm font-medium text-dark
+            focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer shadow-2xs"
+        >
+          <option value="created_at">Sort: Newest</option>
+          <option value="name">Sort: Name (A–Z)</option>
+          <option value="price_asc">Price: Low → High</option>
+          <option value="price_desc">Price: High → Low</option>
+        </select>
+        <ArrowUpDown size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
       </div>
-
-      {/* Sort (client-side) */}
-      <select
-        value={sortBy}
-        onChange={(e) => onSortChange(e.target.value)}
-        className="pl-3 pr-7 py-2 rounded-lg border border-stone-200 bg-white text-sm text-stone-700
-          focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none cursor-pointer"
-      >
-        <option value="default">Sort: Default</option>
-        <option value="name_asc">Name A–Z</option>
-        <option value="name_desc">Name Z–A</option>
-        <option value="price_asc">Price: Low → High</option>
-        <option value="price_desc">Price: High → Low</option>
-        <option value="newest">Newest First</option>
-        <option value="oldest">Oldest First</option>
-      </select>
     </div>
   );
 }

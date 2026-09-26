@@ -6,11 +6,25 @@ import { Input, Textarea } from "../components/common/Input";
 import { SITE } from "../constants/site";
 import { MapPin, Phone, Mail, Send, Check } from "lucide-react";
 import SEO from "../components/SEO";
+import { useCMS } from "../context/CMSContext";
 
 export default function Contact() {
+  const { cms } = useCMS();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const addr = cms?.contact?.address;
+  const addressText = addr?.line1
+    ? [addr.line1, addr.line2, addr.city, addr.state, addr.pincode].filter(Boolean).join(", ")
+    : SITE.address;
+  const phone = cms?.contact?.phone || SITE.phone;
+  const phoneHref = cms?.contact?.phone ? `tel:${cms.contact.phone.replace(/\s+/g, "")}` : SITE.phoneHref;
+  const email = cms?.contact?.email || SITE.email;
+
+  const hoursText = Array.isArray(cms?.openingHours) && cms.openingHours.length > 0
+    ? cms.openingHours.map(h => `${h.day}: ${h.lunch || h.dinner || h.open || "11:00 AM — 11:00 PM"}`).slice(0, 2).join(" · ")
+    : "Everyday: 11:00 AM — 11:00 PM";
 
   const onChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -46,9 +60,9 @@ export default function Contact() {
       <section className="py-10 sm:py-16 md:py-24" data-testid="contact-cards">
         <div className="container-luxe grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {[
-            { icon: MapPin, title: "Visit us", lines: [SITE.address], cta: { label: "Get directions on Google Maps", href: SITE.mapDirections } },
-            { icon: Phone, title: "Call us", lines: [SITE.phone, "Everyday: 11:00 AM — 11:00 PM"], cta: { label: "Tap to call", href: SITE.phoneHref } },
-            { icon: Mail, title: "Email us", lines: [SITE.email, "Replies within 24 hours"], cta: { label: "Send a message", href: `mailto:${SITE.email}` } },
+            { icon: MapPin, title: "Visit us", lines: [addressText], cta: { label: "Get directions on Google Maps", href: SITE.mapDirections } },
+            { icon: Phone, title: "Call us", lines: [phone, hoursText], cta: { label: "Tap to call", href: phoneHref } },
+            { icon: Mail, title: "Email us", lines: [email, "Replies within 24 hours"], cta: { label: "Send a message", href: `mailto:${email}` } },
           ].map((c, i) => (
             <motion.div
               key={c.title}

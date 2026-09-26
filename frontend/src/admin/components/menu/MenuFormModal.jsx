@@ -16,6 +16,8 @@ const EMPTY_FORM = {
   image: "",
   isVeg: false,
   available: true,
+  isRecommended: false,
+  isSpecial: false,
 };
 
 function validate(form) {
@@ -40,9 +42,11 @@ export default function MenuFormModal({ open, editItem, onClose, onSubmit, loadi
           category: editItem.category ?? "Starter",
           description: editItem.description ?? "",
           price: editItem.price?.toString() ?? "",
-          image: editItem.image ?? "",
-          isVeg: editItem.isVeg ?? false,
+          image: editItem.image ?? editItem.image_url ?? "",
+          isVeg: editItem.isVeg ?? editItem.veg ?? false,
           available: editItem.available ?? true,
+          isRecommended: editItem.isRecommended ?? editItem.is_recommended ?? false,
+          isSpecial: editItem.isSpecial ?? editItem.is_special ?? false,
         });
       } else {
         setForm(EMPTY_FORM);
@@ -73,6 +77,8 @@ export default function MenuFormModal({ open, editItem, onClose, onSubmit, loadi
       image: form.image.trim(),
       isVeg: form.isVeg,
       available: form.available,
+      isRecommended: form.isRecommended,
+      isSpecial: form.isSpecial,
     };
     onSubmit(payload);
   }
@@ -232,6 +238,52 @@ export default function MenuFormModal({ open, editItem, onClose, onSubmit, loadi
               <span
                 className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200
                   ${form.available ? "translate-x-5" : "translate-x-0"}`}
+              />
+            </button>
+          </div>
+
+          {/* isRecommended */}
+          <div className="flex items-center justify-between p-4 bg-amber-50/50 rounded-xl border border-amber-100">
+            <div>
+              <p className="text-sm font-semibold text-stone-700">Chef's Recommendation</p>
+              <p className="text-xs text-stone-400 mt-0.5">Showcase with gold "Chef's Pick" badge & on Home page</p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={form.isRecommended}
+              onClick={() => set("isRecommended", !form.isRecommended)}
+              disabled={loading}
+              className={`relative w-11 h-6 rounded-full transition-colors duration-200 flex-shrink-0
+                ${form.isRecommended ? "bg-amber-600" : "bg-stone-300"}
+                ${loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200
+                  ${form.isRecommended ? "translate-x-5" : "translate-x-0"}`}
+              />
+            </button>
+          </div>
+
+          {/* isSpecial */}
+          <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-100">
+            <div>
+              <p className="text-sm font-semibold text-stone-700">House Special / Signature</p>
+              <p className="text-xs text-stone-400 mt-0.5">Highlight dish with luxury "Signature" badge</p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={form.isSpecial}
+              onClick={() => set("isSpecial", !form.isSpecial)}
+              disabled={loading}
+              className={`relative w-11 h-6 rounded-full transition-colors duration-200 flex-shrink-0
+                ${form.isSpecial ? "bg-amber-800" : "bg-stone-300"}
+                ${loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200
+                  ${form.isSpecial ? "translate-x-5" : "translate-x-0"}`}
               />
             </button>
           </div>

@@ -1,4 +1,5 @@
 // File: src/admin/components/Sidebar.jsx
+import { createPortal } from "react-dom";
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -89,23 +90,25 @@ export default function Sidebar({ open, onClose }) {
     </div>
   );
 
+  const drawer = open && typeof document !== "undefined" ? (
+    <div className="fixed inset-0 z-[99999] lg:hidden" data-testid="sidebar-drawer">
+      <div
+        className="fixed inset-0 bg-dark/60 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
+      <div className="fixed left-0 top-0 h-full w-72 max-w-[85vw] shadow-2xl transition-transform">
+        {content}
+      </div>
+    </div>
+  ) : null;
+
   return (
     <>
       <aside className="hidden lg:flex lg:w-72 lg:flex-shrink-0" data-testid="sidebar-desktop">
         {content}
       </aside>
 
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden" data-testid="sidebar-drawer">
-          <div
-            className="absolute inset-0 bg-dark/60 backdrop-blur-sm"
-            onClick={onClose}
-          />
-          <div className="absolute left-0 top-0 h-full w-72 shadow-luxe">
-            {content}
-          </div>
-        </div>
-      )}
+      {drawer && (typeof document !== "undefined" ? createPortal(drawer, document.body) : drawer)}
     </>
   );
 }

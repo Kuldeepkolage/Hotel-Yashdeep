@@ -124,6 +124,12 @@ export default function ImageUploader({ value, onChange, onError }) {
         }
 
         .image-preview-wrap:hover .image-overlay { opacity: 1; }
+        @media (max-width: 768px) {
+          .image-overlay {
+            opacity: 1 !important;
+            background: rgba(0,0,0,0.45);
+          }
+        }
 
         .image-change-btn {
           display: flex;

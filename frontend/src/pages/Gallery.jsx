@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import PageTransition from "../components/common/PageTransition";
 import PageHero from "../components/common/PageHero";
@@ -8,12 +8,39 @@ import { GALLERY_IMAGES } from "../constants/content";
 import SEO from "../components/SEO";
 
 export default function Gallery() {
+  const [images, setImages] = useState(GALLERY_IMAGES);
   const [lightIdx, setLightIdx] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    async function fetchLiveGallery() {
+      try {
+        const res = await fetch("/api/gallery?limit=100");
+        if (!res.ok) return;
+        const json = await res.json();
+        const uploaded = json?.data?.images;
+        if (Array.isArray(uploaded) && uploaded.length > 0 && active) {
+          const mapped = uploaded.map((img) => ({
+            id: img.id || img._id,
+            category: img.category || "Moments",
+            src: img.url || img.image,
+            alt: img.alt || img.filename || "Hotel Yashdeep Gallery",
+          }));
+          // Prepend uploaded images so new photos appear first, followed by existing showcase
+          setImages([...mapped, ...GALLERY_IMAGES]);
+        }
+      } catch (err) {
+        // Fallback to static GALLERY_IMAGES
+      }
+    }
+    fetchLiveGallery();
+    return () => { active = false; };
+  }, []);
 
   const onNav = (dir) => {
     setLightIdx((idx) => {
       if (idx === null) return idx;
-      const next = (idx + dir + GALLERY_IMAGES.length) % GALLERY_IMAGES.length;
+      const next = (idx + dir + images.length) % images.length;
       return next;
     });
   };
@@ -52,7 +79,7 @@ export default function Gallery() {
             className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-5 md:gap-6"
             data-testid="gallery-masonry"
           >
-            {GALLERY_IMAGES.map((img, i) => (
+            {images.map((img, i) => (
               <GalleryCard
                 key={img.id}
                 image={img}
@@ -66,7 +93,7 @@ export default function Gallery() {
 
       {lightIdx !== null && (
         <Lightbox
-          images={GALLERY_IMAGES}
+          images={images}
           index={lightIdx}
           onClose={() => setLightIdx(null)}
           onNav={onNav}

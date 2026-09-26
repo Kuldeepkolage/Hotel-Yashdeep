@@ -7,6 +7,7 @@ import {
   getSessions,
   normalizeProfile,
 } from "../services/settings.service.js";
+import { Settings as SettingsIcon, RefreshCw } from "lucide-react";
 import AccountForm from "../components/settings/AccountForm.jsx";
 import ChangePasswordForm from "../components/settings/ChangePasswordForm.jsx";
 import DangerZone from "../components/settings/DangerZone.jsx";
@@ -14,6 +15,7 @@ import ProfileCard from "../components/settings/ProfileCard.jsx";
 import SecuritySettings from "../components/settings/SecuritySettings.jsx";
 import SessionList from "../components/settings/SessionList.jsx";
 import { HEADING_FONT, ToastViewport } from "../components/settings/SettingsUI.jsx";
+import AdminPageHeader from "../components/common/AdminPageHeader.jsx";
 
 const useAuth = authHook.default ?? authHook.useAuth ?? (() => ({}));
 
@@ -115,15 +117,22 @@ export default function Settings() {
   }, [loadSessions]);
 
   return (
-    <div className="space-y-6">
-      <header>
-        <h1 className="text-4xl font-medium text-[#2b1810]" style={HEADING_FONT}>
-          Settings
-        </h1>
-        <p className="mt-1 text-sm text-stone-500">
-          Manage your administrator account and security settings.
-        </p>
-      </header>
+    <div className="space-y-6 sm:space-y-8" data-testid="admin-settings">
+      <AdminPageHeader
+        title="Settings"
+        subtitle="Manage administrator profile, security credentials, active sessions, and access."
+        icon={SettingsIcon}
+        actions={
+          <button
+            type="button"
+            onClick={() => { loadProfile(); loadSessions(); }}
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-white px-3.5 py-2 text-xs sm:text-sm font-medium text-dark/70 hover:text-dark hover:border-primary/50 transition-all"
+          >
+            <RefreshCw size={14} className={profileState.status === "loading" ? "animate-spin" : ""} />
+            Refresh
+          </button>
+        }
+      />
 
       <div className="grid items-start gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
         <div className="lg:sticky lg:top-6">

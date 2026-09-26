@@ -207,6 +207,14 @@ export default function ImageUploadModal({ onClose, onUpload }) {
           box-shadow: 0 28px 80px rgba(18, 8, 4, 0.25);
           animation: slideUp 0.22s ease;
         }
+        @media (max-width: 640px) {
+          .modal {
+            padding: 18px 14px;
+            gap: 14px;
+            border-radius: 14px;
+            max-width: 96vw;
+          }
+        }
         @keyframes slideUp { from { transform: translateY(22px); opacity:0; } to { transform: none; opacity:1; } }
         .modal-header {
           display: flex;
