@@ -30,10 +30,10 @@ export default function Contact() {
   return (
     <PageTransition>
       <SEO
-  title="About Hotel Yashdeep — Yermala, Maharashtra"
-  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
-  path="/about"
-/>
+        title="Contact Hotel Yashdeep — Location, Map & Inquiries"
+        description="Get in touch with Hotel Yashdeep in Yermala, Maharashtra. Phone numbers, location map, directions, and direct message form."
+        path="/contact"
+      />
       <PageHero
         eyebrow="Contact"
         title={<>Stop in, ring up,<br /><span className="italic text-secondary">or drop a note.</span></>}
@@ -43,8 +43,8 @@ export default function Contact() {
       />
 
       {/* Contact cards */}
-      <section className="py-20 md:py-28" data-testid="contact-cards">
-        <div className="container-luxe grid md:grid-cols-3 gap-6">
+      <section className="py-14 sm:py-20 md:py-28" data-testid="contact-cards">
+        <div className="container-luxe grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6">
           {[
             { icon: MapPin, title: "Visit us", lines: [SITE.address], cta: { label: "Get directions", href: SITE.mapEmbed } },
             { icon: Phone, title: "Call us", lines: [SITE.phone, "Daily, 10:00 — 23:00"], cta: { label: "Tap to call", href: SITE.phoneHref } },
@@ -56,21 +56,21 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="card-luxe p-8 md:p-10 hover:border-primary/30 hover:shadow-luxe group"
+              className="card-luxe p-6 sm:p-8 md:p-10 hover:border-primary/30 hover:shadow-luxe group"
               data-testid={`contact-card-${i}`}
             >
-              <span className="h-12 w-12 rounded-full bg-primary/10 text-primary inline-flex items-center justify-center">
+              <span className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-primary/10 text-primary inline-flex items-center justify-center">
                 <c.icon size={18} />
               </span>
-              <h3 className="mt-7 font-display text-2xl text-dark">{c.title}</h3>
+              <h3 className="mt-5 sm:mt-7 font-display text-xl sm:text-2xl text-dark">{c.title}</h3>
               {c.lines.map((l) => (
-                <p key={l} className="mt-2 text-muted text-sm leading-relaxed">{l}</p>
+                <p key={l} className="mt-2 text-muted text-xs sm:text-sm leading-relaxed">{l}</p>
               ))}
               <a
                 href={c.cta.href}
                 target={c.cta.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="mt-7 inline-flex items-center gap-2 text-sm border-b border-dark/30 pb-1 text-dark hover:text-primary hover:border-primary transition-colors"
+                className="mt-5 sm:mt-7 inline-flex items-center gap-2 text-xs sm:text-sm border-b border-dark/30 pb-1 text-dark hover:text-primary hover:border-primary transition-colors"
               >
                 {c.cta.label}
               </a>
@@ -80,18 +80,18 @@ export default function Contact() {
       </section>
 
       {/* Form + Map */}
-      <section className="pb-28 md:pb-40" data-testid="contact-form-map">
-        <div className="container-luxe grid lg:grid-cols-2 gap-10">
-          <div className="card-luxe p-8 md:p-10">
+      <section className="pb-16 sm:pb-24 md:pb-40" data-testid="contact-form-map">
+        <div className="container-luxe grid lg:grid-cols-2 gap-8 sm:gap-10">
+          <div className="card-luxe p-6 sm:p-8 md:p-10">
             <span className="eyebrow">Drop a note</span>
-            <h2 className="heading-md mt-5">Tell us what you need.</h2>
+            <h2 className="heading-md mt-4 sm:mt-5">Tell us what you need.</h2>
 
             {sent ? (
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="mt-10 flex flex-col items-center text-center"
+                className="mt-8 sm:mt-10 flex flex-col items-center text-center"
                 data-testid="contact-success"
               >
                 <span className="h-14 w-14 rounded-full bg-secondary/15 text-secondary inline-flex items-center justify-center">
@@ -103,22 +103,22 @@ export default function Contact() {
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={onSubmit} className="mt-10 space-y-7" data-testid="contact-form">
+              <form onSubmit={onSubmit} className="mt-8 sm:mt-10 space-y-5 sm:space-y-7" data-testid="contact-form">
                 <Input label="Name" name="name" value={form.name} onChange={onChange} error={errors.name} placeholder="Your name" />
                 <Input label="Email" name="email" type="email" value={form.email} onChange={onChange} error={errors.email} placeholder="you@email.com" />
                 <Textarea label="Message" name="message" rows={5} value={form.message} onChange={onChange} error={errors.message} placeholder="A few words about your visit, booking or enquiry…" />
-                <button type="submit" className="btn-primary" data-testid="contact-submit">
+                <button type="submit" className="btn-primary w-full sm:w-auto" data-testid="contact-submit">
                   Send message <Send size={16} />
                 </button>
               </form>
             )}
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border min-h-[480px] bg-white">
+          <div className="overflow-hidden rounded-2xl border border-border min-h-[320px] sm:min-h-[480px] bg-white">
             <iframe
               title="Hotel Yashdeep location"
               src={SITE.mapEmbed}
-              className="w-full h-full min-h-[480px]"
+              className="w-full h-full min-h-[320px] sm:min-h-[480px]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               data-testid="contact-map"

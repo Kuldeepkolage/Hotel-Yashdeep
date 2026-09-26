@@ -49,29 +49,29 @@ body {
 
 @layer components {
   .container-luxe {
-    @apply mx-auto w-full max-w-container px-6 md:px-10 lg:px-14;
+    @apply mx-auto w-full max-w-container px-4 sm:px-6 md:px-10 lg:px-14;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-3 text-[11px] uppercase tracking-widest2 text-primary font-medium;
+    @apply inline-flex items-center gap-2.5 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-widest2 text-primary font-medium;
   }
   .eyebrow::before {
     content: "";
-    @apply inline-block h-px w-8 bg-primary/60;
+    @apply inline-block h-px w-6 sm:w-8 bg-primary/60;
   }
 
   .heading-xl {
-    @apply font-display text-[clamp(2.75rem,6vw,5.5rem)] leading-[1.02] text-dark;
+    @apply font-display text-[clamp(2.1rem,5.5vw,5.5rem)] leading-[1.06] text-dark;
   }
   .heading-lg {
-    @apply font-display text-[clamp(2rem,4.5vw,3.75rem)] leading-[1.08] text-dark;
+    @apply font-display text-[clamp(1.65rem,4vw,3.75rem)] leading-[1.12] text-dark;
   }
   .heading-md {
-    @apply font-display text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight text-dark;
+    @apply font-display text-[clamp(1.35rem,2.8vw,2.25rem)] leading-tight text-dark;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-medium tracking-wide transition-all duration-500 ease-luxe;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-medium tracking-wide transition-all duration-500 ease-luxe;
   }
   .btn-primary {
     @apply btn bg-primary text-background hover:bg-dark shadow-soft hover:shadow-luxe;

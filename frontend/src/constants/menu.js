@@ -6,76 +6,32 @@ export const MENU_CATEGORIES = [
 ];
 
 export const MENU_ITEMS = [
-  // Vegetarian
+  // Signature Non-Vegetarian (Protected Specialties)
   {
     id: 1,
-    name: "Puran Poli Thali",
-    category: "veg",
+    name: "Special Chilapi Fish",
+    category: "nonveg",
     price: 320,
     description:
-      "Traditional sweet flatbread filled with jaggery-lentil, served with ghee, varan-bhaat and tomato saar.",
+      "Fresh tilapia fish marinated with traditional spices and shallow-fried until crispy and golden. Served with onion, lemon and homemade chutney.",
     tag: "Signature",
-    image:
-      "https://images.unsplash.com/photo-1604908554007-91d5b5e3f4c8?auto=format&fit=crop&w=1000&q=70",
+    image: "/images/hotel-yashdeep/chilapi.png",
   },
   {
     id: 2,
-    name: "Misal Pav",
-    category: "veg",
-    price: 180,
+    name: "Dum Biryani",
+    category: "nonveg",
+    price: 340,
     description:
-      "Spiced sprouted matki curry topped with farsan, onion and lemon. Served with soft pav.",
+      "Fragrant basmati rice layered with aromatic spices and tender meat, slow-cooked to perfection. Served with raita and onion salad.",
     tag: "Local Favourite",
-    image:
-      "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=1000&q=70",
+    image: "/images/hotel-yashdeep/dum biryani.jpg",
   },
-  {
-    id: 3,
-    name: "Vangi Bhaat",
-    category: "veg",
-    price: 240,
-    description:
-      "Slow-cooked brinjal rice with goda masala and curry leaves — a Marathwada classic.",
-    image:
-      "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&w=1000&q=70",
-  },
-  {
-    id: 4,
-    name: "Bharli Vangi",
-    category: "veg",
-    price: 280,
-    description:
-      "Baby brinjals stuffed with peanut, coconut & jaggery masala in a rich gravy.",
-    image:
-      "https://images.unsplash.com/photo-1567337710282-00832b415979?auto=format&fit=crop&w=1000&q=70",
-  },
-  {
-    id: 5,
-    name: "Zunka Bhakri",
-    category: "veg",
-    price: 220,
-    description:
-      "Rustic gram flour preparation with jowar bhakri, raw onion and green chilli thecha.",
-    image:
-      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1000&q=70",
-  },
-  {
-    id: 6,
-    name: "Sabudana Khichdi",
-    category: "veg",
-    price: 190,
-    description:
-      "Tapioca pearls tossed with peanuts, cumin and curry leaves. Light and aromatic.",
-    image:
-      "https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=1000&q=70",
-  },
-
-  // Non-Vegetarian
   {
     id: 7,
     name: "Kolhapuri Mutton",
     category: "nonveg",
-    price: 460,
+    price: 360,
     description:
       "Slow-cooked mutton in fiery Kolhapuri masala with coconut and roasted spices.",
     tag: "Chef's Pick",
@@ -90,48 +46,83 @@ export const MENU_ITEMS = [
     description:
       "Signature red Maharashtrian chicken curry — bold, smoky and unmistakable.",
     tag: "Signature",
-    image:
-      "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1000&q=70",
+    image: "/images/hotel-yashdeep/tambada.jpg",
+  },
+
+  // Vegetarian Specialties
+  {
+    id: 3,
+    name: "Paneer Butter Masala",
+    category: "veg",
+    price: 240,
+    description:
+      "Fresh cottage cheese cubes gently simmered in a silky, rich buttery tomato-cashew gravy with kasuri methi.",
+    image: "/images/hotel-yashdeep/Paneer.jpg",
   },
   {
-    id: 9,
-    name: "Pandhra Rassa",
-    category: "nonveg",
-    price: 360,
+    id: 4,
+    name: "Bharli Vangi",
+    category: "veg",
+    price: 200,
     description:
-      "Delicate white chicken curry with coconut milk, cashew and warm spices.",
-    image:
-      "https://images.unsplash.com/photo-1626777553635-2bb98a0bd4e0?auto=format&fit=crop&w=1000&q=70",
+      "Baby brinjals stuffed with roasted peanut, sesame, grated coconut and traditional Maharashtrian goda masala.",
+    image: "/images/hotel-yashdeep/vangi.jpg",
+  },
+  {
+    id: 5,
+    name: "Zunka Bhakri",
+    category: "veg",
+    price: 180,
+    description:
+      "Rustic spiced gram flour preparation tempered with mustard seeds, curry leaves, and served with hot jowar bhakri and thecha.",
+    image: "/images/dishes/zunka-bhakri.jpg",
+  },
+  {
+    id: 6,
+    name: "Dal Tadka & Jeera Rice",
+    category: "veg",
+    price: 190,
+    description:
+      "Yellow arhar lentils tempered with golden garlic, cumin seeds, fresh coriander and pure desi ghee.",
+    image: "/images/hotel-yashdeep/dal.jpg",
+  },
+
+  // Additional Non-Vegetarian Delicacies
+  {
+    id: 9,
+    name: "Chicken Sukka",
+    category: "nonveg",
+    price: 280,
+    description:
+      "Country-style chicken dry-roasted with coconut shavings, crushed black pepper, caramelized onions, and authentic spices.",
+    image: "/images/hotel-yashdeep/sukka.jpg",
   },
   {
     id: 10,
-    name: "Sukha Mutton",
+    name: "Mutton Sukka",
     category: "nonveg",
-    price: 440,
+    price: 360,
     description:
-      "Dry roasted mutton tossed with onions, garlic and crushed black pepper.",
-    image:
-      "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=1000&q=70",
+      "Tender goat meat slow-cooked until dry with caramelized onion gravy, dark roast spices, garlic, and fresh coriander.",
+    image: "/images/hotel-yashdeep/Mutton.png",
   },
   {
     id: 11,
-    name: "Fish Thali",
+    name: "Surmai Tawa Fry",
     category: "nonveg",
-    price: 420,
+    price: 350,
     description:
-      "Tawa-fried bangda, fish curry, solkadhi, rice and bhakri — a coastal classic.",
-    image:
-      "https://images.unsplash.com/photo-1602253057119-44d745d9b860?auto=format&fit=crop&w=1000&q=70",
+      "Fresh king fish steak marinated in fiery red masala, coated in crisp semolina (rava), and shallow-fried golden on tawa.",
+    image: "/images/hotel-yashdeep/surmai.jpg",
   },
   {
     id: 12,
-    name: "Chicken Bharli Vangi",
+    name: "Special Kolhapuri Chicken Thali",
     category: "nonveg",
-    price: 400,
+    price: 320,
     description:
-      "Chicken cooked with stuffed brinjal in a rich peanut-coconut gravy.",
-    image:
-      "https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?auto=format&fit=crop&w=1000&q=70",
+      "Grand regional feast featuring spicy chicken curry, dry sukka chicken, tambda rassa, egg curry, fresh bhakri or chapati, and rice.",
+    image: "/images/hotel-yashdeep/kolhapur.jpg",
   },
 
   // Beer & Bar
@@ -139,56 +130,54 @@ export const MENU_ITEMS = [
     id: 13,
     name: "Kingfisher Premium",
     category: "beer",
-    price: 220,
-    description: "Crisp Indian lager. 650 ml.",
-    image:
-      "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?auto=format&fit=crop&w=1000&q=70",
+    price: 190,
+    description:
+      "India's iconic crisp and refreshing pale lager, served chilled. 650 ml bottle.",
+    image: "/images/hotel-yashdeep/king.jpg",
   },
   {
     id: 14,
-    name: "Bira 91 White",
+    name: "Budweiser Magnum",
     category: "beer",
-    price: 260,
-    description: "Cloudy Belgian-style wheat ale with citrus & coriander.",
-    image:
-      "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=1000&q=70",
+    price: 240,
+    description:
+      "Super-premium American strong lager with a full-bodied, smooth malt finish. 650 ml bottle.",
+    image: "/images/hotel-yashdeep/bud.jpg",
   },
   {
     id: 15,
-    name: "Heineken",
+    name: "Heineken Premium Lager",
     category: "beer",
-    price: 320,
-    description: "Smooth, balanced lager from the Netherlands. 500 ml.",
-    image:
-      "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=1000&q=70",
+    price: 260,
+    description:
+      "Smooth, perfectly balanced European lager brewed with 100% natural barley malt. 650 ml bottle.",
+    image: "/images/hotel-yashdeep/hein.png",
   },
   {
     id: 16,
     name: "Corona Extra",
     category: "beer",
-    price: 380,
-    description: "Light Mexican lager — served chilled with lime.",
-    image:
-      "https://images.unsplash.com/photo-1600788907416-456578634209?auto=format&fit=crop&w=1000&q=70",
+    price: 320,
+    description:
+      "Chilled Mexican lager with a crisp, refreshing profile — served traditionally with a fresh wedge of lime. 330 ml.",
+    image: "/images/hotel-yashdeep/corona.jpg",
   },
   {
     id: 17,
-    name: "Chakna Platter",
+    name: "Crispy Kanda Bhaji & Chakna",
     category: "beer",
-    price: 320,
+    price: 140,
     description:
-      "House selection of masala peanuts, papad, kanda bhaji & chicken sukha bites.",
-    tag: "Bar Pairing",
-    image:
-      "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=1000&q=70",
+      "Freshly fried crunchy onion pakodas served with fried salted green chillies, roasted spiced peanuts, and crispy garlic.",
+    image: "/images/hotel-yashdeep/chakna.jpg",
   },
   {
     id: 18,
     name: "Solkadhi",
     category: "beer",
-    price: 90,
-    description: "Cooling kokum and coconut milk digestif. Non-alcoholic.",
-    image:
-      "https://images.unsplash.com/photo-1571805341302-f857308690e3?auto=format&fit=crop&w=1000&q=70",
+    price: 60,
+    description:
+      "Traditional soothing Konkani and Maharashtrian digestive beverage prepared with fresh coconut milk and tangy kokum.",
+    image: "/images/dishes/solkadhi.jpg",
   },
 ];

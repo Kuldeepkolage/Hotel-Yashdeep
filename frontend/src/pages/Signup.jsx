@@ -133,7 +133,7 @@ export default function Signup() {
 
         <div className="w-full max-w-xl relative z-10">
           <div
-            className="rounded-3xl bg-white/95 backdrop-blur-md border border-secondary/25 shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] p-8 md:p-12 transition-all"
+            className="rounded-3xl bg-white/95 backdrop-blur-md border border-secondary/25 shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] p-6 sm:p-8 md:p-12 transition-all"
             data-testid="customer-signup-card"
           >
             {/* Brand Crest Header */}

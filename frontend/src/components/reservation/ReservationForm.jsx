@@ -216,7 +216,7 @@ export default function ReservationForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-3xl bg-white border border-border/80 p-8 md:p-11 shadow-[0_20px_50px_-20px_rgba(44,24,16,0.08)] relative"
+      className="rounded-3xl bg-white border border-border/80 p-5 sm:p-8 md:p-11 shadow-[0_20px_50px_-20px_rgba(44,24,16,0.08)] relative"
       data-testid="reservation-form"
     >
       {/* Header */}

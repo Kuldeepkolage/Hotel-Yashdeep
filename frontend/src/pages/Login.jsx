@@ -94,7 +94,7 @@ export default function Login() {
 
         <div className="w-full max-w-md relative z-10">
           <div
-            className="rounded-3xl bg-white/95 backdrop-blur-md border border-secondary/25 shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] p-8 md:p-11 transition-all"
+            className="rounded-3xl bg-white/95 backdrop-blur-md border border-secondary/25 shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] p-6 sm:p-8 md:p-11 transition-all"
             data-testid="customer-login-card"
           >
             {/* Brand Crest Header */}

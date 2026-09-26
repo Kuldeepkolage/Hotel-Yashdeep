@@ -197,19 +197,33 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <button
-          aria-label="Open menu"
-          className={cx(
-            "lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border transition-colors",
-            transparent
-              ? "border-background/40 text-background"
-              : "border-dark/15 text-dark"
-          )}
-          onClick={() => setOpen(true)}
-          data-testid="mobile-menu-open"
-        >
-          <Menu size={20} />
-        </button>
+        {/* Mobile quick actions + Hamburger */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link
+            to="/reservations"
+            className={cx(
+              "inline-flex items-center rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all",
+              transparent
+                ? "bg-secondary text-dark"
+                : "bg-primary text-background"
+            )}
+          >
+            Book
+          </Link>
+          <button
+            aria-label="Open menu"
+            className={cx(
+              "inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors",
+              transparent
+                ? "border-background/40 text-background"
+                : "border-dark/15 text-dark"
+            )}
+            onClick={() => setOpen(true)}
+            data-testid="mobile-menu-open"
+          >
+            <Menu size={18} />
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -219,67 +233,87 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[60] bg-dark/40 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[60] bg-dark/50 backdrop-blur-sm lg:hidden"
             onClick={() => setOpen(false)}
           >
             <motion.aside
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 h-full w-[88%] max-w-sm bg-background px-7 py-8 flex flex-col"
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute right-0 top-0 h-full w-[88%] max-w-sm bg-background px-6 py-6 flex flex-col justify-between overflow-y-auto shadow-2xl"
               onClick={(e) => e.stopPropagation()}
               data-testid="mobile-drawer"
             >
-              <div className="flex items-center justify-between">
-                <span className="font-display text-xl text-dark">Hotel Yashdeep</span>
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-border/70">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-secondary/60 bg-secondary/10">
+                    <span className="font-display text-secondary text-base font-bold leading-none">Y</span>
+                  </span>
+                  <div>
+                    <span className="block font-display text-base text-dark font-semibold leading-tight">Hotel Yashdeep</span>
+                    <span className="block text-[9px] uppercase tracking-widest text-muted">Yermala · Est. 2020</span>
+                  </div>
+                </div>
                 <button
                   aria-label="Close menu"
-                  className="h-11 w-11 inline-flex items-center justify-center rounded-full border border-dark/15"
+                  className="h-9 w-9 inline-flex items-center justify-center rounded-full border border-dark/15 text-dark hover:bg-dark/5"
                   onClick={() => setOpen(false)}
                   data-testid="mobile-menu-close"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
-              <nav className="mt-12 flex flex-col gap-1">
+
+              {/* Navigation Links */}
+              <nav className="my-5 flex flex-col divide-y divide-border/60">
                 {NAV_LINKS.map((link, i) => (
                   <motion.div
                     key={link.to}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 16 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.06 * i, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.4, delay: 0.05 * i, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <NavLink
                       to={link.to}
                       end={link.to === "/"}
+                      onClick={() => setOpen(false)}
                       className={({ isActive }) =>
                         cx(
-                          "block py-4 font-display text-3xl border-b border-border",
-                          isActive ? "text-primary" : "text-dark"
+                          "flex items-center justify-between py-3 font-display text-xl transition-colors",
+                          isActive ? "text-primary font-bold" : "text-dark hover:text-primary"
                         )
                       }
                       data-testid={`mobile-nav-${link.label.toLowerCase()}`}
                     >
-                      {link.label}
+                      {({ isActive }) => (
+                        <>
+                          <span>{link.label}</span>
+                          {isActive && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
+                        </>
+                      )}
                     </NavLink>
                   </motion.div>
                 ))}
               </nav>
-              <div className="mt-auto space-y-3">
+
+              {/* Drawer Bottom Actions */}
+              <div className="pt-4 border-t border-border/70 space-y-2.5 mt-auto">
                 {isAuthenticated ? (
-                  <div className="p-3.5 bg-dark/5 rounded-2xl flex items-center justify-between">
-                    <span className="text-sm font-medium text-dark flex items-center gap-2">
-                      <User size={16} className="text-primary" />
-                      {customer?.name}
-                    </span>
+                  <div className="p-3 bg-secondary/10 border border-secondary/30 rounded-2xl flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <User size={15} className="text-secondary" />
+                      <span className="text-xs font-semibold uppercase tracking-wider text-dark">{customer?.name}</span>
+                    </div>
                     <button
                       type="button"
                       onClick={() => {
                         logout();
                         setOpen(false);
                       }}
-                      className="text-xs text-red-600 hover:text-red-700 font-medium inline-flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-red-50"
+                      className="text-xs text-red-600 hover:text-red-700 font-semibold inline-flex items-center gap-1 py-1 px-2 rounded-lg hover:bg-red-50"
                       data-testid="mobile-logout-btn"
                     >
                       <LogOut size={13} /> Sign Out
@@ -290,32 +324,32 @@ export default function Navbar() {
                     <Link
                       to="/login"
                       onClick={() => setOpen(false)}
-                      className="btn-outline justify-center text-xs"
+                      className="btn-outline justify-center text-xs py-2.5 font-semibold"
                       data-testid="mobile-login-btn"
                     >
-                      <User size={14} /> Sign In
+                      <User size={13} className="text-secondary" /> Sign In
                     </Link>
                     <Link
                       to="/signup"
                       onClick={() => setOpen(false)}
-                      className="btn-primary justify-center text-xs"
+                      className="btn-primary justify-center text-xs py-2.5 font-semibold"
                       data-testid="mobile-signup-btn"
                     >
-                      Create Account
+                      Sign Up
                     </Link>
                   </div>
                 )}
                 <a
                   href={SITE.phoneHref}
-                  className="btn-outline w-full justify-center"
+                  className="btn-outline w-full justify-center text-xs py-2.5 font-semibold"
                   data-testid="mobile-call-btn"
                 >
-                  <Phone size={16} /> {SITE.phone}
+                  <Phone size={13} /> {SITE.phone}
                 </a>
                 <Link
                   to="/reservations"
                   onClick={() => setOpen(false)}
-                  className="btn-primary w-full justify-center"
+                  className="btn-gold w-full justify-center text-xs py-3 font-bold uppercase tracking-wider shadow-md"
                   data-testid="mobile-reserve-btn"
                 >
                   Reserve a Table

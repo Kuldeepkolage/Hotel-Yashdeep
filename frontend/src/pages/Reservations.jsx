@@ -13,10 +13,10 @@ export default function Reservations() {
   return (
     <PageTransition>
       <SEO
-  title="About Hotel Yashdeep — Yermala, Maharashtra"
-  description="Learn about Hotel Yashdeep, an authentic Maharashtrian family restaurant, beer bar and highway dining destination in Yermala, Maharashtra."
-  path="/about"
-/>
+        title="Book a Table — Hotel Yashdeep | Reservations"
+        description="Reserve your table at Hotel Yashdeep in Yermala, Maharashtra. Guaranteed seating, verified guest dining, family halls, and special occasions."
+        path="/reservations"
+      />
       <PageHero
         eyebrow="Reservations"
         title={<>Hold a table.<br /><span className="italic text-secondary">Stay a while.</span></>}
@@ -25,30 +25,30 @@ export default function Reservations() {
         height="short"
       />
 
-      <section className="py-20 md:py-28" data-testid="reservation-section">
-        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-start">
+      <section className="py-14 sm:py-20 md:py-28" data-testid="reservation-section">
+        <div className="container-luxe grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-20 items-start">
           <div className="lg:sticky lg:top-32">
             <span className="eyebrow">Good to know</span>
-            <h2 className="heading-md mt-5">
+            <h2 className="heading-md mt-4 sm:mt-5">
               A few notes before<br />
               <span className="italic text-primary">you arrive.</span>
             </h2>
-            <div className="mt-10 space-y-7">
+            <div className="mt-8 sm:mt-10 space-y-6 sm:space-y-7">
               <Info icon={MapPin} title="Find us" text={SITE.address} />
               <Info icon={Phone} title="Call ahead" text={SITE.phone} />
               <Info icon={Clock} title="Open daily" text="11:00 — 23:00 (24:00 Fri/Sat)" />
               <Info icon={Users} title="Larger groups" text="For parties of 10+, please call us to plan the menu and seating." />
             </div>
-            <div className="mt-12 rounded-2xl border border-border p-6 bg-white">
-              <p className="text-sm text-muted leading-relaxed">
-                <span className="text-primary">Tip — </span>
+            <div className="mt-8 sm:mt-12 rounded-2xl border border-border p-5 sm:p-6 bg-white">
+              <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                <span className="text-primary font-semibold">Tip — </span>
                 Sunset hours (18:30 onwards) fill quickly on weekends. Reserve at least 24 hours ahead for the best window seats.
               </p>
             </div>
           </div>
 
           {loading ? (
-            <div className="card-luxe p-12 text-center flex flex-col items-center justify-center min-h-[360px]">
+            <div className="card-luxe p-8 sm:p-12 text-center flex flex-col items-center justify-center min-h-[320px] sm:min-h-[360px]">
               <div className="h-10 w-10 rounded-full border-2 border-secondary/30 border-t-primary animate-spin" />
               <p className="mt-5 text-xs text-muted uppercase tracking-widest2 font-medium">Checking reservation credentials…</p>
             </div>
@@ -56,7 +56,7 @@ export default function Reservations() {
             <ReservationForm />
           ) : (
             <div
-              className="rounded-3xl bg-gradient-to-b from-white via-white to-[#faf6ef] border border-secondary/30 p-8 md:p-12 text-center shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] relative overflow-hidden"
+              className="rounded-3xl bg-gradient-to-b from-white via-white to-[#faf6ef] border border-secondary/30 p-6 sm:p-8 md:p-12 text-center shadow-[0_24px_64px_-16px_rgba(44,24,16,0.12)] relative overflow-hidden"
               data-testid="auth-required-card"
             >
               {/* Subtle background glow */}

@@ -21,7 +21,7 @@ export default function Hero() {
       </div>
 
       <div className="relative container-luxe min-h-[100svh] flex flex-col">
-        <div className="flex-1 grid lg:grid-cols-[1.4fr_1fr] gap-10 items-end pt-32 pb-16">
+        <div className="flex-1 grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-10 items-end pt-28 sm:pt-32 pb-12 sm:pb-16">
           <motion.div
             initial="hidden"
             animate="show"
@@ -36,7 +36,7 @@ export default function Hero() {
 
             <motion.h1
               variants={{ hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] } } }}
-              className="heading-xl mt-7 text-background"
+              className="heading-xl mt-5 sm:mt-7 text-background"
             >
               The slow taste<br />
               of the <span className="italic text-secondary">Marathwada</span><br />
@@ -45,7 +45,7 @@ export default function Hero() {
 
             <motion.p
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] } } }}
-              className="mt-8 max-w-xl text-base md:text-lg text-background/70 leading-relaxed"
+              className="mt-6 sm:mt-8 max-w-xl text-sm sm:text-base md:text-lg text-background/70 leading-relaxed"
             >
               A family restaurant, a beer bar, a quiet stop between cities — serving authentic
               Maharashtrian plates to travellers, families and friends for nearly three decades.
@@ -53,13 +53,13 @@ export default function Hero() {
 
             <motion.div
               variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] } } }}
-              className="mt-10 flex flex-wrap items-center gap-3"
+              className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 max-w-md sm:max-w-none"
             >
-              <Link to="/reservations" className="btn-gold" data-testid="hero-reserve-btn">
+              <Link to="/reservations" className="btn-gold justify-center shadow-md hover:shadow-lg" data-testid="hero-reserve-btn">
                 Reserve a Table <ArrowRight size={16} />
               </Link>
-              <a href={SITE.phoneHref} className="inline-flex items-center gap-2 rounded-full border border-background/30 px-7 py-3.5 text-sm text-background hover:border-secondary hover:text-secondary transition-colors duration-500" data-testid="hero-call-btn">
-                <Phone size={16} /> {SITE.phone}
+              <a href={SITE.phoneHref} className="inline-flex items-center justify-center gap-2 rounded-full border border-background/30 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm text-background hover:border-secondary hover:text-secondary transition-colors duration-500" data-testid="hero-call-btn">
+                <Phone size={14} /> {SITE.phone}
               </a>
             </motion.div>
           </motion.div>
@@ -90,7 +90,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
-          className="border-t border-background/15 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-background/80"
+          className="border-t border-background/15 py-5 sm:py-6 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-background/80"
         >
           {[
             { k: "Cuisine", v: "Maharashtrian · Veg · Non-Veg" },

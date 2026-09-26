@@ -6,7 +6,7 @@ import { SITE } from "../../constants/site";
 export default function ReservationCTA() {
   return (
     <section
-      className="relative py-28 md:py-40 text-background overflow-hidden"
+      className="relative py-16 md:py-32 lg:py-40 text-background overflow-hidden"
       data-testid="reservation-cta"
     >
       <div className="absolute inset-0">
@@ -18,29 +18,29 @@ export default function ReservationCTA() {
         <div className="absolute inset-0 bg-dark/75" />
       </div>
 
-      <div className="relative container-luxe grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative container-luxe grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           <span className="eyebrow text-secondary">Tonight, or whenever</span>
-          <h2 className="heading-lg mt-6 text-background">
+          <h2 className="heading-lg mt-5 text-background">
             Settle in.<br />
             <span className="italic text-secondary">We've saved you a chair.</span>
           </h2>
-          <p className="mt-7 max-w-lg text-background/70 leading-relaxed">
+          <p className="mt-5 sm:mt-7 max-w-lg text-sm sm:text-base text-background/70 leading-relaxed">
             From quick highway meals to long, unhurried family dinners — book ahead and walk in to a table already set in your name.
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="card-luxe bg-background/5 backdrop-blur border-background/15 p-8 md:p-10"
+          className="card-luxe bg-background/5 backdrop-blur border-background/15 p-6 sm:p-8 md:p-10"
         >
           <div className="flex items-start gap-4 text-background/80">
             <MapPin size={20} className="mt-1 text-secondary shrink-0" />

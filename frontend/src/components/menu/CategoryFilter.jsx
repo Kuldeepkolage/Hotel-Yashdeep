@@ -3,7 +3,7 @@ import { cx } from "../../utils/format";
 
 export default function CategoryFilter({ categories, active, onChange }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 md:gap-3" data-testid="menu-filters">
+    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5" data-testid="menu-filters">
       {categories.map((c) => {
         const isActive = active === c.id;
         return (
@@ -12,9 +12,9 @@ export default function CategoryFilter({ categories, active, onChange }) {
             onClick={() => onChange(c.id)}
             data-testid={`filter-${c.id}`}
             className={cx(
-              "relative rounded-full px-5 py-2.5 text-xs uppercase tracking-widest2 transition-all duration-500 ease-luxe border",
+              "relative rounded-full px-3.5 sm:px-5 py-2 sm:py-2.5 text-[11px] sm:text-xs uppercase tracking-wider sm:tracking-widest2 font-medium transition-all duration-500 ease-luxe border",
               isActive
-                ? "bg-dark text-background border-dark"
+                ? "bg-dark text-background border-dark shadow-sm"
                 : "bg-transparent text-dark border-border hover:border-primary hover:text-primary"
             )}
           >

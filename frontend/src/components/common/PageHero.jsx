@@ -13,7 +13,7 @@ export default function PageHero({
     <section
       className={cx(
         "relative w-full text-background overflow-hidden",
-        height === "tall" ? "min-h-[78svh]" : "min-h-[58svh]"
+        height === "tall" ? "min-h-[62svh] md:min-h-[78svh]" : "min-h-[44svh] md:min-h-[58svh]"
       )}
       data-testid="page-hero"
     >
@@ -22,7 +22,7 @@ export default function PageHero({
         <div className="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/55 to-dark/85" />
         <div className="absolute inset-0 bg-grain opacity-40 pointer-events-none" />
       </div>
-      <div className={cx("relative container-luxe min-h-inherit flex flex-col justify-end pt-40 pb-20", align === "center" && "items-center text-center")}>
+      <div className={cx("relative container-luxe min-h-inherit flex flex-col justify-end pt-28 sm:pt-36 md:pt-40 pb-10 sm:pb-16 md:pb-20", align === "center" && "items-center text-center")}>
         <motion.span
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export default function PageHero({
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="heading-xl mt-6 text-background max-w-4xl"
+          className="heading-xl mt-4 sm:mt-6 text-background max-w-4xl"
         >
           {title}
         </motion.h1>
@@ -44,7 +44,7 @@ export default function PageHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 max-w-xl text-base md:text-lg text-background/70 leading-relaxed"
+            className="mt-4 sm:mt-8 max-w-xl text-sm sm:text-base md:text-lg text-background/70 leading-relaxed"
           >
             {description}
           </motion.p>

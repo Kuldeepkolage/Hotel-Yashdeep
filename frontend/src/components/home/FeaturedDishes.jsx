@@ -9,10 +9,10 @@ export default function FeaturedDishes() {
   const featured = MENU_ITEMS.filter((m) => m.tag).slice(0, 4);
 
   return (
-    <section className="py-28 md:py-40 bg-dark text-background relative overflow-hidden" data-testid="featured-dishes">
+    <section className="py-16 md:py-32 lg:py-40 bg-dark text-background relative overflow-hidden" data-testid="featured-dishes">
       <div className="absolute inset-0 bg-grain opacity-30 pointer-events-none" />
       <div className="container-luxe relative">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 md:gap-8">
           <SectionHeading
             light
             eyebrow="Featured on the table"
@@ -32,19 +32,19 @@ export default function FeaturedDishes() {
           </Link>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 sm:mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((dish, i) => (
             <motion.article
               key={dish.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.9, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -8 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.8, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6 }}
               className="group relative overflow-hidden rounded-2xl bg-background/5 border border-background/10"
               data-testid={`featured-dish-${dish.id}`}
             >
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="aspect-[16/10] sm:aspect-[4/5] overflow-hidden">
                 <img
                   src={dish.image}
                   alt={dish.name}
@@ -52,17 +52,17 @@ export default function FeaturedDishes() {
                   loading="lazy"
                 />
               </div>
-              <div className="p-6">
-                <span className="text-[10px] uppercase tracking-widest2 text-secondary">
+              <div className="p-5 sm:p-6">
+                <span className="text-[10px] uppercase tracking-widest2 text-secondary font-medium">
                   {dish.tag}
                 </span>
-                <h3 className="mt-3 font-display text-xl text-background">{dish.name}</h3>
-                <p className="mt-3 text-sm text-background/60 leading-relaxed line-clamp-2">
+                <h3 className="mt-2.5 font-display text-lg sm:text-xl text-background">{dish.name}</h3>
+                <p className="mt-2 text-xs sm:text-sm text-background/60 leading-relaxed line-clamp-2">
                   {dish.description}
                 </p>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-secondary text-sm">{formatINR(dish.price)}</span>
-                  <span className="h-px w-10 bg-background/20 group-hover:w-16 group-hover:bg-secondary transition-all duration-700" />
+                <div className="mt-4 sm:mt-5 flex items-center justify-between">
+                  <span className="text-secondary font-semibold text-sm">{formatINR(dish.price)}</span>
+                  <span className="h-px w-8 group-hover:w-14 group-hover:bg-secondary bg-background/20 transition-all duration-500" />
                 </div>
               </div>
             </motion.article>

@@ -17,7 +17,7 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-3xl bg-[#FCF9F2] text-dark px-8 md:px-14 py-12 md:py-16 shadow-2xl border border-secondary/30 relative overflow-hidden"
+          className="rounded-3xl bg-[#FCF9F2] text-dark px-5 sm:px-8 md:px-14 py-9 sm:py-12 md:py-16 shadow-2xl border border-secondary/30 relative overflow-hidden"
         >
           {/* Subtle warm glow accent */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />

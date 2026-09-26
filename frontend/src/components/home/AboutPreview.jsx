@@ -5,8 +5,8 @@ import SectionHeading from "../common/SectionHeading";
 
 export default function AboutPreview() {
   return (
-    <section className="py-28 md:py-40" data-testid="about-preview">
-      <div className="container-luxe grid lg:grid-cols-2 gap-14 lg:gap-24 items-center">
+    <section className="py-16 md:py-32 lg:py-40" data-testid="about-preview">
+      <div className="container-luxe grid lg:grid-cols-2 gap-10 lg:gap-24 items-center">
         <div className="relative">
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
